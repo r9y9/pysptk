@@ -5,3 +5,14 @@
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE.md)
 
 A python wrapper for the [Speech Signal Processing Toolkit (SPTK)](http://sp-tk.sourceforge.net/).
+
+## Demonstration notebook
+
+-  [Introduction notebook](http://nbviewer.ipython.org/github/r9y9/pysptk/blob/master/examples/pysptk%20introduction.ipynb): a brief introduction to pysptk
+
+## Installation
+
+```bash
+git submodule update --init --recursive
+python setup.py install --user
+```
