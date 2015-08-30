@@ -182,6 +182,8 @@ def gcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
     return gc
 
 
+@cython.boundscheck(False)
+@cython.wraparound(False)
 def mgcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
           order=25, alpha=0.35, gamma=0.0,
           num_recursions=None,
@@ -290,6 +292,8 @@ def lpc2c(np.ndarray[np.float64_t, ndim=1, mode="c"] src_lpc not None,
     return dst_ceps
 
 
+@cython.boundscheck(False)
+@cython.wraparound(False)
 def lpc2lsp(np.ndarray[np.float64_t, ndim=1, mode="c"] src_lpc not None,
             numsp=512, maxiter=4, eps=1.0e-6, loggain=False, otype=0,
             fs=None):
@@ -336,7 +340,7 @@ def par2lpc(np.ndarray[np.float64_t, ndim=1, mode="c"] src_par not None):
 def lsp2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] src_lsp not None,
            fftlen=256):
     cdef np.ndarray[np.float64_t, ndim=1, mode="c"] sp
-    cdef int sp_length = fftlen>>1 + 1
+    cdef int sp_length = (fftlen>>1) + 1
     sp = np.zeros(sp_length, dtype=np.float64)
     cdef int order = len(src_lsp) - 1
     _lsp2sp(&src_lsp[0], order, &sp[0], sp_length, 1)
@@ -405,11 +409,12 @@ def ic2ir(np.ndarray[np.float64_t, ndim=1, mode="c"] h not None,
     _ic2ir(&h[0], length, &c[0], len(c))
     return c
 
-
+@cython.boundscheck(False)
+@cython.wraparound(False)
 def c2ndps(np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
            fftlen=256):
     assert_fftlen(fftlen)
-    cdef int dst_length = fftlen>>1 + 1
+    cdef int dst_length = (fftlen>>1) + 1
     cdef np.ndarray[np.float64_t, ndim=1, mode="c"] ndps, buf
     ndps = np.zeros(dst_length, dtype=np.float64)
     cdef int order = len(c) - 1
@@ -504,6 +509,8 @@ def mgc2mgc(np.ndarray[np.float64_t, ndim=1, mode="c"] src_ceps not None,
     return dst_ceps
 
 
+@cython.boundscheck(False)
+@cython.wraparound(False)
 def mgc2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
            alpha=0.0, gamma=0.0, fftlen=256):
     assert_gamma(gamma)
@@ -512,7 +519,7 @@ def mgc2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
     cdef np.ndarray[np.complex128_t, ndim=1, mode="c"] sp
     cdef np.ndarray[np.float64_t, ndim=1, mode="c"] sp_r, sp_i
 
-    sp = np.zeros(fftlen>>1 + 1, dtype=np.complex128)
+    sp = np.zeros((fftlen>>1) + 1, dtype=np.complex128)
     sp_r = np.zeros(fftlen, dtype=np.float64)
     sp_i = np.zeros(fftlen, dtype=np.float64)
 
@@ -531,7 +538,7 @@ def mgclsp2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] lsp not None,
 
     cdef int order = gain if len(lsp) - 1 else len(lsp)
     cdef np.ndarray[np.float64_t, ndim=1, mode="c"] sp
-    sp = np.zeros(fftlen>>1 + 1, dtype=np.float64)
+    sp = np.zeros((fftlen>>1) + 1, dtype=np.float64)
 
     _mgclsp2sp(alpha, gamma, &lsp[0], order, &sp[0], len(sp), int(gain))
 
