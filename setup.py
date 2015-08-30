@@ -21,11 +21,11 @@ sptk_src = glob(join(src_top, 'bin/*/_*.c'))
 sptk_all_src = sptk_src + sptklib_src + swipe_src + hts_engine_src
 
 # TODO:
-libraries = ["SPTK"]
+libraries = []
 use_system_lib = False
 if use_system_lib:
     sptk_all_src = []
-    libraries = []
+    libraries = ["SPTK"]
 
 
 ext_modules = [Extension(

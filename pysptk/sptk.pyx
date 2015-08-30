@@ -252,7 +252,7 @@ def lpc(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
     cdef int windowed_length = len(windowed)
     cdef int ret
     a = np.zeros(order + 1, dtype=np.float64)
-    _lpc(&windowed[0], windowed_length, &a[0], order, min_det)
+    ret = _lpc(&windowed[0], windowed_length, &a[0], order, min_det)
     assert ret == -2 or ret == -1 or ret == 0
     if ret == -2:
         warn("failed to compute `stable` LPC. Please try again with different paramters")
