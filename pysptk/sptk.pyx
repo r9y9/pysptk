@@ -163,7 +163,7 @@ def gcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
         raise RuntimeError("failed to compute gcep; error occured in theq")
 
     if not norm:
-        _ignorm(<double*>gc.data, <double*>gc.data, order, gamma)
+        _ignorm(&gc[0], &gc[0], order, gamma)
 
     return gc
 
