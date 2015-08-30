@@ -176,3 +176,46 @@ def test_lpc():
 
     for order in [15, 20, 25]:
         yield __test, order
+
+
+def __test_conversion_base(f, src_order, dst_order, *args, **kwargs):
+    np.random.seed(98765)
+    src = np.random.rand(src_order + 1)
+    dst = f(src, dst_order, *args, **kwargs)
+
+    assert np.all(np.isfinite(dst))
+
+
+def __test_transform_base(f, order, *args, **kwargs):
+    np.random.seed(98765)
+    src = np.random.rand(order + 1)
+    dst = f(src, *args, **kwargs)
+
+    assert np.all(np.isfinite(dst))
+
+
+def test_lpc2c():
+    for src_order in [15, 20, 25, 30]:
+        for dst_order in [15, 20, 25, 30]:
+            yield __test_conversion_base, pysptk.lpc2c, src_order, dst_order
+
+
+def test_lpc2lsp():
+    for order in [15, 20, 25, 30]:
+        yield __test_transform_base, pysptk.lpc2lsp, order
+
+
+def test_lpc2par():
+    for order in [15, 20, 25, 30]:
+        yield __test_transform_base, pysptk.lpc2par, order
+
+
+def test_par2lpc():
+    for order in [15, 20, 25, 30]:
+        yield __test_transform_base, pysptk.par2lpc, order
+
+
+def test_lsp2sp():
+    for order in [15, 20, 25, 30]:
+        for fftlen in [256, 512, 1024]:
+            yield __test_transform_base, pysptk.lsp2sp, order, fftlen
