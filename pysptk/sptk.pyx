@@ -1,22 +1,31 @@
 # coding: utf-8
 
 #!python
-#cython: boundscheck=True, wraparound=True
+# cython: boundscheck=True, wraparound=True
 
 import numpy as np
 cimport numpy as np
 
 cimport cython
 
+# Librari routines
 from sptk cimport agexp as _agexp
 from sptk cimport gexp as _gexp
 from sptk cimport glog as _glog
 from sptk cimport mseq as _mseq
 
+# Adaptive mel-generalized cepstrum analysis
+from sptk cimport acep as _acep
+from sptk cimport agcep as _agcep
+from sptk cimport amcep as _amcep
+
+# F0 analysis
 from sptk cimport swipe as _swipe
 
+# Window functions
 from sptk cimport window as _window
 
+# Mel-generalized cepstrum analysis
 from sptk cimport mcep as _mcep
 from sptk cimport gcep as _gcep
 from sptk cimport mgcep as _mgcep
@@ -24,6 +33,10 @@ from sptk cimport uels as _uels
 from sptk cimport fftcep as _fftcep
 from sptk cimport lpc as _lpc
 
+# LPC, LSP and PARCOR conversions
+# TODO
+
+# mel-generalized cepstrum conversions
 from sptk cimport gnorm as _gnorm
 from sptk cimport ignorm as _ignorm
 from sptk cimport b2mc as _b2mc
@@ -50,6 +63,29 @@ def glog(r, x):
 def mseq():
     return _mseq()
 
+def acep(x, np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
+         lambda_coef=0.98, step=0.1, tau=0.9, pd=4, eps=1.0e-6):
+    assert_pade(pd)
+    cdef int order = len(c) - 1
+    prederr = _acep(x, &c[0], order, lambda_coef, step, tau, pd, eps)
+    return prederr
+
+def agcep(x, np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
+          stage=1,
+          lambda_coef=0.98, step=0.1, tau=0.9, eps=1.0e-6):
+    if stage < 1:
+        raise ValueError("stage >= 1 (-1 <= gamma < 0)")
+    cdef int order = len(c) - 1
+    prederr = _agcep(x, &c[0], order, stage, lambda_coef, step, tau, eps)
+    return prederr
+
+def amcep(x, np.ndarray[np.float64_t, ndim=1, mode="c"] b not None,
+          alpha=0.41,
+          lambda_coef=0.98, step=0.1, tau=0.0, pd=4, eps=1.0e-6):
+    assert_pade(pd)
+    cdef int order = len(b) - 1
+    prederr = _amcep(x, &b[0], order, alpha, lambda_coef, step, tau, pd, eps)
+    return prederr
 
 def swipe(np.ndarray[np.float64_t, ndim=1, mode="c"] x not None,
           fs, hopsize,
@@ -136,9 +172,11 @@ def mcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
     if ret == 3:
         raise RuntimeError("failed to compute mcep; error occured in theq")
     elif ret == 4:
-        raise RuntimeError("zero(s) are found in periodogram, use eps option to floor")
+        raise RuntimeError(
+            "zero(s) are found in periodogram, use eps option to floor")
 
     return mc
+
 
 def gcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
          order=25, gamma=0.0,
@@ -205,11 +243,13 @@ def mgcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
         _gnorm(&mgc[0], &mgc[0], order, gamma)
 
     cdef int i = 0
+    cdef double g = gamma
     if otype == 4 or otype == 5:
         for i in six.moves.range(1, mgc.size):
-            mgc[i] *= gamma
+            mgc[i] *= g
 
     return mgc
+
 
 def uels(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
          order=25,
@@ -227,7 +267,8 @@ def uels(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
                 miniter, maxiter, threshold, etype, eps, itype)
     assert ret == -1 or ret == 0 or ret == 3
     if ret == 3:
-        raise RuntimeError("zero(s) are found in periodogram, use eps option to floor")
+        raise RuntimeError(
+            "zero(s) are found in periodogram, use eps option to floor")
 
     return c
 
@@ -257,6 +298,7 @@ def lpc(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
     if ret == -2:
         warn("failed to compute `stable` LPC. Please try again with different paramters")
     elif ret == -1:
-        raise RuntimeError("failed to compute LPC. Please try again with different parameters")
+        raise RuntimeError(
+            "failed to compute LPC. Please try again with different parameters")
 
     return a
