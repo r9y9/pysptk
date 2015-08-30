@@ -1,6 +1,5 @@
 ### Definitions ###
 
-# TODO: cdef extern from...?
 cdef enum Window:
     BLACKMAN = 0
     HAMMING = 1
