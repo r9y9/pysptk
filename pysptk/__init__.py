@@ -7,7 +7,7 @@ Note that the wrapper is based on a modified version of SPTK:
 https://github.com/r9y9/SPTK
 """
 from __future__ import print_function
-
+from __future__ import absolute_import
 
 def assert_gamma(gamma):
     if not (-1 <= gamma <= 0.0):
@@ -22,4 +22,4 @@ def assert_fftlen(fftlen):
         raise ValueError("fftlen must be power of 2")
 
 
-from sptk import *
+from .sptk import *
