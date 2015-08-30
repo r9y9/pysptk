@@ -268,7 +268,7 @@ def test_c2ndps():
 def test_ndps2c():
     for fftlen in [256, 512, 1024]:
         for order in [15, 20, 25, 30]:
-            yield __test_conversion_base, pysptk.ndps2c, fftlen >> 1 + 1, order
+            yield __test_conversion_base, pysptk.ndps2c, (fftlen >> 1) + 1, order
 
 
 def test_gc2gc():
@@ -341,7 +341,7 @@ def test_mgclsp2sp():
         np.random.seed(98765)
         src = np.random.rand(order + 1)
         dst = pysptk.mgclsp2sp(src, alpha, gamma, fftlen)
-        assert len(dst) == fftlen >> 1 + 1
+        assert len(dst) == (fftlen >> 1) + 1
         assert np.all(np.isfinite(dst))
 
     # TODO
