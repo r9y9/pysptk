@@ -219,3 +219,135 @@ def test_lsp2sp():
     for order in [15, 20, 25, 30]:
         for fftlen in [256, 512, 1024]:
             yield __test_transform_base, pysptk.lsp2sp, order, fftlen
+
+
+def test_mc2b():
+    for order in [15, 20, 25, 30]:
+        for alpha in [0.35, 0.41, 0.5]:
+            yield __test_transform_base, pysptk.mc2b, order, alpha
+
+
+def test_b2mc():
+    for order in [15, 20, 25, 30]:
+        for alpha in [0.35, 0.41, 0.5]:
+            yield __test_transform_base, pysptk.b2mc, order, alpha
+
+
+def test_b2c():
+    for src_order in [15, 20, 25, 30]:
+        for dst_order in [15, 20, 25, 30]:
+            for alpha in [0.35, 0.41, 0.5]:
+                yield __test_conversion_base, pysptk.b2c, src_order, dst_order, alpha
+
+
+def test_c2acr():
+    for src_order in [15, 20, 25, 30]:
+        for dst_order in [15, 20, 25, 30]:
+            for fftlen in [256, 512, 1024]:
+                yield __test_transform_base, pysptk.b2c, src_order, dst_order, fftlen
+
+
+def test_c2ir():
+    for order in [15, 20, 25, 30]:
+        for length in [256, 512, 1024]:
+            yield __test_conversion_base, pysptk.c2ir, order, length
+
+
+def test_ic2ir():
+    for length in [256, 512, 1024]:
+        for order in [15, 20, 25, 30]:
+            yield __test_conversion_base, pysptk.ic2ir, length, order
+
+
+def test_c2ndps():
+    for order in [15, 20, 25, 30]:
+        for fftlen in [256, 512, 1024]:
+            yield __test_conversion_base, pysptk.c2ndps, order, fftlen
+
+
+def test_ndps2c():
+    for fftlen in [256, 512, 1024]:
+        for order in [15, 20, 25, 30]:
+            yield __test_conversion_base, pysptk.ndps2c, fftlen >> 1 + 1, order
+
+
+def test_gc2gc():
+    def __test(src_order, src_gamma, dst_order, dst_gamma):
+        np.random.seed(98765)
+        src = np.random.rand(src_order + 1)
+        dst = pysptk.gc2gc(src, src_gamma, dst_order, dst_gamma)
+        assert np.all(np.isfinite(dst))
+
+    for src_order in [15, 20, 25, 30]:
+        for src_gamma in [-1.0, -0.5, 0.0]:
+            for dst_order in [15, 20, 25, 30]:
+                for dst_gamma in [-1.0, -0.5, 0.0]:
+                    yield __test, src_order, src_gamma, dst_order, dst_gamma
+
+
+def test_gnorm():
+    for order in [15, 20, 25, 30]:
+        for gamma in [-1.0, -0.5, 0.0]:
+            yield __test_transform_base, pysptk.gnorm, order, gamma
+
+
+def test_ignorm():
+    for order in [15, 20, 25, 30]:
+        for gamma in [-1.0, -0.5, 0.0]:
+            yield __test_transform_base, pysptk.ignorm, order, gamma
+
+
+def test_freqt():
+    for src_order in [15, 20, 25, 30]:
+        for dst_order in [15, 20, 25, 30]:
+            for alpha in [0.35, 0.41, 0.5]:
+                yield __test_conversion_base, pysptk.freqt, src_order, dst_order, alpha
+                yield __test_conversion_base, pysptk.frqtr, src_order, dst_order, alpha
+
+
+def test_mgc2mgc():
+    def __test(src_order, src_alpha, src_gamma, dst_order, dst_alpha, dst_gamma):
+        np.random.seed(98765)
+        src = np.random.rand(src_order + 1)
+        dst = pysptk.mgc2mgc(src, src_alpha, src_gamma,
+                             dst_order, dst_alpha, dst_gamma)
+        assert np.all(np.isfinite(dst))
+
+    for src_order in [15, 20, 25, 30]:
+        for src_alpha in [0.35, 0.41, 0.5]:
+            for src_gamma in [-1.0, -0.5, 0.0]:
+                for dst_order in [15, 20, 25, 30]:
+                    for dst_alpha in [0.35, 0.41, 0.5]:
+                        for dst_gamma in [-1.0, -0.5, 0.0]:
+                            yield __test, src_order, src_alpha, src_gamma, dst_order, dst_alpha, dst_gamma
+
+
+def test_mgc2sp():
+    def __test(order, alpha, gamma, fftlen):
+        np.random.seed(98765)
+        src = np.random.rand(order + 1)
+        dst = pysptk.mgc2sp(src, alpha, gamma, fftlen)
+        assert np.all(np.isfinite(dst))
+
+    for order in [15, 20, 25, 30]:
+        for alpha in [0.35, 0.41, 0.5]:
+            for gamma in [-1.0, -0.5, 0.0]:
+                for fftlen in [256, 512, 1024]:
+                    yield __test, order, alpha, gamma, fftlen
+
+
+def test_mgclsp2sp():
+    def __test(order, alpha, gamma, fftlen):
+        np.random.seed(98765)
+        src = np.random.rand(order + 1)
+        dst = pysptk.mgclsp2sp(src, alpha, gamma, fftlen)
+        assert len(dst) == fftlen >> 1 + 1
+        assert np.all(np.isfinite(dst))
+
+    # TODO
+    warn("Inf/-Inf wiil happens when gamma = 0.0")
+    for order in [15, 20, 25, 30]:
+        for alpha in [0.35, 0.41, 0.5]:
+            for gamma in [-1.0, -0.5]:
+                for fftlen in [256, 512, 1024]:
+                    yield __test, order, alpha, gamma, fftlen
