@@ -351,3 +351,28 @@ def test_mgclsp2sp():
             for gamma in [-1.0, -0.5]:
                 for fftlen in [256, 512, 1024]:
                     yield __test, order, alpha, gamma, fftlen
+
+
+def test_phidf():
+    def __test(order, alpha):
+        np.random.seed(98765)
+        dummy_input = np.random.rand(64)
+        delay = np.zeros(order + 1)
+        for x in dummy_input:
+            pysptk.phidf(x, order, alpha, delay)
+            assert np.all(np.isfinite(delay))
+
+    for order in [15, 20, 25, 30]:
+        for alpha in [0.35, 0.41, 0.5]:
+            yield __test, order, alpha
+
+
+def test_lspcheck():
+    def __test(order):
+        np.random.seed(98765)
+        lsp = np.random.rand(order + 1)
+        pysptk.lspcheck(lsp)
+        # TODO: valid check
+
+    for order in [15, 20, 25, 30]:
+        yield __test, order

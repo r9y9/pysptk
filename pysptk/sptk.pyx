@@ -62,7 +62,8 @@ from sptk cimport window as _window
 # TODO
 
 # Utils
-# TODO
+from sptk cimport phidf as _phidf
+from sptk cimport lspcheck as _lspcheck
 
 cimport sptk
 
@@ -449,6 +450,7 @@ def gnorm(np.ndarray[np.float64_t, ndim=1, mode="c"] src_ceps not None,
     _gnorm(&src_ceps[0], &dst_ceps[0], order, gamma)
     return dst_ceps
 
+
 def ignorm(np.ndarray[np.float64_t, ndim=1, mode="c"] src_ceps not None,
            gamma=0.0):
     assert_gamma(gamma)
@@ -597,3 +599,18 @@ def rectangular(n, normalize=1):
     x = np.ones(n, dtype=np.float64)
     cdef Window window_type = RECTANGULAR
     return __window(window_type, x, x.size, normalize)
+
+
+### Utils ###
+
+def phidf(x, order, alpha,
+          np.ndarray[np.float64_t, ndim=1, mode="c"] delay not None):
+    if len(delay) != order + 1:
+        raise ValueError("inconsistent order or delay")
+
+    _phidf(x, order, alpha, &delay[0])
+
+
+def lspcheck(np.ndarray[np.float64_t, ndim=1, mode="c"] lsp not None):
+    cdef int ret = _lspcheck(&lsp[0], len(lsp) - 1)
+    return ret
