@@ -1,4 +1,5 @@
 language: python
+
 python:
   - "2.7"
   - "3.4"
@@ -7,9 +8,9 @@ notifications:
   email: false
 
 before_install:
-  sudo apt - get update
+  - sudo apt-get update
   - if [["$TRAVIS_PYTHON_VERSION" == "2.7"]]; then
-      wget http: // repo.continuum.io / miniconda / Miniconda - 3.8.3 - Linux - x86_64.sh - O miniconda.sh;
+      wget http://repo.continuum.io/miniconda/Miniconda-3.8.3-Linux-x86_64.sh -O miniconda.sh;
     else
       wget http://repo.continuum.io/miniconda/Miniconda3-3.8.3-Linux-x86_64.sh -O miniconda.sh;
     fi
