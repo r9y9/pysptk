@@ -59,7 +59,14 @@ from sptk cimport swipe as _swipe
 from sptk cimport window as _window
 
 # Waveform generation filters
-# TODO
+from sptk cimport poledf as _poledf
+from sptk cimport lmadf as _lmadf
+from sptk cimport lspdf_even as _lspdf_even
+from sptk cimport lspdf_odd as _lspdf_odd
+from sptk cimport ltcdf as _ltcdf
+from sptk cimport glsadf as _glsadf
+from sptk cimport mlsadf as _mlsadf
+from sptk cimport mglsadf as _mglsadf
 
 # Utils
 from sptk cimport phidf as _phidf
@@ -599,6 +606,144 @@ def rectangular(n, normalize=1):
     x = np.ones(n, dtype=np.float64)
     cdef Window window_type = RECTANGULAR
     return __window(window_type, x, x.size, normalize)
+
+
+### Waveform generation filters ###
+
+def poledf_delay_length(order):
+    return order
+
+
+def poledf_delay(order):
+    return np.zeros(poledf_delay_length(order))
+
+
+def poledf(x, np.ndarray[np.float64_t, ndim=1, mode="c"] a not None,
+           np.ndarray[np.float64_t, ndim=1, mode="c"] delay not None):
+    cdef int order = len(a) - 1
+    if len(delay) != poledf_delay_length(order):
+        raise ValueError("inconsistent delay length")
+
+    return _poledf(x, &a[0], order, &delay[0])
+
+
+def lmadf_delay_length(order, pd):
+    return 2 * pd * (order + 1)
+
+
+def lmadf_delay(order, pd):
+    return np.zeros(lmadf_delay_length(order, pd))
+
+
+def lmadf(x, np.ndarray[np.float64_t, ndim=1, mode="c"] b not None,
+          pd,
+          np.ndarray[np.float64_t, ndim=1, mode="c"] delay not None):
+    assert_pade(pd)
+
+    cdef int order = len(b) - 1
+    if len(delay) != lmadf_delay_length(order, pd):
+        raise ValueError("inconsistent delay length")
+
+    return _lmadf(x, &b[0], order, pd, &delay[0])
+
+
+def lspdf_delay_length(order):
+    return 2 * order + 1
+
+
+def lspdf_delay(order):
+    return np.zeros(lspdf_delay_length(order))
+
+
+def lspdf(x, np.ndarray[np.float64_t, ndim=1, mode="c"] f not None,
+          np.ndarray[np.float64_t, ndim=1, mode="c"] delay not None):
+    cdef int order = len(f) - 1
+    if len(delay) != lspdf_delay_length(order):
+        raise ValueError("inconsistent delay length")
+
+    if order % 2 == 0:
+        return _lspdf_even(x, &f[0], order, &delay[0])
+    else:
+        return _lspdf_odd(x, &f[0], order, &delay[0])
+
+
+def ltcdf_delay_length(order):
+    return order + 1
+
+
+def ltcdf_delay(order):
+    return np.zeros(ltcdf_delay_length(order))
+
+
+def ltcdf(x, np.ndarray[np.float64_t, ndim=1, mode="c"] k not None,
+          np.ndarray[np.float64_t, ndim=1, mode="c"] delay not None):
+    cdef int order = len(k) - 1
+    if len(delay) != ltcdf_delay_length(order):
+        raise ValueError("inconsistent delay length")
+
+    return _ltcdf(x, &k[0], order, &delay[0])
+
+
+def glsadf_delay_length(order, stage):
+    return order * (stage + 1) + 1
+
+
+def glsadf_delay(order, stage):
+    return np.zeros(glsadf_delay_length(order, stage))
+
+
+def glsadf(x, np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
+           stage,
+           np.ndarray[np.float64_t, ndim=1, mode="c"] delay not None):
+    if stage < 1:
+        raise ValueError("stage >= 1 (-1 <= gamma < 0)")
+
+    cdef int order = len(c) - 1
+    if len(delay) != glsadf_delay_length(order, stage):
+        raise ValueError("inconsistent delay length")
+
+    return _glsadf(x, &c[0], order, stage, &delay[0])
+
+
+def mlsadf_delay_length(order, pd):
+    return 3 * (pd + 1) + pd * (order + 2)
+
+
+def mlsadf_delay(order, pd):
+    return np.zeros(mlsadf_delay_length(order, pd))
+
+
+def mlsadf(x, np.ndarray[np.float64_t, ndim=1, mode="c"] b not None,
+           alpha, pd,
+           np.ndarray[np.float64_t, ndim=1, mode="c"] delay not None):
+    assert_pade(pd)
+
+    cdef int order = len(b) - 1
+    if len(delay) != mlsadf_delay_length(order, pd):
+        raise ValueError("inconsistent delay length")
+
+    return _mlsadf(x, &b[0], order, alpha, pd, &delay[0])
+
+
+def mglsadf_delay_length(order, stage):
+    return (order + 1) * stage
+
+
+def mglsadf_delay(order, stage):
+    return np.zeros(mglsadf_delay_length(order, stage))
+
+
+def mglsadf(x, np.ndarray[np.float64_t, ndim=1, mode="c"] b not None,
+            alpha, stage,
+            np.ndarray[np.float64_t, ndim=1, mode="c"] delay not None):
+    if stage < 1:
+        raise ValueError("stage >= 1 (-1 <= gamma < 0)")
+
+    cdef int order = len(b) - 1
+    if len(delay) != mglsadf_delay_length(order, stage):
+        raise ValueError("inconsistent delay length")
+
+    return _mglsadf(x, &b[0], order, alpha, stage, &delay[0])
 
 
 ### Utils ###
