@@ -45,7 +45,7 @@ setup(
     ext_modules=cythonize(ext_modules),
     install_requires=[
         'numpy >= 1.8.0',
-        'cython',
+        'cython >= 0.19.0',
         'six'
     ],
     tests_require=['nose'],
