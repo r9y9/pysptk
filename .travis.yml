@@ -33,3 +33,6 @@ install:
 
 script:
   - nosetests --with-coverage --cover-package=pysptk -v -w tests/
+
+after_success:
+  - coveralls
