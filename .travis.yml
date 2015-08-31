@@ -29,7 +29,7 @@ before_install:
 
 install:
   - git submodule update --init --recursive
-  - python setup.py install --user
+  - python setup.py develop
 
 script:
   - nosetests --with-coverage --cover-package=pysptk -v -w tests/
