@@ -14,5 +14,5 @@ A python wrapper for the [Speech Signal Processing Toolkit (SPTK)](http://sp-tk.
 
 ```bash
 git submodule update --init --recursive
-python setup.py install --user
+pip install -e .
 ```
