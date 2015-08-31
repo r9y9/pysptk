@@ -2,7 +2,7 @@
 # cython: linetrace=True
 # distutils: define_macros=CYTHON_TRACE=1
 
-# cython: boundscheck=True, wraparound=True, linetrace=True
+# cython: boundscheck=True, wraparound=True
 
 import numpy as np
 cimport numpy as np

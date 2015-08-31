@@ -12,6 +12,30 @@ def windowed_dummy_data(N):
     return pysptk.hanning(N) * np.random.randn(N)
 
 
+def test_assert_gamma():
+    def __test(gamma):
+        pysptk.assert_gamma(gamma)
+
+    for gamma in [-2.0, 0.1]:
+        yield raises(ValueError)(__test), gamma
+
+
+def test_assert_pade():
+    def __test(pade):
+        pysptk.assert_pade(pade)
+
+    for pade in [3, 6]:
+        yield raises(ValueError)(__test), pade
+
+
+def test_assert_fftlen():
+    def __test(fftlen):
+        pysptk.assert_fftlen(fftlen)
+
+    for fftlen in [255, 257]:
+        yield raises(ValueError)(__test), fftlen
+
+
 def test_agexp():
     assert pysptk.agexp(1, 1, 1) == 5.0
     assert pysptk.agexp(1, 2, 3) == 18.0
