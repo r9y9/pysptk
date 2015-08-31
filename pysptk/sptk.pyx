@@ -9,7 +9,6 @@ cimport numpy as np
 cimport cython
 cimport sptk
 
-import six
 from warnings import warn
 from pysptk import assert_gamma, assert_fftlen, assert_pade
 
@@ -38,6 +37,7 @@ def acep(x, np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
          lambda_coef=0.98, step=0.1, tau=0.9, pd=4, eps=1.0e-6):
     assert_pade(pd)
     cdef int order = len(c) - 1
+    cdef double prederr
     prederr = _acep(x, &c[0], order, lambda_coef, step, tau, pd, eps)
     return prederr
 
@@ -48,6 +48,7 @@ def agcep(x, np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
     if stage < 1:
         raise ValueError("stage >= 1 (-1 <= gamma < 0)")
     cdef int order = len(c) - 1
+    cdef double prederr
     prederr = _agcep(x, &c[0], order, stage, lambda_coef, step, tau, eps)
     return prederr
 
@@ -57,6 +58,7 @@ def amcep(x, np.ndarray[np.float64_t, ndim=1, mode="c"] b not None,
           lambda_coef=0.98, step=0.1, tau=0.0, pd=4, eps=1.0e-6):
     assert_pade(pd)
     cdef int order = len(b) - 1
+    cdef double prederr
     prederr = _amcep(x, &b[0], order, alpha, lambda_coef, step, tau, pd, eps)
     return prederr
 
@@ -73,7 +75,7 @@ def mcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
          min_det=1.0e-6,
          itype=0):
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] mc
-    cdef int windowed_length = windowed.size
+    cdef int windowed_length = len(windowed)
     cdef int ret
     mc = np.zeros(order + 1, dtype=np.float64)
     ret = _mcep(&windowed[0], windowed_length, &mc[0],
@@ -102,7 +104,7 @@ def gcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
     assert_gamma(gamma)
 
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] gc
-    cdef int windowed_length = windowed.size
+    cdef int windowed_length = len(windowed)
     cdef int ret
     gc = np.zeros(order + 1, dtype=np.float64)
     ret = _gcep(&windowed[0], windowed_length, &gc[0], order,
@@ -133,10 +135,10 @@ def mgcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
     assert_gamma(gamma)
 
     if num_recursions is None:
-        num_recursions = windowed.size - 1
+        num_recursions = len(windowed) - 1
 
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] mgc
-    cdef int windowed_length = windowed.size
+    cdef int windowed_length = len(windowed)
     cdef int ret
     mgc = np.zeros(order + 1, dtype=np.float64)
     ret = _mgcep(&windowed[0], windowed_length, &mgc[0],
@@ -158,7 +160,7 @@ def mgcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
     cdef int i = 0
     cdef double g = gamma
     if otype == 4 or otype == 5:
-        for i in six.moves.range(1, mgc.size):
+        for i in range(1, len(mgc)):
             mgc[i] *= g
 
     return mgc
@@ -461,7 +463,7 @@ def mgc2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
     _mgc2sp(&ceps[0], order, alpha, gamma, &sp_r[0], &sp_i[0], fftlen)
 
     cdef int i
-    for i in six.moves.range(0, len(sp)):
+    for i in range(0, len(sp)):
         sp[i] = sp_r[i] + sp_i[i] * 1j
 
     return sp
@@ -485,11 +487,11 @@ def mgclsp2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] lsp not None,
 def swipe(np.ndarray[np.float64_t, ndim=1, mode="c"] x not None,
           fs, hopsize,
           min=50.0, max=800.0, threshold=0.3, otype=1):
-    if not otype in six.moves.range(0, 3):
+    if not otype in range(0, 3):
         raise ValueError("otype must be 0, 1, or 2")
 
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] f0
-    cdef int x_length = x.size
+    cdef int x_length = len(x)
     cdef int expected_len = int(x_length / hopsize) + 1
 
     f0 = np.zeros(expected_len, dtype=np.float64)
@@ -512,42 +514,42 @@ def blackman(n, normalize=1):
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] x
     x = np.ones(n, dtype=np.float64)
     cdef Window window_type = BLACKMAN
-    return __window(window_type, x, x.size, normalize)
+    return __window(window_type, x, len(x), normalize)
 
 
 def hamming(n, normalize=1):
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] x
     x = np.ones(n, dtype=np.float64)
     cdef Window window_type = HAMMING
-    return __window(window_type, x, x.size, normalize)
+    return __window(window_type, x, len(x), normalize)
 
 
 def hanning(n, normalize=1):
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] x
     x = np.ones(n, dtype=np.float64)
     cdef Window window_type = HANNING
-    return __window(window_type, x, x.size, normalize)
+    return __window(window_type, x, len(x), normalize)
 
 
 def bartlett(n, normalize=1):
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] x
     x = np.ones(n, dtype=np.float64)
     cdef Window window_type = BARTLETT
-    return __window(window_type, x, x.size, normalize)
+    return __window(window_type, x, len(x), normalize)
 
 
 def trapezoid(n, normalize=1):
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] x
     x = np.ones(n, dtype=np.float64)
     cdef Window window_type = TRAPEZOID
-    return __window(window_type, x, x.size, normalize)
+    return __window(window_type, x, len(x), normalize)
 
 
 def rectangular(n, normalize=1):
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] x
     x = np.ones(n, dtype=np.float64)
     cdef Window window_type = RECTANGULAR
-    return __window(window_type, x, x.size, normalize)
+    return __window(window_type, x, len(x), normalize)
 
 
 ### Waveform generation filters ###
