@@ -278,6 +278,7 @@ def par2lpc(np.ndarray[np.float64_t, ndim=1, mode="c"] src_par not None):
 # assume lsp has loggain at src_lsp[0]
 def lsp2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] src_lsp not None,
            fftlen=256):
+    assert_fftlen(fftlen)
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] sp
     cdef int sp_length = (fftlen >> 1) + 1
     sp = np.zeros(sp_length, dtype=np.float64)
@@ -371,6 +372,7 @@ def ndps2c(np.ndarray[np.float64_t, ndim=1, mode="c"] ndps not None,
     # assuming the lenght of ndps is fftlen/2+1
     cdef int fftlen = (len(ndps) - 1) << 1
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] c
+    print("fftlen: ", fftlen)
     assert_fftlen(fftlen)
     c = np.zeros(order + 1, dtype=np.float64)
     _ndps2c(&ndps[0], fftlen, &c[0], order)
@@ -476,6 +478,7 @@ def mgc2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
 def mgclsp2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] lsp not None,
               alpha=0.0, gamma=0.0, fftlen=256, gain=True):
     assert_gamma(gamma)
+    assert_fftlen(fftlen)
 
     cdef int order = gain if len(lsp) - 1 else len(lsp)
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] sp

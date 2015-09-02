@@ -20,8 +20,12 @@ def assert_pade(pade):
         raise ValueError("4 or 5 pade approximation is supported")
 
 
+def ispow2(num):
+    return ((num & (num - 1)) == 0) and num != 0
+
+
 def assert_fftlen(fftlen):
-    if fftlen % 2 > 0:
+    if not ispow2(fftlen):
         raise ValueError("fftlen must be power of 2")
 
 
