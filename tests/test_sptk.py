@@ -68,6 +68,10 @@ def test_acep():
         for pd in [4, 5]:
             yield __test, order, pd
 
+    # invalid pade
+    yield raises(ValueError)(__test), 20, 3
+    yield raises(ValueError)(__test), 20, 6
+
 
 def test_agcep():
     def __test(order, stage):
@@ -81,18 +85,25 @@ def test_agcep():
         for stage in six.moves.range(1, 10):
             yield __test, order, stage
 
+    # invalid stage
+    yield raises(ValueError)(__test), 20, 0
+
 
 def test_amcep():
-    def __test(order, stage):
+    def __test(order, stage, pd=5):
         x = windowed_dummy_data(64)
         c = np.zeros(order + 1)
         for v in x:
-            pysptk.amcep(v, c, alpha=alpha)
+            pysptk.amcep(v, c, alpha=alpha, pd=pd)
             assert np.all(np.isfinite(c))
 
     for order in [20, 22, 25]:
         for alpha in [0.0, 0.35, 0.5]:
             yield __test, order, alpha
+
+    # invalid pade
+    yield raises(ValueError)(__test), 20, 0.35, 3
+    yield raises(ValueError)(__test), 20, 0.35, 6
 
 
 def test_swipe():
