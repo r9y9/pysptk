@@ -372,7 +372,6 @@ def ndps2c(np.ndarray[np.float64_t, ndim=1, mode="c"] ndps not None,
     # assuming the lenght of ndps is fftlen/2+1
     cdef int fftlen = (len(ndps) - 1) << 1
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] c
-    print("fftlen: ", fftlen)
     assert_fftlen(fftlen)
     c = np.zeros(order + 1, dtype=np.float64)
     _ndps2c(&ndps[0], fftlen, &c[0], order)
