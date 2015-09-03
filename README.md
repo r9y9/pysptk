@@ -20,6 +20,5 @@ A reference manual of the SPTK can be found at http://sp-tk.sourceforge.net/.
 ## Installation
 
 ```bash
-git submodule update --init --recursive
-pip install -e .
+pip install git+https://github.com/r9y9/pysptk
 ```
