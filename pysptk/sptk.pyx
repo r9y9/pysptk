@@ -1,7 +1,4 @@
 # coding: utf-8
-# cython: linetrace=True
-# distutils: define_macros=CYTHON_TRACE=1
-
 # cython: boundscheck=True, wraparound=True
 
 import numpy as np
@@ -75,13 +72,28 @@ def mcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
          eps=0.0,
          min_det=1.0e-6,
          itype=0):
+    if not itype in range(0, 5):
+        raise ValueError("unsupported itype: %d, must be in 0:4" % itype)
+
+    if not etype in range(0, 3):
+        raise ValueError("unsupported etype: %d, must be in 0:2" % etype)
+
+    if etype == 0 and eps != 0.0:
+        raise ValueError("eps cannot be specified for etype = 0")
+
+    if (etype == 1 or etype == 2) and eps < 0.0:
+        raise ValueError("eps: %f, must be >= 0" % eps)
+
+    if min_det < 0.0:
+        raise ValueError("min_det must be positive: min_det = %f" % min_det)
+
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] mc
     cdef int windowed_length = len(windowed)
     cdef int ret
     mc = np.zeros(order + 1, dtype=np.float64)
     ret = _mcep(&windowed[0], windowed_length, &mc[0],
-                 order, alpha, miniter, maxiter, threshold, etype, eps,
-                 min_det, itype)
+                order, alpha, miniter, maxiter, threshold, etype, eps,
+                min_det, itype)
     assert ret == -1 or ret == 0 or ret == 3 or ret == 4
     if ret == 3:
         raise RuntimeError("failed to compute mcep; error occured in theq")
@@ -103,6 +115,20 @@ def gcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
          itype=0,
          norm=False):
     assert_gamma(gamma)
+    if not itype in range(0, 5):
+        raise ValueError("unsupported itype: %d, must be in 0:4" % itype)
+
+    if not etype in range(0, 3):
+        raise ValueError("unsupported etype: %d, must be in 0:2" % etype)
+
+    if etype == 0 and eps != 0.0:
+        raise ValueError("eps cannot be specified for etype = 0")
+
+    if (etype == 1 or etype == 2) and eps < 0.0:
+        raise ValueError("eps: %f, must be >= 0" % eps)
+
+    if min_det < 0.0:
+        raise ValueError("min_det must be positive: min_det = %f" % min_det)
 
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] gc
     cdef int windowed_length = len(windowed)
@@ -134,6 +160,23 @@ def mgcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
           itype=0,
           otype=0):
     assert_gamma(gamma)
+    if not itype in range(0, 5):
+        raise ValueError("unsupported itype: %d, must be in 0:4" % itype)
+
+    if not etype in range(0, 3):
+        raise ValueError("unsupported etype: %d, must be in 0:2" % etype)
+
+    if etype == 0 and eps != 0.0:
+        raise ValueError("eps cannot be specified for etype = 0")
+
+    if (etype == 1 or etype == 2) and eps < 0.0:
+        raise ValueError("eps: %f, must be >= 0" % eps)
+
+    if min_det < 0.0:
+        raise ValueError("min_det must be positive: min_det = %f" % min_det)
+
+    if not otype in range(0, 6):
+        raise ValueError("unsupported otype: %d, must be in 0:5" % otype)
 
     if num_recursions is None:
         num_recursions = len(windowed) - 1
@@ -175,6 +218,18 @@ def uels(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
          etype=0,
          eps=0.0,
          itype=0):
+    if not itype in range(0, 5):
+        raise ValueError("unsupported itype: %d, must be in 0:4" % itype)
+
+    if not etype in range(0, 3):
+        raise ValueError("unsupported etype: %d, must be in 0:2" % etype)
+
+    if etype == 0 and eps != 0.0:
+        raise ValueError("eps cannot be specified for etype = 0")
+
+    if (etype == 1 or etype == 2) and eps < 0.0:
+        raise ValueError("eps: %f, must be >= 0" % eps)
+
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] c
     cdef int windowed_length = len(windowed)
     cdef int ret
@@ -205,6 +260,9 @@ def fftcep(np.ndarray[np.float64_t, ndim=1, mode="c"] logsp not None,
 def lpc(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
         order=25,
         min_det=1.0e-6):
+    if min_det < 0.0:
+        raise ValueError("min_det must be positive: min_det = %f" % min_det)
+
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] a
     cdef int windowed_length = len(windowed)
     cdef int ret
