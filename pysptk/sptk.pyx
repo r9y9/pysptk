@@ -18,10 +18,39 @@ def agexp(r, x, y):
 
 
 def gexp(r, x):
+    """Generalized exponential function
+
+    Parameters
+    ----------
+    r : float
+        gamma
+
+    x : float
+        arg
+
+    Returns
+    -------
+    value
+
+    """
     return _gexp(r, x)
 
 
 def glog(r, x):
+    """Generalized logarithmic function
+
+    Parameters
+    ----------
+    r : float
+        gamma
+    x : float
+        arg
+
+    Returns
+    -------
+    value
+
+    """
     return _glog(r, x)
 
 
@@ -72,6 +101,54 @@ def mcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
          eps=0.0,
          min_det=1.0e-6,
          itype=0):
+    """Mel-cepstrum analysis
+
+    Parameters
+    ----------
+    windowed : array, shape (`frame_len`)
+        A windowed frame
+
+    order : int
+        order of mel-cepstrum
+
+    alpha : float
+        all pass constant
+
+    miniter : int
+        minimum number of iteration
+
+    maxiter : int
+        maximum number of iteration
+
+    threshold : float
+        threshold in theq
+
+    etype : int
+        type of parameter `eps`
+             (0) not used
+             (1) initial value of log-periodogram
+             (2) floor of periodogram in db
+
+    eps : float
+        initial value for log-periodogram or floor of periodogram in db
+
+    min_det : float
+        mimimum value of the determinant of normal matrix
+
+    itype : float
+        input data type:
+            (0) windowed signal
+            (1) log amplitude in db
+            (2) log amplitude
+            (3) amplitude
+            (4) periodogram
+
+    Returns
+    -------
+    mc : array, shape (`order + 1`)
+
+    """
+
     if not itype in range(0, 5):
         raise ValueError("unsupported itype: %d, must be in 0:4" % itype)
 
@@ -159,6 +236,66 @@ def mgcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
           min_det=1.0e-6,
           itype=0,
           otype=0):
+    """Mel-generalized cepstrum analysis
+
+    Parameters
+    ----------
+    windowed : array, shape (`frame_len`)
+        A windowed frame
+
+    order : int
+        order of mel-generalized cepstrum
+
+    alpha : float
+        all pass constant
+
+    num_recursions : int (default=len(windowed)-1)
+        number of recursions
+
+    miniter : int
+        minimum number of iteration
+
+    maxiter : int
+        maximum number of iteration
+
+    threshold : float
+        threshold
+
+    etype : int
+        type of paramter `e`
+             (0) not used
+             (1) initial value of log-periodogram
+             (2) floor of periodogram in db
+
+    eps : float
+        initial value for log-periodogram or floor of periodogram in db
+
+    min_det : float
+        mimimum value of the determinant of normal matrix
+
+    itype : float
+        input data type:
+            (0) windowed signal
+            (1) log amplitude in db
+            (2) log amplitude
+            (3) amplitude
+            (4) periodogram
+
+    otype : int
+        output data type
+            (0) mel generalized cepstrum: (c~0...c~m)
+            (1) MGLSA filter coefficients: b0...bm
+            (2) K~,c~'1...c~'m
+            (3) K,b'1...b'm
+            (4) K~,g*c~'1...g*c~'m
+            (5) K,g*b'1...g*b'm
+
+    Returns
+    -------
+    mgc : array, shape (`order + 1`)
+
+    """
+
     assert_gamma(gamma)
     if not itype in range(0, 5):
         raise ValueError("unsupported itype: %d, must be in 0:4" % itype)
@@ -349,6 +486,21 @@ def lsp2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] src_lsp not None,
 
 def mc2b(np.ndarray[np.float64_t, ndim=1, mode="c"] mc not None,
          alpha=0.35):
+    """Mel-cepsrum to MLSA filter coefficients
+
+    Parameters
+    ----------
+    mc : array, shape (`order of mel-cepstrum` + 1)
+         mel-cepstrum
+
+    alpha : float
+         all-pass constant
+
+    Returns
+    -------
+    MLSA filter coefficients : array, shape(=mc)
+
+    """
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] b
     b = np.zeros_like(mc)
     cdef int order = len(mc) - 1
@@ -392,6 +544,21 @@ def c2acr(np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
 
 def c2ir(np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
          length=256):
+    """Cepstrum to impulse response
+
+    Parameters
+    ----------
+    c : array, shape (`order + 1`)
+         cepstrum
+    length : int
+         length of impulse response
+
+    Returns
+    -------
+    impulse response, shape (`length`)
+
+    """
+
     cdef int order = len(c)  # NOT len(c) - 1
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] h
     h = np.zeros(length, dtype=np.float64)
@@ -453,32 +620,79 @@ def gc2gc(np.ndarray[np.float64_t, ndim=1, mode="c"] src_ceps not None,
     return dst_ceps
 
 
-def gnorm(np.ndarray[np.float64_t, ndim=1, mode="c"] src_ceps not None,
+def gnorm(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
           gamma=0.0):
+    """Gain normalization
+
+    Parameters
+    ----------
+    c : array, shape (`order of cepstrum` + 1)
+        generalized cepstrum
+    gamma : float
+        gamma
+
+    Returns
+    -------
+    normalized generalized cepstrum : array, shape(=ceps)
+
+    """
+
     assert_gamma(gamma)
-    cdef int order = len(src_ceps) - 1
+    cdef int order = len(ceps) - 1
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] dst_ceps
-    dst_ceps = np.zeros_like(src_ceps)
-    _gnorm(&src_ceps[0], &dst_ceps[0], order, gamma)
+    dst_ceps = np.zeros_like(ceps)
+    _gnorm(&ceps[0], &dst_ceps[0], order, gamma)
     return dst_ceps
 
 
-def ignorm(np.ndarray[np.float64_t, ndim=1, mode="c"] src_ceps not None,
+def ignorm(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
            gamma=0.0):
+    """Inverse gain normalization
+
+    Parameters
+    ----------
+    c : array, shape (`order of cepstrum` + 1)
+        normalized generalized cepstrum
+    gamma : float
+        gamma
+
+    Returns
+    -------
+    generalized cepstrum : array, shape(=ceps)
+
+    """
+
     assert_gamma(gamma)
-    cdef int order = len(src_ceps) - 1
+    cdef int order = len(ceps) - 1
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] dst_ceps
-    dst_ceps = np.zeros_like(src_ceps)
-    _ignorm(&src_ceps[0], &dst_ceps[0], order, gamma)
+    dst_ceps = np.zeros_like(ceps)
+    _ignorm(&ceps[0], &dst_ceps[0], order, gamma)
     return dst_ceps
 
 
-def freqt(np.ndarray[np.float64_t, ndim=1, mode="c"] src_ceps not None,
+def freqt(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
           order=25, alpha=0.0):
-    cdef int src_order = len(src_ceps) - 1
+    """Frequency transform
+
+    Parameters
+    ----------
+    ceps : array, shape (`order of cepstrum ` + 1)
+        cepstrum
+    order : int
+        desired order of cepstrum that will be converted
+    alpha : float
+        all-pass constant
+
+    Returns
+    -------
+    dst_ceps : array, shape(`order` + 1)
+
+    """
+
+    cdef int src_order = len(ceps) - 1
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] dst_ceps
     dst_ceps = np.zeros(order + 1, dtype=np.float64)
-    _freqt(&src_ceps[0], src_order, &dst_ceps[0], order, alpha)
+    _freqt(&ceps[0], src_order, &dst_ceps[0], order, alpha)
     return dst_ceps
 
 
@@ -504,7 +718,7 @@ def mgc2mgc(np.ndarray[np.float64_t, ndim=1, mode="c"] src_ceps not None,
     dst_ceps = np.zeros(dst_order + 1, dtype=np.float64)
 
     _mgc2mgc(&src_ceps[0], src_order, src_alpha, src_gamma,
-             &dst_ceps[0], dst_order, dst_alpha, dst_gamma)
+              &dst_ceps[0], dst_order, dst_alpha, dst_gamma)
 
     return dst_ceps
 
@@ -551,6 +765,36 @@ def mgclsp2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] lsp not None,
 def swipe(np.ndarray[np.float64_t, ndim=1, mode="c"] x not None,
           fs, hopsize,
           min=50.0, max=800.0, threshold=0.3, otype=1):
+    """SWIPE - A Saw-tooth Waveform Inspired Pitch Estimation
+
+    Parameters
+    ----------
+    x : array, shape (`the number of audio samples`)
+        A whole signal
+
+    fs : int
+        samplerate
+
+    hopsize : int
+        hop size
+
+    min : float (default=50.0)
+        minimum fundamental frequency
+
+    max : float (default=800.0)
+        maximum fundamental frequency
+
+    threshold : float (default=0.3)
+        voice/unvoiced threshold
+
+    otype : int (default=1)
+        output format (0) pitch (1) f0 (2) log(f0)
+
+    Returns
+    -------
+    f0  : array, shape(`len(x)/frame_shift+1`)
+
+    """
     if not otype in range(0, 3):
         raise ValueError("otype must be 0, 1, or 2")
 
@@ -575,6 +819,23 @@ cdef __window(Window window_type, np.ndarray[np.float64_t, ndim=1, mode="c"] x,
 
 
 def blackman(n, normalize=1):
+    """Blackman window
+
+    Parameters
+    ----------
+    n : int
+         window length
+    normalize : int
+         0 : don't normalize
+         1 : normalize by power
+         2 : normalize by magnitude
+
+    Returns
+    -------
+    blackman window
+
+    """
+
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] x
     x = np.ones(n, dtype=np.float64)
     cdef Window window_type = BLACKMAN
@@ -582,6 +843,23 @@ def blackman(n, normalize=1):
 
 
 def hamming(n, normalize=1):
+    """Hamming window
+
+    Parameters
+    ----------
+    n : int
+         window length
+    normalize : int
+         0 : don't normalize
+         1 : normalize by power
+         2 : normalize by magnitude
+
+    Returns
+    -------
+    hamming window
+
+    """
+
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] x
     x = np.ones(n, dtype=np.float64)
     cdef Window window_type = HAMMING
@@ -589,6 +867,23 @@ def hamming(n, normalize=1):
 
 
 def hanning(n, normalize=1):
+    """Hanning window
+
+    Parameters
+    ----------
+    n : int
+         window length
+    normalize : int
+         0 : don't normalize
+         1 : normalize by power
+         2 : normalize by magnitude
+
+    Returns
+    -------
+    hanning window
+
+    """
+
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] x
     x = np.ones(n, dtype=np.float64)
     cdef Window window_type = HANNING
@@ -596,6 +891,23 @@ def hanning(n, normalize=1):
 
 
 def bartlett(n, normalize=1):
+    """Bartlett window
+
+    Parameters
+    ----------
+    n : int
+         window length
+    normalize : int
+         0 : don't normalize
+         1 : normalize by power
+         2 : normalize by magnitude
+
+    Returns
+    -------
+    bartlett window
+
+    """
+
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] x
     x = np.ones(n, dtype=np.float64)
     cdef Window window_type = BARTLETT
@@ -603,6 +915,23 @@ def bartlett(n, normalize=1):
 
 
 def trapezoid(n, normalize=1):
+    """Trapezoid window
+
+    Parameters
+    ----------
+    n : int
+         window length
+    normalize : int
+         0 : don't normalize
+         1 : normalize by power
+         2 : normalize by magnitude
+
+    Returns
+    -------
+    trapezoid window
+
+    """
+
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] x
     x = np.ones(n, dtype=np.float64)
     cdef Window window_type = TRAPEZOID
@@ -610,6 +939,23 @@ def trapezoid(n, normalize=1):
 
 
 def rectangular(n, normalize=1):
+    """Rectangular window
+
+    Parameters
+    ----------
+    n : int
+         window length
+    normalize : int
+         0 : don't normalize
+         1 : normalize by power
+         2 : normalize by magnitude
+
+    Returns
+    -------
+    rectangular window
+
+    """
+
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] x
     x = np.ones(n, dtype=np.float64)
     cdef Window window_type = RECTANGULAR
