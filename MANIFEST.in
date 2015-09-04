@@ -1,0 +1,2 @@
+recursive-include lib *.c *.h
+recursive-include pysptk *.c *.h *.pxd
