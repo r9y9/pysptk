@@ -58,7 +58,7 @@ ext_modules = [Extension(
 
 setup(
     name='pysptk',
-    version='0.0.1',
+    version='0.1.0',
     description='A python wrapper for SPTK',
     author='Ryuichi Yamamoto',
     author_email='zryuichi@gmail.com',
