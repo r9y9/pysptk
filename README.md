@@ -5,8 +5,7 @@
 [![Documentation Status](https://readthedocs.org/projects/pysptk/badge/?version=latest)](https://readthedocs.org/projects/pysptk/?badge=latest)
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE.md)
 
-pysptk is a python wrapper for [Speech Signal Processing Toolkit (SPTK)](http://sp-tk.sourceforge.net/), which provides a lot of functionalities for speech signal processing such as linear prediction analysis, mel-cepstrum analysis, generalized cepstrum analysis and mel-generalized cepstrum analysis to name a few. See the original project page for more details.
-
+A python wrapper for [Speech Signal Processing Toolkit (SPTK)](http://sp-tk.sourceforge.net/).
 
 **NOTE**: pysptk is based on a modified version of SPTK ([r9y9/SPTK](https://github.com/r9y9/SPTK)).
 
