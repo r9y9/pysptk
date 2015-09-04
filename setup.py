@@ -63,7 +63,6 @@ setup(
     author='Ryuichi Yamamoto',
     author_email='zryuichi@gmail.com',
     url='https://github.com/r9y9/pysptk',
-    keywords=["SPTK", "Speech"],
     license='MIT',
     packages=find_packages(),
     ext_modules=ext_modules,
@@ -86,4 +85,6 @@ setup(
         "Programming Language :: Python :: 3.4",
         "License :: OSI Approved :: MIT License",
         "Topic :: Scientific/Engineering"
-    ])
+    ],
+    keywords=["SPTK"]
+)
