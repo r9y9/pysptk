@@ -4,6 +4,8 @@
 A python wrapper for `Speech Signal Processing Toolkit (SPTK)
 <http://sp-tk.sourceforge.net>`_.
 
+https://github.com/r9y9/pysptk
+
 Full documentation
 ------------------
 

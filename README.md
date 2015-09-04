@@ -21,5 +21,5 @@ A python wrapper for [Speech Signal Processing Toolkit (SPTK)](http://sp-tk.sour
 ## Installation
 
 ```bash
-pip install git+https://github.com/r9y9/pysptk
+pip install pysptk
 ```
