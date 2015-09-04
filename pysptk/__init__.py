@@ -1,13 +1,24 @@
 # coding: utf-8
 
 """
-A python wrapper for Speech Signal Processing Toolkit (SPTK)
+A python wrapper for `Speech Signal Processing Toolkit (SPTK)
+<http://sp-tk.sourceforge.net>`_.
 
-Note that the wrapper is based on a modified version of SPTK:
-https://github.com/r9y9/SPTK
+Full documentation
+------------------
+
+A full documentation of SPTK is available at http://sp-tk.sourceforge.net.
+
+The wrapper is based on a modified version of SPTK (`r9y9/SPTK
+<https://github.com/r9y9/SPTK>`_)
 """
+
 from __future__ import print_function
 from __future__ import absolute_import
+
+import pkg_resources
+
+__version__ = pkg_resources.get_distribution('pysptk').version
 
 
 def assert_gamma(gamma):
@@ -29,4 +40,4 @@ def assert_fftlen(fftlen):
         raise ValueError("fftlen must be power of 2")
 
 
-from .sptk import *
+from .sptk import *  # pylint: disable=wildcard-import

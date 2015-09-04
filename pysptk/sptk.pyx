@@ -1,6 +1,115 @@
 # coding: utf-8
 # cython: boundscheck=True, wraparound=True
 
+"""
+Library routines
+----------------
+.. autosummary::
+    :toctree: generated/
+
+    agexp
+    gexp
+    glog
+    mseq
+
+Adaptive cepstrum analysis
+--------------------------
+.. autosummary::
+    :toctree: generated/
+
+    acep
+    agcep
+    amcep
+
+Mel-generalized cepstrum analysis
+---------------------------------
+.. autosummary::
+    :toctree: generated/
+
+    mcep
+    gcep
+    mgcep
+    uels
+    lpc
+
+LPC, LSP and PARCOR conversions
+-------------------------------
+.. autosummary::
+    :toctree: generated/
+
+    lpc2c
+    lpc2lsp
+    lpc2par
+    par2lpc
+    lsp2sp
+
+Mel-generalized cepstrum conversions
+------------------------------------
+.. autosummary::
+    :toctree: generated/
+
+    mc2b
+    b2mc
+    c2acr
+    c2ir
+    ic2ir
+    c2ndps
+    ndps2c
+    gc2gc
+    gnorm
+    ignorm
+    freqt
+    mgc2mgc
+    mgc2sp
+    mgclsp2sp
+
+F0 analysis
+-----------
+.. autosummary::
+    :toctree: generated/
+
+    swipe
+
+Window functions
+----------------
+.. autosummary::
+    :toctree: generated/
+
+    blackman
+    hamming
+    hanning
+    bartlett
+    trapezoid
+    rectangular
+
+Waveform generation filters
+---------------------------
+.. autosummary::
+    :toctree: generated/
+
+    poledf
+    lmadf
+    lspdf
+    ltcdf
+    glsadf
+    mlsadf
+    mglsadf
+
+Utilities for waveform generation filters
+-----------------------------------------
+.. autosummary::
+    :toctree: generated/
+
+    poledf_delay
+    lmadf_delay
+    lspdf_delay
+    ltcdf_delay
+    glsadf_delay
+    mlsadf_delay
+    mglsadf_delay
+
+"""
+
 import numpy as np
 cimport numpy as np
 
@@ -262,6 +371,7 @@ def mcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
              (0) not used
              (1) initial value of log-periodogram
              (2) floor of periodogram in db
+
         Default is 0.
 
     eps : float
@@ -279,6 +389,7 @@ def mcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
             (2) log amplitude
             (3) amplitude
             (4) periodogram
+
         Default is 0.
 
     Returns
@@ -370,6 +481,7 @@ def gcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
              (0) not used
              (1) initial value of log-periodogram
              (2) floor of periodogram in db
+
         Default is 0.
 
     eps : float
@@ -386,6 +498,7 @@ def gcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
             (2) log amplitude
             (3) amplitude
             (4) periodogram
+
         Default is 0.
 
     Returns
@@ -485,6 +598,7 @@ def mgcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
              (0) not used
              (1) initial value of log-periodogram
              (2) floor of periodogram in db
+
         Default is 0.
 
     eps : float
@@ -502,6 +616,7 @@ def mgcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
             (2) log amplitude
             (3) amplitude
             (4) periodogram
+
         Default is 0.
 
     otype : int
@@ -512,6 +627,7 @@ def mgcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
             (3) K,b'1...b'm
             (4) K~,g*c~'1...g*c~'m
             (5) K,g*b'1...g*b'm
+
         Default is 0.
 
     Returns
@@ -617,6 +733,7 @@ def uels(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
              (0) not used
              (1) initial value of log-periodogram
              (2) floor of periodogram in db
+
         Default is 0.
 
     eps : float
@@ -630,6 +747,7 @@ def uels(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
             (2) log amplitude
             (3) amplitude
             (4) periodogram
+
         Default is 0.
 
     Returns
@@ -804,6 +922,7 @@ def lpc2lsp(np.ndarray[np.float64_t, ndim=1, mode="c"] lpc not None,
             1  normalized frequency (0 ~ 0.5)
             2  frequency (kHz)
             3  frequency (Hz)
+
         Default is 0.
 
     Returns
@@ -1518,6 +1637,7 @@ def blackman(n, normalize=1):
             0 : don't normalize
             1 : normalize by power
             2 : normalize by magnitude
+
         Defalt is 0.
 
     Returns
@@ -1546,6 +1666,7 @@ def hamming(n, normalize=1):
             0 : don't normalize
             1 : normalize by power
             2 : normalize by magnitude
+
         Defalt is 0.
 
     Returns
@@ -1574,6 +1695,7 @@ def hanning(n, normalize=1):
             0 : don't normalize
             1 : normalize by power
             2 : normalize by magnitude
+
         Defalt is 0.
 
     Returns
@@ -1602,6 +1724,7 @@ def bartlett(n, normalize=1):
             0 : don't normalize
             1 : normalize by power
             2 : normalize by magnitude
+
         Defalt is 0.
 
     Returns
@@ -1630,6 +1753,7 @@ def trapezoid(n, normalize=1):
             0 : don't normalize
             1 : normalize by power
             2 : normalize by magnitude
+
         Defalt is 0.
 
     Returns
@@ -1658,6 +1782,7 @@ def rectangular(n, normalize=1):
             0 : don't normalize
             1 : normalize by power
             2 : normalize by magnitude
+
         Defalt is 0.
 
     Returns
@@ -1682,8 +1807,8 @@ def poledf_delay_length(order):
 def poledf_delay(order):
     """Delay for poledf
 
-    Paramters
-    ---------
+    Parameters
+    ----------
     order : int
         Order of poledf filter coefficients
 
@@ -1737,8 +1862,8 @@ def lmadf_delay_length(order, pd):
 def lmadf_delay(order, pd):
     """Delay for lmadf
 
-    Paramters
-    ---------
+    Parameters
+    ----------
     order : int
         Order of lmadf filter coefficients
 
@@ -1802,8 +1927,8 @@ def lspdf_delay_length(order):
 def lspdf_delay(order):
     """Delay for lspdf
 
-    Paramters
-    ---------
+    Parameters
+    ----------
     order : int
         Order of lspdf filter coefficients
 
@@ -1861,8 +1986,8 @@ def ltcdf_delay_length(order):
 def ltcdf_delay(order):
     """Delay for ltcdf
 
-    Paramters
-    ---------
+    Parameters
+    ----------
     order : int
         Order of ltcdf filter coefficients
 
@@ -1917,8 +2042,8 @@ def glsadf_delay_length(order, stage):
 def glsadf_delay(order, stage):
     """Delay for glsadf
 
-    Paramters
-    ---------
+    Parameters
+    ----------
     order : int
         Order of glsadf filter coefficients
 
@@ -1984,8 +2109,8 @@ def mlsadf_delay_length(order, pd):
 def mlsadf_delay(order, pd):
     """Delay for mlsadf
 
-    Paramters
-    ---------
+    Parameters
+    ----------
     order : int
         Order of mlsadf filter coefficients
 
@@ -2053,8 +2178,8 @@ def mglsadf_delay_length(order, stage):
 def mglsadf_delay(order, stage):
     """Delay for mglsadf
 
-    Paramters
-    ---------
+    Parameters
+    ----------
     order : int
         Order of mglsadf filter coefficients
 
