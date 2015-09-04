@@ -59,7 +59,7 @@ ext_modules = [Extension(
 setup(
     name='pysptk',
     version='0.1.1',
-    description='A python wrapper for SPTK',
+    description='A python wrapper for Speech Signal Processing Toolkit (SPTK)',
     author='Ryuichi Yamamoto',
     author_email='zryuichi@gmail.com',
     url='https://github.com/r9y9/pysptk',
