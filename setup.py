@@ -49,4 +49,7 @@ setup(
         'six'
     ],
     tests_require=['nose'],
+    extras_require={
+        'docs': ['numpydoc', 'sphinx_rtd_theme']
+    }
 )
