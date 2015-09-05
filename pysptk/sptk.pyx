@@ -117,7 +117,7 @@ cimport cython
 cimport sptk
 
 from warnings import warn
-from pysptk import assert_gamma, assert_fftlen, assert_pade
+from pysptk import assert_gamma, assert_fftlen, assert_pade, assert_stage
 
 
 ### Library routines ###
@@ -276,8 +276,8 @@ def agcep(x, np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
         if invalid number of stage is specified
 
     """
-    if stage < 1:
-        raise ValueError("stage >= 1 (-1 <= gamma < 0)")
+    assert_stage(stage)
+
     cdef int order = len(c) - 1
     cdef double prederr
     prederr = _agcep(x, &c[0], order, stage, lambda_coef, step, tau, eps)
@@ -2092,8 +2092,7 @@ def glsadf(x, np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
 
     """
 
-    if stage < 1:
-        raise ValueError("stage >= 1 (-1 <= gamma < 0)")
+    assert_stage(stage)
 
     cdef int order = len(c) - 1
     if len(delay) != glsadf_delay_length(order, stage):
@@ -2231,8 +2230,7 @@ def mglsadf(x, np.ndarray[np.float64_t, ndim=1, mode="c"] b not None,
 
     """
 
-    if stage < 1:
-        raise ValueError("stage >= 1 (-1 <= gamma < 0)")
+    assert_stage(stage)
 
     cdef int order = len(b) - 1
     if len(delay) != mglsadf_delay_length(order, stage):

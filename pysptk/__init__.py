@@ -33,6 +33,11 @@ def assert_pade(pade):
         raise ValueError("4 or 5 pade approximation is supported")
 
 
+def assert_stage(stage):
+    if stage < 1:
+        raise ValueError("stage >= 1 (-1 <= gamma < 0)")
+
+
 def ispow2(num):
     return ((num & (num - 1)) == 0) and num != 0
 
