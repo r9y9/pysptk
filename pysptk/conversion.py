@@ -18,7 +18,7 @@ from pysptk.sptk import mc2b, gnorm
 
 
 def mgc2b(mgc, alpha=0.35, gamma=0.0):
-    """Mel-generalized cepstrum to MGCLSA filter coefficients
+    """Mel-generalized cepstrum to MGLSA filter coefficients
 
     Parameters
     ----------
