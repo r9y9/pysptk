@@ -1,4 +1,4 @@
-# News pysptk
+# News for pysptk
 
 ## v0.1.2
 
