@@ -37,11 +37,6 @@ AllPoleLatticeDF
 .. autoclass::  AllPoleLatticeDF
     :members:
 
-LSPDF
-^^^^^
-.. autoclass::  LSPDF
-    :members:
-
 Synthesis filter interface
 --------------------------
 
@@ -199,7 +194,7 @@ class LMADF(SynthesisFilter):
 
     """
 
-    def __init(self, order=25, pd=4):
+    def __init__(self, order=25, pd=4):
         """Initialization
 
         Raises
@@ -208,6 +203,7 @@ class LMADF(SynthesisFilter):
             if invalid order of pade approximation is specified
 
         """
+        self.order = order
 
         assert_pade(pd)
 
@@ -264,6 +260,9 @@ class MLSADF(SynthesisFilter):
             if invalid order of pade approximation is specified
 
         """
+
+        self.order = order
+
         assert_pade(pd)
 
         self.alpha = alpha
@@ -312,7 +311,7 @@ class MGLSADF(SynthesisFilter):
 
     """
 
-    def __init(self, order=25, alpha=0.35, stage=1):
+    def __init__(self, order=25, alpha=0.35, stage=1):
         """Initialization
 
         Raises
@@ -321,6 +320,8 @@ class MGLSADF(SynthesisFilter):
             if invalid number of stage is specified
 
         """
+        self.order = order
+
         assert_stage(stage)
 
         self.alpha = alpha
@@ -362,9 +363,11 @@ class AllPoleDF(SynthesisFilter):
 
     """
 
-    def __init(self, order=25):
+    def __init__(self, order=25):
         """Initialization
         """
+
+        self.order = order
         self.delay = pysptk.poledf_delay(order)
 
     def filt(self, x, coef):
@@ -402,9 +405,11 @@ class AllPoleLatticeDF(SynthesisFilter):
 
     """
 
-    def __init(self, order=25):
+    def __init__(self, order=25):
         """Initialization
         """
+
+        self.order = order
         self.delay = pysptk.ltcdf_delay(order)
 
     def filt(self, x, coef):
@@ -442,9 +447,11 @@ class LSPDF(SynthesisFilter):
 
     """
 
-    def __init(self, order=25):
+    def __init__(self, order=25):
         """Initialization
         """
+
+        self.order = order
         self.delay = pysptk.lspdf_delay(order)
 
     def filt(self, x, coef):

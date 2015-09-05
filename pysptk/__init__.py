@@ -48,3 +48,6 @@ def assert_fftlen(fftlen):
 
 
 from .sptk import *  # pylint: disable=wildcard-import
+
+from . import synthesis
+from .mgc2b import mgc2b
