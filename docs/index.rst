@@ -15,6 +15,7 @@ API documentation
     :maxdepth: 2
 
     api
+    synthesis
 
 
 

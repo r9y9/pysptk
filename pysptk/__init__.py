@@ -15,8 +15,7 @@ The wrapper is based on a modified version of SPTK (`r9y9/SPTK
 <https://github.com/r9y9/SPTK>`_)
 """
 
-from __future__ import print_function
-from __future__ import absolute_import
+from __future__ import division, print_function, absolute_import
 
 import pkg_resources
 
@@ -33,6 +32,11 @@ def assert_pade(pade):
         raise ValueError("4 or 5 pade approximation is supported")
 
 
+def assert_stage(stage):
+    if stage < 1:
+        raise ValueError("stage >= 1 (-1 <= gamma < 0)")
+
+
 def ispow2(num):
     return ((num & (num - 1)) == 0) and num != 0
 
@@ -43,3 +47,6 @@ def assert_fftlen(fftlen):
 
 
 from .sptk import *  # pylint: disable=wildcard-import
+
+from . import synthesis
+from .conversion import mgc2b
