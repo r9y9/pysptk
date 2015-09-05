@@ -229,6 +229,16 @@ def acep(x, np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
     ValueError
         if invalid order of pade approximation is specified
 
+    See Also
+    --------
+    pysptk.sptk.uels
+    pysptk.sptk.gcep
+    pysptk.sptk.mcep
+    pysptk.sptk.mgcep
+    pysptk.sptk.amcep
+    pysptk.sptk.agcep
+    pysptk.sptk.lmadf
+
     """
     assert_pade(pd)
     cdef int order = len(c) - 1
@@ -274,6 +284,12 @@ def agcep(x, np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
     ------
     ValueError
         if invalid number of stage is specified
+
+    See Also
+    --------
+    pysptk.sptk.acep
+    pysptk.sptk.amcep
+    pysptk.sptk.glsadf
 
     """
     assert_stage(stage)
@@ -324,6 +340,14 @@ def amcep(x, np.ndarray[np.float64_t, ndim=1, mode="c"] b not None,
     ------
     ValueError
         if invalid order of pade approximation is specified
+
+    See Also
+    --------
+    pysptk.sptk.acep
+    pysptk.sptk.agcep
+    pysptk.sptk.mc2b
+    pysptk.sptk.b2mc
+    pysptk.sptk.mlsadf
 
     """
     assert_pade(pd)
@@ -409,6 +433,13 @@ def mcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
     RuntimeError
         - if zero(s) are found in periodogram
         - if error happened in theq
+
+    See Also
+    --------
+    pysptk.sptk.uels
+    pysptk.sptk.gcep
+    pysptk.sptk.mgcep
+    pysptk.sptk.mlsadf
 
     """
 
@@ -517,6 +548,13 @@ def gcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
 
     RuntimeError
         - if error happened in theq
+
+    See Also
+    --------
+    pysptk.sptk.uels
+    pysptk.sptk.mcep
+    pysptk.sptk.mgcep
+    pysptk.sptk.glsadf
 
     """
 
@@ -648,6 +686,17 @@ def mgcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
     RuntimeError
         - if error happened in theq
 
+    See Also
+    --------
+    pysptk.sptk.uels
+    pysptk.sptk.gcep
+    pysptk.sptk.mcep
+    pysptk.sptk.freqt
+    pysptk.sptk.gc2gc
+    pysptk.sptk.mgc2mgc
+    pysptk.sptk.gnorm
+    pysptk.sptk.mglsadf
+
     """
 
     assert_gamma(gamma)
@@ -766,6 +815,13 @@ def uels(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
     RuntimeError
         - if zero(s) are found in periodogram
 
+    See Also
+    --------
+    pysptk.sptk.gcep
+    pysptk.sptk.mcep
+    pysptk.sptk.mgcep
+    pysptk.sptk.lmadf
+
     """
 
     if not itype in range(0, 5):
@@ -837,6 +893,16 @@ def lpc(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
     RuntimeError
         - if error happened in levdur
 
+
+    See Also
+    --------
+    pysptk.sptk.lpc2par
+    pysptk.sptk.par2lpc
+    pysptk.sptk.lpc2c
+    pysptk.sptk.lpc2lsp
+    pysptk.sptk.ltcdf
+    pysptk.sptk.lspdf
+
     """
 
     if min_det < 0.0:
@@ -875,6 +941,11 @@ def lpc2c(np.ndarray[np.float64_t, ndim=1, mode="c"] lpc not None,
     -------
     ceps : array, shape (`order + 1`)
         cepstrum
+
+    See Also
+    --------
+    pysptk.sptk.lpc
+    pysptk.sptk.lspdf
 
     """
 
@@ -935,6 +1006,11 @@ def lpc2lsp(np.ndarray[np.float64_t, ndim=1, mode="c"] lpc not None,
     ValueError
         if `fs` is not specified when otype = 2 or 3.
 
+    See Also
+    --------
+    pysptk.sptk.lpc
+    pysptk.sptk.lspdf
+
     """
 
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] lsp
@@ -973,6 +1049,12 @@ def lpc2par(np.ndarray[np.float64_t, ndim=1, mode="c"] lpc not None):
     par : array, shape (same as `lpc`)
         PARCOR
 
+    See Also
+    --------
+    pysptk.sptk.lpc
+    pysptk.sptk.par2lpc
+    pysptk.sptk.ltcdf
+
     """
 
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] par
@@ -994,6 +1076,11 @@ def par2lpc(np.ndarray[np.float64_t, ndim=1, mode="c"] par not None):
     -------
     lpc : array, shape (same as `par`)
         LPC
+
+    See Also
+    --------
+    pysptk.sptk.lpc
+    pysptk.sptk.lpc2par
 
     """
 
@@ -1023,6 +1110,10 @@ def lsp2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] lsp not None,
     Notes
     -----
     It is asuumed that `lsp` has loggain at `lsp[0]`.
+
+    See Also
+    --------
+    pysptk.sptk.lpc2par
 
     """
 
@@ -1054,6 +1145,15 @@ def mc2b(np.ndarray[np.float64_t, ndim=1, mode="c"] mc not None,
     b : array, shape(same as `mc`)
         MLSA filter coefficients
 
+    See Also
+    --------
+    pysptk.sptk.mlsadf
+    pysptk.sptk.mglsadf
+    pysptk.sptk.b2mc
+    pysptk.sptk.mcep
+    pysptk.sptk.mgcep
+    pysptk.sptk.amcep
+
     """
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] b
     b = np.zeros_like(mc)
@@ -1078,6 +1178,12 @@ def b2mc(np.ndarray[np.float64_t, ndim=1, mode="c"] b not None,
     -------
     mc : array, shape (same as `b`)
         Mel-cepstrum.
+
+    See Also
+    --------
+    pysptk.sptk.mc2b
+    pysptk.sptk.mcep
+    pysptk.sptk.mlsadf
 
     """
 
@@ -1126,6 +1232,12 @@ def c2acr(np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
     ValueError
         if non power of 2 `fftlen` is specified
 
+    See Also
+    --------
+    pysptk.sptk.uels
+    pysptk.sptk.c2ir
+    pysptk.sptk.lpc2c
+
     """
 
     assert_fftlen(fftlen)
@@ -1155,6 +1267,10 @@ def c2ir(np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
     h : array, shape (`length`)
         impulse response
 
+    See Also
+    --------
+    pysptk.sptk.c2acr
+
     """
 
     cdef int order = len(c)  # NOT len(c) - 1
@@ -1180,6 +1296,10 @@ def ic2ir(np.ndarray[np.float64_t, ndim=1, mode="c"] h not None,
     -------
     c : array, shape (`order` + 1)
         Cepstrum
+
+    See Also
+    --------
+    pysptk.sptk.c2ir
 
     """
 
@@ -1213,6 +1333,11 @@ def c2ndps(np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
     ------
     ValueError
         if non power of 2 `fftlen` is specified
+
+    See Also
+    --------
+    pysptk.sptk.mgcep
+    pysptk.sptk.ndps2c
 
     """
     assert_fftlen(fftlen)
@@ -1249,6 +1374,11 @@ def ndps2c(np.ndarray[np.float64_t, ndim=1, mode="c"] ndps not None,
     ------
     ValueError
         if non power of 2 `fftlen` is detected
+
+    See Also
+    --------
+    pysptk.sptk.mgc2sp
+    pysptk.sptk.c2ndps
 
     """
 
@@ -1290,6 +1420,14 @@ def gc2gc(np.ndarray[np.float64_t, ndim=1, mode="c"] src_ceps not None,
         - if invalid `src_gamma` is specified
         - if invalid `dst_gamma` is specified
 
+    See Also
+    --------
+    pysptk.sptk.gcep
+    pysptk.sptk.mgcep
+    pysptk.sptk.freqt
+    pysptk.sptk.mgc2mgc
+    pysptk.sptk.lpc2c
+
     """
 
     assert_gamma(src_gamma)
@@ -1329,6 +1467,15 @@ def gnorm(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
     ValueError
         if invalid `gamma` is specified
 
+    See Also
+    --------
+    pysptk.sptk.ignorm
+    pysptk.sptk.gcep
+    pysptk.sptk.mgcep
+    pysptk.sptk.gc2gc
+    pysptk.sptk.mgc2mgc
+    pysptk.sptk.freqt
+
     """
 
     assert_gamma(gamma)
@@ -1361,6 +1508,15 @@ def ignorm(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
     ValueError
         if invalid `gamma` is specified
 
+    See Also
+    --------
+    pysptk.sptk.gnorm
+    pysptk.sptk.gcep
+    pysptk.sptk.mgcep
+    pysptk.sptk.gc2gc
+    pysptk.sptk.mgc2mgc
+    pysptk.sptk.freqt
+
     """
 
     assert_gamma(gamma)
@@ -1390,6 +1546,10 @@ def freqt(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
     -------
     dst_ceps : array, shape(`order` + 1)
         frequency transofmed cepsttrum (typically mel-cepstrum)
+
+    See Also
+    --------
+    pysptk.sptk.mgc2mgc
 
     """
 
@@ -1445,6 +1605,16 @@ def mgc2mgc(np.ndarray[np.float64_t, ndim=1, mode="c"] src_ceps not None,
         - if invalid `src_gamma` is specified
         - if invalid `dst_gamma` is specified
 
+    See Also
+    --------
+    pysptk.sptk.uels
+    pysptk.sptk.gcep
+    pysptk.sptk.mcep
+    pysptk.sptk.mgcep
+    pysptk.sptk.gc2gc
+    pysptk.sptk.freqt
+    pysptk.sptk.lpc2c
+
     """
 
     assert_gamma(src_gamma)
@@ -1457,7 +1627,7 @@ def mgc2mgc(np.ndarray[np.float64_t, ndim=1, mode="c"] src_ceps not None,
     dst_ceps = np.zeros(dst_order + 1, dtype=np.float64)
 
     _mgc2mgc(&src_ceps[0], src_order, src_alpha, src_gamma,
-              &dst_ceps[0], dst_order, dst_alpha, dst_gamma)
+             &dst_ceps[0], dst_order, dst_alpha, dst_gamma)
 
     return dst_ceps
 
@@ -1492,6 +1662,14 @@ def mgc2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
     ValueError
         - if invalid `gamma` is specified
         - if non power of 2 `fftlen` is specified
+
+    See Also
+    --------
+    pysptk.sptk.mgc2mgc
+    pysptk.sptk.gc2gc
+    pysptk.sptk.freqt
+    pysptk.sptk.gnorm
+    pysptk.sptk.lpc2c
 
     """
     assert_gamma(gamma)
@@ -1546,6 +1724,10 @@ def mgclsp2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] lsp not None,
     ValueError
         - if invalid `gamma` is specified
         - if non power of 2 `fftlen` is specified
+
+    See Also
+    --------
+    pysptk.sptk.mgc2mgc
 
     """
     assert_gamma(gamma)
@@ -1846,6 +2028,12 @@ def poledf(x, np.ndarray[np.float64_t, ndim=1, mode="c"] a not None,
     ValueError
         if invalid delay length is supplied
 
+    See Also
+    --------
+    pysptk.sptk.lpc
+    pysptk.sptk.ltcdf
+    pysptk.sptk.lmadf
+
     """
 
     cdef int order = len(a) - 1
@@ -1910,6 +2098,16 @@ def lmadf(x, np.ndarray[np.float64_t, ndim=1, mode="c"] b not None,
         - if invalid order of pade approximation is specified
         - if invalid delay length is supplied
 
+    See Also
+    --------
+    pysptk.sptk.uels
+    pysptk.sptk.acep
+    pysptk.sptk.poledf
+    pysptk.sptk.ltcdf
+    pysptk.sptk.glsadf
+    pysptk.sptk.mlsadf
+    pysptk.sptk.mglsadf
+
     """
     assert_pade(pd)
 
@@ -1966,6 +2164,10 @@ def lspdf(x, np.ndarray[np.float64_t, ndim=1, mode="c"] f not None,
     ------
     ValueError
         if invalid delay length is supplied
+
+    See Also
+    --------
+    pysptk.sptk.lpc2lsp
 
     """
 
@@ -2025,6 +2227,14 @@ def ltcdf(x, np.ndarray[np.float64_t, ndim=1, mode="c"] k not None,
     ------
     ValueError
         if invalid delay length is supplied
+
+    See Also
+    --------
+    pysptk.sptk.lpc
+    pysptk.sptk.lpc2par
+    pysptk.sptk.lpc2lsp
+    pysptk.sptk.poledf
+    pysptk.sptk.lspdf
 
     """
 
@@ -2089,6 +2299,14 @@ def glsadf(x, np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
     ValueError
         - if invalid number of stage is specified
         - if invalid delay length is supplied
+
+    See Also
+    --------
+    pysptk.sptk.ltcdf
+    pysptk.sptk.lmadf
+    pysptk.sptk.lspdf
+    pysptk.sptk.mlsadf
+    pysptk.sptk.mglsadf
 
     """
 
@@ -2159,6 +2377,17 @@ def mlsadf(x, np.ndarray[np.float64_t, ndim=1, mode="c"] b not None,
         - if invalid order of pade approximation is specified
         - if invalid delay length is supplied
 
+    See Also
+    --------
+    pysptk.sptk.mcep
+    pysptk.sptk.amcep
+    pysptk.sptk.poledf
+    pysptk.sptk.ltcdf
+    pysptk.sptk.lmadf
+    pysptk.sptk.lspdf
+    pysptk.sptk.glsadf
+    pysptk.sptk.mglsadf
+
     """
 
     assert_pade(pd)
@@ -2227,6 +2456,16 @@ def mglsadf(x, np.ndarray[np.float64_t, ndim=1, mode="c"] b not None,
     ValueError
         - if invalid number of stage is specified
         - if invalid delay length is supplied
+
+    See Also
+    --------
+    pysptk.sptk.mgcep
+    pysptk.sptk.poledf
+    pysptk.sptk.ltcdf
+    pysptk.sptk.lmadf
+    pysptk.sptk.lspdf
+    pysptk.sptk.mlsadf
+    pysptk.sptk.glsadf
 
     """
 

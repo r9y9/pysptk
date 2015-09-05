@@ -15,8 +15,7 @@ The wrapper is based on a modified version of SPTK (`r9y9/SPTK
 <https://github.com/r9y9/SPTK>`_)
 """
 
-from __future__ import print_function
-from __future__ import absolute_import
+from __future__ import division, print_function, absolute_import
 
 import pkg_resources
 
@@ -50,4 +49,4 @@ def assert_fftlen(fftlen):
 from .sptk import *  # pylint: disable=wildcard-import
 
 from . import synthesis
-from .mgc2b import mgc2b
+from .conversion import mgc2b
