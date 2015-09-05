@@ -22,6 +22,16 @@ A python wrapper for [Speech Signal Processing Toolkit (SPTK)](http://sp-tk.sour
 
 ## Installation
 
+The latest release is availabe on pypi and you can install it by:
+
 ```bash
 pip install pysptk
 ```
+
+If yout want the latest master, run
+
+```bash
+pip install git+https://github.com/r9y9/pysptk
+```
+
+or clone the repository and then build it yourself.
