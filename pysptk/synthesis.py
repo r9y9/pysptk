@@ -27,6 +27,21 @@ MGLSADF
 .. autoclass::  MGLSADF
     :members:
 
+AllPoleDF
+^^^^^^^^^
+.. autoclass::  AllPoleDF
+    :members:
+
+AllPoleLatticeDF
+^^^^^^^^^^^^^^^^
+.. autoclass::  AllPoleLatticeDF
+    :members:
+
+LSPDF
+^^^^^
+.. autoclass::  LSPDF
+    :members:
+
 Synthesis filter interface
 --------------------------
 
@@ -335,3 +350,123 @@ class MGLSADF(SynthesisFilter):
         """
 
         return pysptk.mglsadf(x, coef, self.alpha, self.stage, self.delay)
+
+
+class AllPoleDF(SynthesisFilter):
+    """All-pole digital filter that wraps ``poledf``
+
+    Attributes
+    ----------
+    delay : array
+        Delay
+
+    """
+
+    def __init(self, order=25):
+        """Initialization
+        """
+        self.delay = pysptk.poledf_delay(order)
+
+    def filt(self, x, coef):
+        """Filter one sample using using ``poledf``
+
+        Parameters
+        ----------
+        x : float
+            A input sample
+
+        coef: array
+            LPC (with loggain)
+
+        Returns
+        -------
+        y : float
+            A filtered sample
+
+        See Also
+        --------
+        pysptk.sptk.poledf
+
+        """
+
+        return pysptk.poledf(x, coef, self.delay)
+
+
+class AllPoleLatticeDF(SynthesisFilter):
+    """All-pole lttice digital filter that wraps ``ltcdf``
+
+    Attributes
+    ----------
+    delay : array
+        Delay
+
+    """
+
+    def __init(self, order=25):
+        """Initialization
+        """
+        self.delay = pysptk.ltcdf_delay(order)
+
+    def filt(self, x, coef):
+        """Filter one sample using using ``ltcdf``
+
+        Parameters
+        ----------
+        x : float
+            A input sample
+
+        coef: array
+            PARCOR coefficients (with loggain)
+
+        Returns
+        -------
+        y : float
+            A filtered sample
+
+        See Also
+        --------
+        pysptk.sptk.ltcdf
+
+        """
+
+        return pysptk.ltcdf(x, coef, self.delay)
+
+
+class LSPDF(SynthesisFilter):
+    """All-pole digital filter that wraps ``lspdf``
+
+    Attributes
+    ----------
+    delay : array
+        Delay
+
+    """
+
+    def __init(self, order=25):
+        """Initialization
+        """
+        self.delay = pysptk.lspdf_delay(order)
+
+    def filt(self, x, coef):
+        """Filter one sample using using ``lspdf``
+
+        Parameters
+        ----------
+        x : float
+            A input sample
+
+        coef: array
+            LSP (with loggain)
+
+        Returns
+        -------
+        y : float
+            A filtered sample
+
+        See Also
+        --------
+        pysptk.sptk.lspdf
+
+        """
+
+        return pysptk.lspdf(x, coef, self.delay)
