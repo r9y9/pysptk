@@ -1100,6 +1100,9 @@ def lsp2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] lsp not None,
     lsp : array
         LSP
 
+    fftlen : int
+        FFT length
+
     TODO: consider `otype` optional argument
 
     Returns
