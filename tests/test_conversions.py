@@ -264,6 +264,6 @@ def test_mgclsp2sp():
 
 def test_mgc2b():
     for order in [15, 20, 25, 30]:
-        for alpha in [0.35, 0.41, 0.5]:
-            for gamma in [-1.0, -0.5]:
+        for alpha in [0.0, 0.35, 0.41]:
+            for gamma in [-1.0, -0.5, 0.0]:
                 yield __test_transform_base, pysptk.mgc2b, order, alpha, gamma
