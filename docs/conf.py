@@ -55,6 +55,7 @@ except ImportError:
     use_matplotlib_plot_directive = False
 else:
     try:
+        print("plot_directive.__version__:", plot_directive.__version__)
         use_matplotlib_plot_directive = (plot_directive.__version__ >= 2)
     except AttributeError:
         use_matplotlib_plot_directive = False
