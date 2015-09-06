@@ -1,6 +1,9 @@
 # coding: utf-8
 
 """
+High-level interface for waveform synthesis
+===========================================
+
 Module ``pysptk.synthesis`` provides high-leve interface that wraps low-level
 SPTK waveform synthesis functions (e.g. ``mlsadf``),
 

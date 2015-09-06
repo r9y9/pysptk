@@ -52,3 +52,9 @@ def test_lspcheck():
 
     for order in [15, 20, 25, 30]:
         yield __test, order
+
+
+def test_example_audio_file():
+    from os.path import exists
+    path = pysptk.util.example_audio_file()
+    assert exists(path)

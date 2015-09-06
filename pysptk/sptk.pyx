@@ -117,7 +117,7 @@ cimport cython
 cimport sptk
 
 from warnings import warn
-from pysptk import assert_gamma, assert_fftlen, assert_pade, assert_stage
+from pysptk.util import assert_gamma, assert_fftlen, assert_pade, assert_stage
 
 
 ### Library routines ###
@@ -1784,6 +1784,20 @@ def swipe(np.ndarray[np.float64_t, ndim=1, mode="c"] x not None,
     ------
     ValueError
         if invalid otype is specified
+
+    Examples
+    --------
+
+    >>> from scipy.io import wavfile
+    >>> fs, x = wavfile.read(pysptk.util.example_audio_file())
+    >>> hopsize = 80 # 5ms for 16kHz data
+    >>> f0 = pysptk.swipe(x.astype(np.float64), fs, 80)
+
+    >>> import matplotlib.pyplot as plt
+    >>> plt.plot(f0, linewidth=2, label="F0 trajectory estimated by SWIPE'")
+    >>> plt.xlim(0, len(f0))
+    >>> plt.legend()
+    >>> plt.tight_layout()
 
     """
     if not otype in range(0, 3):

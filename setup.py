@@ -74,7 +74,7 @@ setup(
     ],
     tests_require=['nose', 'coverage'],
     extras_require={
-        'docs': ['numpydoc', 'sphinx_rtd_theme']
+        'docs': ['numpydoc', 'sphinx_rtd_theme', 'seaborn']
     },
     classifiers=[
         "Programming Language :: Cython",
