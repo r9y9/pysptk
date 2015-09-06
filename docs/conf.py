@@ -24,6 +24,8 @@ __version__ = pkg_resources.get_distribution('pysptk').version
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.insert(0, os.path.abspath('.'))
 
+ON_RTD = os.environ.get('READTHEDOCS', None) == 'True'
+
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -39,7 +41,12 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
     'numpydoc',
+    'matplotlib.sphinxext.plot_directive',
 ]
+
+if ON_RTD:
+    # Remove extensions not currently supported on RTD
+    extensions.remove('matplotlib.sphinxext.plot_directive')
 
 autosummary_generate = True
 numpydoc_show_class_members = False
@@ -47,23 +54,24 @@ numpydoc_show_class_members = False
 # Most of plotting settings are copy and pasted from librosa
 # https://github.com/bmcfee/librosa
 
-# Determine if the matplotlib has a recent enough version of the
-# plot_directive.
-try:
-    from matplotlib.sphinxext import plot_directive
-except ImportError:
-    use_matplotlib_plot_directive = False
-else:
+if not ON_RTD:
+    # Determine if the matplotlib has a recent enough version of the
+    # plot_directive.
     try:
-        print("plot_directive.__version__:", plot_directive.__version__)
-        use_matplotlib_plot_directive = (plot_directive.__version__ >= 2)
-    except AttributeError:
+        from matplotlib.sphinxext import plot_directive
+    except ImportError:
         use_matplotlib_plot_directive = False
+    else:
+        try:
+            print("plot_directive.__version__:", plot_directive.__version__)
+            use_matplotlib_plot_directive = (plot_directive.__version__ >= 2)
+        except AttributeError:
+            use_matplotlib_plot_directive = False
 
-if use_matplotlib_plot_directive:
-    extensions.append('matplotlib.sphinxext.plot_directive')
-else:
-    raise RuntimeError("You need a recent enough version of matplotlib")
+    if use_matplotlib_plot_directive:
+        extensions.append('matplotlib.sphinxext.plot_directive')
+    else:
+        raise RuntimeError("You need a recent enough version of matplotlib")
 
 #------------------------------------------------------------------------------
 # Plot
@@ -97,7 +105,7 @@ plot_rcparams = {
     'text.usetex': False,
 }
 
-if not use_matplotlib_plot_directive:
+if not ON_RTD:
     import matplotlib
     matplotlib.rcParams.update(plot_rcparams)
 
