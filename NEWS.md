@@ -4,8 +4,9 @@
 
 - Add `pysptk.synthesis` package that provides high level interfaces for speech waveform synthesis
 - Add cross-link to the docs
-- Add `mgc2b`
+- Add `pysptk.conversion.mgc2b`
 - Add speech analysis and re-synthesis demonstration notebook
+- Add `pysptk.util.example_audio_file`
 
 ## v0.1.1
 
