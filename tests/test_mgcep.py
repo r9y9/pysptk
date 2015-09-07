@@ -196,9 +196,8 @@ def test_fftcep():
         c = pysptk.fftcep(logsp, order)
         assert np.all(np.isfinite(c))
 
-    warn("TODO: fix memory corruption in fftcep")
-    # for order in [15, 20, 25]:
-    #    yield __test, order
+    for order in [15, 20, 25]:
+        yield __test, order
 
 
 def test_lpc():

@@ -857,7 +857,7 @@ def fftcep(np.ndarray[np.float64_t, ndim=1, mode="c"] logsp not None,
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] c
     cdef int logsp_length = len(logsp)
     c = np.zeros(order + 1, dtype=np.float64)
-    _fftcep(&logsp[0], logsp_length, &c[0], order + 1,
+    _fftcep(&logsp[0], logsp_length, &c[0], order,
             num_iter, acceleration_factor)
 
     return c
