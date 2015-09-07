@@ -1,2 +1,2 @@
-recursive-include lib *.c *.h
-recursive-include pysptk *.c *.h *.pxd *.wav COPYING
+recursive-include lib *.c *.h COPYING
+recursive-include pysptk *.c *.pxd *.wav COPYING
