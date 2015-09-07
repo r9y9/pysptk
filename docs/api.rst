@@ -1,11 +1,9 @@
-SPTK API
-========
+API
+===
 
-All functionality in ``pysptk.sptk`` is directly accesible from the top-level ``pysptk.*`` namespace.
+.. toctree::
+    :maxdepth: 2
 
-.. note:: Almost all of pysptk functions assume that the input array is **C-contiguous** and has ``float64`` element type.
-
-.. automodule:: pysptk.sptk
-
-
-.. automodule:: pysptk.conversion
+    sptk
+    synthesis
+    util

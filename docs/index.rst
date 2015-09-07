@@ -8,6 +8,15 @@ pysptk
 
 .. automodule:: pysptk
 
+Installation guide
+------------------
+
+.. toctree::
+    :maxdepth: 1
+
+    introduction
+
+
 API documentation
 -----------------
 
@@ -15,9 +24,6 @@ API documentation
     :maxdepth: 2
 
     api
-    synthesis
-    util
-
 
 
 Indices and tables
