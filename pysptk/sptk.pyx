@@ -30,6 +30,7 @@ Mel-generalized cepstrum analysis
     gcep
     mgcep
     uels
+    fftcep
     lpc
 
 LPC, LSP and PARCOR conversions
@@ -854,6 +855,33 @@ def fftcep(np.ndarray[np.float64_t, ndim=1, mode="c"] logsp not None,
            order=25,
            num_iter=0,
            acceleration_factor=0.0):
+    """FFT-based cepstrum analysis
+
+    Parameters
+    ----------
+    logsp : array, shape (`frame_len`)
+        Log power spectrum
+
+    order : int
+        Order of cepstrum. Default is 25.
+
+    num_iter : int
+        Number of iteration. Default is 0.
+
+    acceleration_factor : float
+        Acceleration factor. Default is 0.0.
+
+    Returns
+    -------
+    c : array, shape (`order + 1`)
+        Cepstrum
+
+    See Also
+    --------
+    pysptk.sptk.uels
+
+    """
+
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] c
     cdef int logsp_length = len(logsp)
     c = np.zeros(order + 1, dtype=np.float64)
