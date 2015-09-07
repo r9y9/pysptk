@@ -69,7 +69,6 @@ setup(
     cmdclass=cmdclass,
     install_requires=[
         'numpy >= 1.8.0',
-        'cython >= ' + min_cython_ver,
         'six'
     ],
     tests_require=['nose', 'coverage'],
