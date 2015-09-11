@@ -10,6 +10,7 @@ import os
 from glob import glob
 from os.path import join
 
+
 min_cython_ver = '0.19.0'
 try:
     import Cython

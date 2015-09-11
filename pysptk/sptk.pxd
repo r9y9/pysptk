@@ -8,6 +8,10 @@ cdef enum Window:
     TRAPEZOID = 4
     RECTANGULAR = 5
 
+cdef enum Boolean:
+    FA = 0
+    TR = 1
+
 cdef extern from "../lib/SPTK/include/SPTK.h":
 
     # Library routines
@@ -47,6 +51,12 @@ cdef extern from "../lib/SPTK/include/SPTK.h":
                           double ac)
     int _lpc "lpc"(double *x, const int flng, double *a, const int m, const double f)
 
+
+    # MFCC
+    void _mfcc "mfcc"(double *in_mfcc, double *mc, const double sampleFreq,
+                      const double alpha, const double eps, const int wlng,
+                      const int flng, const int m, const int n, const int ceplift,
+                      const Boolean dftmode, const Boolean usehamming)
 
     # LPC, LSP and PARCOR conversions
     void _lpc2c "lpc2c"(double *a, int m1, double *c, const int m2)
