@@ -268,7 +268,7 @@ def agcep(x, np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
     c : array, shape(`order` + 1), optional
         Cepstrum. The result is stored in-place.
 
-    stage: int, optional
+    stage : int, optional
         -1 / gamma. Default is 1.
 
     lambda_coef : float, optional
@@ -321,7 +321,7 @@ def amcep(x, np.ndarray[np.float64_t, ndim=1, mode="c"] b not None,
     b : array, shape(`order` + 1), optional
         MLSA filter coefficients. The result is stored in-place.
 
-    alpha: float, optional
+    alpha : float, optional
         All-pass constant. Default is 0.35.
 
     lambda_coef : float, optional
@@ -415,7 +415,7 @@ def mcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
         Default is 1.0e-6
 
     itype : float, optional
-        Input data type:
+        Input data type
             (0) windowed signal
             (1) log amplitude in db
             (2) log amplitude
@@ -531,7 +531,7 @@ def gcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
         Mimimum value of the determinant of normal matrix. Default is 1.0e-6.
 
     itype : float, optional
-        Input data type:
+        Input data type
             (0) windowed signal
             (1) log amplitude in db
             (2) log amplitude
@@ -656,7 +656,7 @@ def mgcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
         Default is 1.0e-6.
 
     itype : float, optional
-        Input data type:
+        Input data type
             (0) windowed signal
             (1) log amplitude in db
             (2) log amplitude
@@ -798,7 +798,7 @@ def uels(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
         Default is 0.0.
 
     itype : float, optional
-        Input data type:
+        Input data type
             (0) windowed signal
             (1) log amplitude in db
             (2) log amplitude
