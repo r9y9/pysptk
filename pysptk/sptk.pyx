@@ -212,19 +212,19 @@ def acep(x, np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
     c : array, shape(`order` + 1)
         Cepstrum. The result is stored in place.
 
-    lambda_coef : float
+    lambda_coef : float, optional
         Leakage factor. Default is 0.98.
 
-    step : float
+    step : float, optional
         Step size. Default is 0.1.
 
-    tau : float
+    tau : float, optional
         Momentum constant. Default is 0.9.
 
-    pd : int
+    pd : int, optional
         Order of pade approximation. Default is 4.
 
-    eps : float
+    eps : float, optional
         Minimum value for epsilon. Default is 1.0e-6.
 
     Returns
