@@ -265,22 +265,22 @@ def agcep(x, np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
     x : float
         A input sample
 
-    c : array, shape(`order` + 1)
+    c : array, shape(`order` + 1), optional
         Cepstrum. The result is stored in-place.
 
-    stage: int
+    stage: int, optional
         -1 / gamma. Default is 1.
 
-    lambda_coef : float
+    lambda_coef : float, optional
         Leakage factor. Default is 0.98.
 
-    step : float
+    step : float, optional
         Step size. Default is 0.1.
 
-    tau : float
+    tau : float, optional
         Momentum constant. Default is 0.9.
 
-    eps : float
+    eps : float, optional
         Minimum value for epsilon. Default is 1.0e-6.
 
     Returns
@@ -318,25 +318,25 @@ def amcep(x, np.ndarray[np.float64_t, ndim=1, mode="c"] b not None,
     x : float
         A input sample
 
-    b : array, shape(`order` + 1)
+    b : array, shape(`order` + 1), optional
         MLSA filter coefficients. The result is stored in-place.
 
-    alpha: float
+    alpha: float, optional
         All-pass constant. Default is 0.35.
 
-    lambda_coef : float
+    lambda_coef : float, optional
         Leakage factor. Default is 0.98.
 
-    step : float
+    step : float, optional
         Step size. Default is 0.1.
 
-    tau : float
+    tau : float, optional
         Momentum constant. Default is 0.9.
 
-    pd : int
+    pd : int, optional
         Order of pade approximation. Default is 4.
 
-    eps : float
+    eps : float, optional
         Minimum value for epsilon. Default is 1.0e-6.
 
     Returns
@@ -383,22 +383,22 @@ def mcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
     windowed : array, shape (`frame_len`)
         A windowed frame
 
-    order : int
+    order : int, optional
         Order of mel-cepstrum. Default is 25.
 
-    alpha : float
+    alpha : float, optional
         All pass constant. Default is 0.35.
 
-    miniter : int
+    miniter : int, optional
         Minimum number of iteration. Default is 2.
 
-    maxiter : int
+    maxiter : int, optional
         Maximum number of iteration. Default is 30.
 
-    threshold : float
+    threshold : float, optional
         Threshold in theq. Default is 0.001.
 
-    etype : int
+    etype : int, optional
         Type of parameter `eps`
              (0) not used
              (1) initial value of log-periodogram
@@ -406,15 +406,15 @@ def mcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
 
         Default is 0.
 
-    eps : float
+    eps : float, optional
         Initial value for log-periodogram or floor of periodogram in db.
         Default is 0.0.
 
-    min_det : float
+    min_det : float, optional
         Mimimum value of the determinant of normal matrix.
         Default is 1.0e-6
 
-    itype : float
+    itype : float, optional
         Input data type:
             (0) windowed signal
             (1) log amplitude in db
@@ -500,22 +500,22 @@ def gcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
     windowed : array, shape (`frame_len`)
         A windowed frame
 
-    order : int
+    order : int, optional
         Order of generalized-cepstrum. Default is 25.
 
-    gamma : float
+    gamma : float, optional
         Parameter of generalized log function. Default is 0.0.
 
-    miniter : int
+    miniter : int, optional
         Minimum number of iteration. Default is 2.
 
-    maxiter : int
+    maxiter : int, optional
         Maximum number of iteration. Default is 30.
 
-    threshold : float
+    threshold : float, optional
         Threshold in theq. Default is 0.001
 
-    etype : int
+    etype : int, optional
         Type of parameter `eps`
              (0) not used
              (1) initial value of log-periodogram
@@ -523,14 +523,14 @@ def gcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
 
         Default is 0.
 
-    eps : float
+    eps : float, optional
         Initial value for log-periodogram or floor of periodogram in db.
         Default is 0.0.
 
-    min_det : float
+    min_det : float, optional
         Mimimum value of the determinant of normal matrix. Default is 1.0e-6.
 
-    itype : float
+    itype : float, optional
         Input data type:
             (0) windowed signal
             (1) log amplitude in db
@@ -618,28 +618,28 @@ def mgcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
     windowed : array, shape (`frame_len`)
         A windowed frame
 
-    order : int
+    order : int, optional
         Order of mel-generalized cepstrum. Default is 25.
 
-    alpha : float
+    alpha : float, optional
         All pass constant. Default is 0.35.
 
-    gamma : float
+    gamma : float, optional
         Parameter of generalized log function. Default is 0.0.
 
-    num_recursions : int
+    num_recursions : int, optional
         Number of recursions. Default is `len(windowed)` - 1.
 
-    miniter : int
+    miniter : int, optional
         Minimum number of iteration. Default is 2.
 
-    maxiter : int
+    maxiter : int, optional
         Maximum number of iteration. Default is 30.
 
-    threshold : float
+    threshold : float, optional
         Threshold. Default is 0.001.
 
-    etype : int
+    etype : int, optional
         Type of paramter `e`
              (0) not used
              (1) initial value of log-periodogram
@@ -647,15 +647,15 @@ def mgcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
 
         Default is 0.
 
-    eps : float
+    eps : float, optional
         Initial value for log-periodogram or floor of periodogram in db.
         Default is 0.0.
 
-    min_det : float
+    min_det : float, optional
         Mimimum value of the determinant of normal matrix.
         Default is 1.0e-6.
 
-    itype : float
+    itype : float, optional
         Input data type:
             (0) windowed signal
             (1) log amplitude in db
@@ -665,7 +665,7 @@ def mgcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
 
         Default is 0.
 
-    otype : int
+    otype : int, optional
         Output data type
             (0) mel generalized cepstrum: (c~0...c~m)
             (1) MGLSA filter coefficients: b0...bm
@@ -773,19 +773,19 @@ def uels(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
     windowed : array, shape (`frame_len`)
         A windowed frame
 
-    order : int
+    order : int, optional
         Order of cepstrum. Default is 25.
 
-    miniter : int
+    miniter : int, optional
         Minimum number of iteration. Default is 2.
 
-    maxiter : int
+    maxiter : int, optional
         Maximum number of iteration. Default is 30.
 
-    threshold : float
+    threshold : float, optional
         Threshold in theq. Default is 0.001
 
-    etype : int
+    etype : int, optional
         Type of parameter `eps`
              (0) not used
              (1) initial value of log-periodogram
@@ -793,11 +793,11 @@ def uels(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
 
         Default is 0.
 
-    eps : float
+    eps : float, optional
         Initial value for log-periodogram or floor of periodogram in db.
         Default is 0.0.
 
-    itype : float
+    itype : float, optional
         Input data type:
             (0) windowed signal
             (1) log amplitude in db
@@ -869,13 +869,13 @@ def fftcep(np.ndarray[np.float64_t, ndim=1, mode="c"] logsp not None,
     logsp : array, shape (`frame_len`)
         Log power spectrum
 
-    order : int
+    order : int, optional
         Order of cepstrum. Default is 25.
 
-    num_iter : int
+    num_iter : int, optional
         Number of iteration. Default is 0.
 
-    acceleration_factor : float
+    acceleration_factor : float, optional
         Acceleration factor. Default is 0.0.
 
     Returns
@@ -908,10 +908,10 @@ def lpc(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
     windowed : array, shape (`frame_len`)
         A windowed frame
 
-    order : int
+    order : int, optional
         Order of LPC. Default is 25.
 
-    min_det : float
+    min_det : float, optional
         Mimimum value of the determinant of normal matrix.
         Default is 1.0e-6.
 
@@ -971,41 +971,41 @@ def mfcc(np.ndarray[np.float64_t, ndim=1, mode="c"] x not None,
     x : array
         A input signal
 
-    order : int
+    order : int, optional
         Order of MFCC. Default is 14.
 
-    fs : int
+    fs : int, optional
         Sampling frequency. Default is 160000.
 
-    alpha : float
+    alpha : float, optional
         Pre-emphasis coefficient. Default is 0.97.
 
-    eps : float
+    eps : float, optional
         Flooring value for calculating ``log(x)`` in filterbank analysis.
         Default is 1.0.
 
-    window_len : int
+    window_len : int, optional
         Window lenght. Default is ``len(x)``.
 
-    frame_len : int
+    frame_len : int, optional
         Frame length. Default is ``len(x)``.
 
-    num_filterbanks : int
+    num_filterbanks : int, optional
         Number of mel-filter banks. Default is 20.
 
-    cepslift : int
+    cepslift : int, optional
         Liftering coefficient. Default is 22.
 
-    use_dft : bool
+    use_dft : bool, optional
         Use DFT (not FFT) or not. Default is False.
 
-    use_hamming : bool
+    use_hamming : bool, optional
         Use hamming window or not. Default is False.
 
-    czero : bool
+    czero : bool, optional
         If True, ``mfcc`` returns 0-th coefficient as well. Default is False.
 
-    power : bool
+    power : bool, optional
         If True, ``mfcc`` returns power coefficient as well. Default is False.
 
     Returns
@@ -1037,14 +1037,15 @@ def mfcc(np.ndarray[np.float64_t, ndim=1, mode="c"] x not None,
     """
 
     if not (num_filterbanks > order):
-        raise ValueError("Number of filterbanks must be greater than order of MFCC")
+        raise ValueError(
+            "Number of filterbanks must be greater than order of MFCC")
 
     if window_len is None:
         window_len = len(x)
     if frame_len is None:
         frame_len = len(x)
 
-    cdef np.ndarray[np.float64_t, ndim=1, mode="c"] cc
+    cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] cc
     cc = np.zeros(order + 2)
 
     cdef Boolean _dft_mode = TR if use_dft else FA
@@ -1053,7 +1054,7 @@ def mfcc(np.ndarray[np.float64_t, ndim=1, mode="c"] x not None,
     # after ccall we get
     # mfcc[0], mfcc[1], mfcc[2], ... mfcc[m-1], c0, Power
     _mfcc(&x[0], &cc[0], fs, alpha, eps, window_len, frame_len, order+1,
-        num_filterbanks, cepslift,_dft_mode, _use_hamming)
+           num_filterbanks, cepslift, _dft_mode, _use_hamming)
 
     if (not czero) and power:
         cc[-2] = cc[-1]
@@ -1076,7 +1077,7 @@ def lpc2c(np.ndarray[np.float64_t, ndim=1, mode="c"] lpc not None,
     lpc : array
         LPC
 
-    order : int
+    order : int, optional
         Order of cepstrum. Default is `len(lpc)` - 1.
 
     Returns
@@ -1113,28 +1114,28 @@ def lpc2lsp(np.ndarray[np.float64_t, ndim=1, mode="c"] lpc not None,
     lpc : array
         LPC
 
-    numsp : int
+    numsp : int, optional
         Number of unit circle. Default is 512.
 
-    maxiter : int
+    maxiter : int, optional
         Maximum number of iteration. Default is 4.
 
-    eps : float
+    eps : float, optional
         End condition for iteration. Default is 1.0e-6.
 
-    loggain : bool
+    loggain : bool, optional
         whether the converted lsp should have loggain or not.
         Default is False.
 
-    fs : int
+    fs : int, optional
         Sampling frequency. Default is None and unused.
 
-    otype : int
+    otype : int, optional
         Output format LSP
-            0  normalized frequency (0 ~ pi)
-            1  normalized frequency (0 ~ 0.5)
-            2  frequency (kHz)
-            3  frequency (Hz)
+            (0)  normalized frequency (0 ~ pi)
+            (1)  normalized frequency (0 ~ 0.5)
+            (2)  frequency (kHz)
+            (3)  frequency (Hz)
 
         Default is 0.
 
@@ -1242,7 +1243,7 @@ def lsp2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] lsp not None,
     lsp : array
         LSP
 
-    fftlen : int
+    fftlen : int, optional
         FFT length
 
     TODO: consider `otype` optional argument
@@ -1282,7 +1283,7 @@ def mc2b(np.ndarray[np.float64_t, ndim=1, mode="c"] mc not None,
     mc : array, shape
         Mel-cepstrum.
 
-    alpha : float
+    alpha : float, optional
         All-pass constant. Default is 0.35.
 
     Returns
@@ -1316,7 +1317,7 @@ def b2mc(np.ndarray[np.float64_t, ndim=1, mode="c"] b not None,
     b : array, shape
         MLSA filter coefficients
 
-    alpha : float
+    alpha : float, optional
         All-pass constant. Default is 0.35.
 
     Returns
@@ -1361,10 +1362,10 @@ def c2acr(np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
     c : array
         Cepstrum
 
-    order : int
+    order : int, optional
         Order of cepstrum. Default is `len(c) - 1`.
 
-    fftlen : int
+    fftlen : int, optional
         FFT length. Default is 256.
 
     Returns
@@ -1404,7 +1405,7 @@ def c2ir(np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
     c : array
          Cepstrum
 
-    length : int
+    length : int, optional
          Length of impulse response. Default is 256.
 
     Returns
@@ -1434,7 +1435,7 @@ def ic2ir(np.ndarray[np.float64_t, ndim=1, mode="c"] h not None,
     h : array
          Impulse response
 
-    order : int
+    order : int, optional
          Order of cepstrum. Default is 25.
 
     Returns
@@ -1466,7 +1467,7 @@ def c2ndps(np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
     c : array
          Cepstrum
 
-    fftlen : int
+    fftlen : int, optional
          FFT length. Default is 256.
 
     Returns
@@ -1507,7 +1508,7 @@ def ndps2c(np.ndarray[np.float64_t, ndim=1, mode="c"] ndps not None,
     ndps : array, shape (`fftlen` // 2 + 1)
         NDPS
 
-    order : int
+    order : int, optional
         Order of cepstrum. Default is 25.
 
     Returns
@@ -1545,13 +1546,13 @@ def gc2gc(np.ndarray[np.float64_t, ndim=1, mode="c"] src_ceps not None,
     src_ceps : array
         Generalized cepstrum.
 
-    src_gamma : float
+    src_gamma : float, optional
         Gamma of source cepstrum. Default is 0.0.
 
-    dst_order : int
+    dst_order : int, optional
         Order of destination cepstrum. Default is `len(src_ceps) - 1`.
 
-    dst_gamma : float
+    dst_gamma : float, optional
         Gamma of destination cepstrum. Default is 0.0.
 
     Returns
@@ -1596,10 +1597,10 @@ def gnorm(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
 
     Parameters
     ----------
-    ceps : array, shape
+    ceps : array
         Generalized cepstrum.
 
-    gamma : float
+    gamma : float, optional
         Gamma. Default is 0.0.
 
     Returns
@@ -1640,7 +1641,7 @@ def ignorm(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
     c : array
         Normalized generalized cepstrum
 
-    gamma : float
+    gamma : float, optional
         Gamma. Default is 0.0.
 
     Returns
@@ -1681,10 +1682,10 @@ def freqt(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
     ceps : array
         Cepstrum.
 
-    order : int
+    order : int, optional
         Desired order of transformed cepstrum. Default is 25.
 
-    alpha : float
+    alpha : float, optional
         All-pass constant. Default is 0.0.
 
     Returns
@@ -1724,19 +1725,19 @@ def mgc2mgc(np.ndarray[np.float64_t, ndim=1, mode="c"] src_ceps not None,
     src_ceps : array
         Mel-generalized cepstrum.
 
-    src_alpha : float
+    src_alpha : float, optional
         All-pass constant of source cesptrum. Default is 0.0.
 
-    src_gamma : float
+    src_gamma : float, optional
         Gamma of source cepstrum. Default is 0.0.
 
-    dst_order : int
+    dst_order : int, optional
         Order of destination cepstrum. Default is `len(src_ceps) - 1`.
 
-    dst_alpha : float
+    dst_alpha : float, optional
         All-pass constant of destination cesptrum. Default is 0.0.
 
-    dst_gamma : float
+    dst_gamma : float, optional
         Gamma of destination cepstrum. Default is 0.0.
 
     Returns
@@ -1788,13 +1789,13 @@ def mgc2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
     ceps : array
         Mel-generalized cepstrum.
 
-    alpha : float
+    alpha : float, optional
         All-pass constant. Default is 0.0.
 
-    gamma : float
+    gamma : float, optional
         Gamma. Default is 0.0.
 
-    fftlen : int
+    fftlen : int, optional
         FFT length. Default is 256.
 
     Returns
@@ -1846,16 +1847,16 @@ def mgclsp2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] lsp not None,
     lsp : array
         MGC-LSP
 
-    alpha : float
+    alpha : float, optional
         All-pass constant. Default is 0.0.
 
-    gamma : float
+    gamma : float, optional
         Gamma. Default is 0.0.
 
-    fftlen : int
+    fftlen : int, optional
         FFT length. Default is 256.
 
-    gain : bool
+    gain : bool, optional
         Whether the input MGC-LSP should have loggain or not.
         Default is True.
 
@@ -1896,7 +1897,7 @@ def swipe(np.ndarray[np.float64_t, ndim=1, mode="c"] x not None,
 
     Parameters
     ----------
-    x : array, shape
+    x : array
         A whole audio signal
 
     fs : int
@@ -1905,17 +1906,17 @@ def swipe(np.ndarray[np.float64_t, ndim=1, mode="c"] x not None,
     hopsize : int
         Hop size.
 
-    min : float
+    min : float, optional
         Minimum fundamental frequency. Default is 50.0
 
-    max : float
+    max : float, optional
         Maximum fundamental frequency. Default is 800.0
 
-    threshold : float
+    threshold : float, optional
         Voice/unvoiced threshold. Default is 0.3.
 
-    otype : int (default=1)
-        Output format (0) pitch (1) f0 (2) log(f0).
+    otype : int, optional
+        Output format (0) pitch (1) f0 (2) log(f0). Default is 1.
 
     Returns
     -------
@@ -1973,11 +1974,11 @@ def blackman(n, normalize=1):
     n : int
          Window length
 
-    normalize : int
-        Normalization flag.
-            0 : don't normalize
-            1 : normalize by power
-            2 : normalize by magnitude
+    normalize : int, optional
+        Normalization flag
+            (0) don't normalize
+            (1) normalize by power
+            (2) normalize by magnitude
 
         Defalt is 0.
 
@@ -2002,11 +2003,11 @@ def hamming(n, normalize=1):
     n : int
          Window length
 
-    normalize : int
-        Normalization flag.
-            0 : don't normalize
-            1 : normalize by power
-            2 : normalize by magnitude
+    normalize : int, optional
+        Normalization flag
+            (0) don't normalize
+            (1) normalize by power
+            (2) normalize by magnitude
 
         Defalt is 0.
 
@@ -2031,11 +2032,11 @@ def hanning(n, normalize=1):
     n : int
          Window length
 
-    normalize : int
-        Normalization flag.
-            0 : don't normalize
-            1 : normalize by power
-            2 : normalize by magnitude
+    normalize : int, optional
+        Normalization flag
+            (0) don't normalize
+            (1) normalize by power
+            (2) normalize by magnitude
 
         Defalt is 0.
 
@@ -2060,11 +2061,11 @@ def bartlett(n, normalize=1):
     n : int
          Window length
 
-    normalize : int
-        Normalization flag.
-            0 : don't normalize
-            1 : normalize by power
-            2 : normalize by magnitude
+    normalize : int, optional
+        Normalization flag
+            (0) don't normalize
+            (1) normalize by power
+            (2) normalize by magnitude
 
         Defalt is 0.
 
@@ -2089,11 +2090,11 @@ def trapezoid(n, normalize=1):
     n : int
          Window length
 
-    normalize : int
-        Normalization flag.
-            0 : don't normalize
-            1 : normalize by power
-            2 : normalize by magnitude
+    normalize : int, optional
+        Normalization flag
+            (0) don't normalize
+            (1) normalize by power
+            (2) normalize by magnitude
 
         Defalt is 0.
 
@@ -2118,11 +2119,11 @@ def rectangular(n, normalize=1):
     n : int
          Window length
 
-    normalize : int
-        Normalization flag.
-            0 : don't normalize
-            1 : normalize by power
-            2 : normalize by magnitude
+    normalize : int, optional
+        Normalization flag
+            (0) don't normalize
+            (1) normalize by power
+            (2) normalize by magnitude
 
         Defalt is 0.
 
