@@ -33,6 +33,13 @@ Mel-generalized cepstrum analysis
     fftcep
     lpc
 
+MFCC
+----
+.. autosummary::
+    :toctree: generated/
+
+    mfcc
+
 LPC, LSP and PARCOR conversions
 -------------------------------
 .. autosummary::
@@ -949,6 +956,113 @@ def lpc(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
             "failed to compute LPC. Please try again with different parameters")
 
     return a
+
+
+### MFCC ###
+
+def mfcc(np.ndarray[np.float64_t, ndim=1, mode="c"] x not None,
+         order=14, fs=16000, alpha=0.97, eps=1.0, window_len=None,
+         frame_len=None, num_filterbanks=20, cepslift=22, use_dft=False,
+         use_hamming=False, czero=False, power=False):
+    """MFCC
+
+    Parameters
+    ----------
+    x : array
+        A input signal
+
+    order : int
+        Order of MFCC. Default is 14.
+
+    fs : int
+        Sampling frequency. Default is 160000.
+
+    alpha : float
+        Pre-emphasis coefficient. Default is 0.97.
+
+    eps : float
+        Flooring value for calculating ``log(x)`` in filterbank analysis.
+        Default is 1.0.
+
+    window_len : int
+        Window lenght. Default is ``len(x)``.
+
+    frame_len : int
+        Frame length. Default is ``len(x)``.
+
+    num_filterbanks : int
+        Number of mel-filter banks.
+
+    cepslift : int
+        Liftering coefficient. Default is 22.
+
+    use_dft : bool
+        Use DFT (not FFT) or not.
+
+    use_hamming : bool
+        Use hamming window or not.
+
+    czero : bool
+        If True, ``mfcc`` returns 0-th coefficient as well. Default is False.
+
+    power : bool
+        If True, ``mfcc`` returns power coefficient as well. Default is False.
+
+    Returns
+    -------
+    cc : array
+        MFCC vector, which is ordered as:
+
+        mfcc[0], mfcc[1], mfcc[2], ... mfcc[order-1], c0, Power.
+
+        Note that c0 and Power are optional.
+
+        Shape of ``cc`` is:
+
+            - ``order`` by default.
+            - ``orde + 1`` if ``czero`` or ``power`` is set to True.
+            - ``order + 2`` if both ``czero`` and ``power`` is set to True.
+
+    Raises
+    ------
+    ValueError
+        if ``num_filterbanks`` is less than or equal to ``order``
+
+    See Also
+    --------
+    pysptk.sptk.gcep
+    pysptk.sptk.mcep
+    pysptk.sptk.mgcep
+
+    """
+
+    if not (num_filterbanks > order):
+        raise ValueError("Number of filterbanks must be greater than order of MFCC")
+
+    if window_len is None:
+        window_len = len(x)
+    if frame_len is None:
+        frame_len = len(x)
+
+    cdef np.ndarray[np.float64_t, ndim=1, mode="c"] cc
+    cc = np.zeros(order + 2)
+
+    cdef Boolean _dft_mode = TR if use_dft else FA
+    cdef Boolean _use_hamming = TR if use_hamming else FA
+
+    # after ccall we get
+    # mfcc[0], mfcc[1], mfcc[2], ... mfcc[m-1], c0, Power
+    _mfcc(&x[0], &cc[0], fs, alpha, eps, window_len, frame_len, order+1,
+        num_filterbanks, cepslift,_dft_mode, _use_hamming)
+
+    if (not czero) and power:
+        cc[-2] = cc[-1]
+    if not power:
+        cc = cc[:-1]
+    if not czero:
+        cc = cc[:-1]
+
+    return cc
 
 
 ### LPC, LSP and PARCOR conversions ###
