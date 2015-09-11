@@ -209,7 +209,7 @@ def acep(x, np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
     x : double
         A input sample
 
-    c : array, shape(`order` + 1)
+    c : array, shape(``order + 1``)
         Cepstrum. The result is stored in place.
 
     lambda_coef : float, optional
@@ -265,7 +265,7 @@ def agcep(x, np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
     x : float
         A input sample
 
-    c : array, shape(`order` + 1), optional
+    c : array, shape(``order + 1``), optional
         Cepstrum. The result is stored in-place.
 
     stage : int, optional
@@ -318,7 +318,7 @@ def amcep(x, np.ndarray[np.float64_t, ndim=1, mode="c"] b not None,
     x : float
         A input sample
 
-    b : array, shape(`order` + 1), optional
+    b : array, shape(``order + 1``), optional
         MLSA filter coefficients. The result is stored in-place.
 
     alpha : float, optional
@@ -380,7 +380,7 @@ def mcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
 
     Parameters
     ----------
-    windowed : array, shape (`frame_len`)
+    windowed : array, shape (``frame_len``)
         A windowed frame
 
     order : int, optional
@@ -399,7 +399,7 @@ def mcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
         Threshold in theq. Default is 0.001.
 
     etype : int, optional
-        Type of parameter `eps`
+        Type of parameter ``eps``
              (0) not used
              (1) initial value of log-periodogram
              (2) floor of periodogram in db
@@ -426,17 +426,17 @@ def mcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
 
     Returns
     -------
-    mc : array, shape (`order + 1`)
+    mc : array, shape (``order + 1``)
         Mel-cepstrum
 
     Raises
     ------
     ValueError
-        - if invalid `itype` is specified
-        - if invalid `etype` is specified
-        - if nonzero `eps` is specified when etype = 0
-        - if negative `eps` is specified
-        - if negative `min_det` is specified
+        - if invalid ``itype`` is specified
+        - if invalid ``etype`` is specified
+        - if nonzero ``eps`` is specified when etype = 0
+        - if negative ``eps`` is specified
+        - if negative ``min_det`` is specified
 
     RuntimeError
         - if zero(s) are found in periodogram
@@ -497,7 +497,7 @@ def gcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
 
     Parameters
     ----------
-    windowed : array, shape (`frame_len`)
+    windowed : array, shape (``frame_len``)
         A windowed frame
 
     order : int, optional
@@ -516,7 +516,7 @@ def gcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
         Threshold in theq. Default is 0.001
 
     etype : int, optional
-        Type of parameter `eps`
+        Type of parameter ``eps``
              (0) not used
              (1) initial value of log-periodogram
              (2) floor of periodogram in db
@@ -542,17 +542,17 @@ def gcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
 
     Returns
     -------
-    gc : array, shape (`order + 1`)
+    gc : array, shape (``order + 1``)
         Generalized cepstrum
 
     Raises
     ------
     ValueError
-        - if invalid `itype` is specified
-        - if invalid `etype` is specified
-        - if nonzero `eps` is specified when etype = 0
-        - if negative `eps` is specified
-        - if negative `min_det` is specified
+        - if invalid ``itype`` is specified
+        - if invalid ``etype`` is specified
+        - if nonzero ``eps`` is specified when etype = 0
+        - if negative ``eps`` is specified
+        - if negative ``min_det`` is specified
 
     RuntimeError
         - if error happened in theq
@@ -615,7 +615,7 @@ def mgcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
 
     Parameters
     ----------
-    windowed : array, shape (`frame_len`)
+    windowed : array, shape (``frame_len``)
         A windowed frame
 
     order : int, optional
@@ -628,7 +628,7 @@ def mgcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
         Parameter of generalized log function. Default is 0.0.
 
     num_recursions : int, optional
-        Number of recursions. Default is `len(windowed)` - 1.
+        Number of recursions. Default is ``len(windowed) - 1``.
 
     miniter : int, optional
         Minimum number of iteration. Default is 2.
@@ -640,7 +640,7 @@ def mgcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
         Threshold. Default is 0.001.
 
     etype : int, optional
-        Type of paramter `e`
+        Type of paramter ``e``
              (0) not used
              (1) initial value of log-periodogram
              (2) floor of periodogram in db
@@ -678,18 +678,18 @@ def mgcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
 
     Returns
     -------
-    mgc : array, shape (`order + 1`)
+    mgc : array, shape (``order + 1``)
         mel-generalized cepstrum
 
     Raises
     ------
     ValueError
-        - if invalid `itype` is specified
-        - if invalid `etype` is specified
-        - if nonzero `eps` is specified when etype = 0
-        - if negative `eps` is specified
-        - if negative `min_det` is specified
-        - if invalid `otype` is specified
+        - if invalid ``itype`` is specified
+        - if invalid ``etype`` is specified
+        - if nonzero ``eps`` is specified when etype = 0
+        - if negative ``eps`` is specified
+        - if negative ``min_det`` is specified
+        - if invalid ``otype`` is specified
 
     RuntimeError
         - if error happened in theq
@@ -770,7 +770,7 @@ def uels(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
 
     Parameters
     ----------
-    windowed : array, shape (`frame_len`)
+    windowed : array, shape (``frame_len``)
         A windowed frame
 
     order : int, optional
@@ -786,7 +786,7 @@ def uels(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
         Threshold in theq. Default is 0.001
 
     etype : int, optional
-        Type of parameter `eps`
+        Type of parameter ``eps``
              (0) not used
              (1) initial value of log-periodogram
              (2) floor of periodogram in db
@@ -809,16 +809,16 @@ def uels(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
 
     Returns
     -------
-    c : array, shape (`order + 1`)
+    c : array, shape (``order + 1``)
         cepstrum estimated by uels
 
     Raises
     ------
     ValueError
-        - if invalid `itype` is specified
-        - if invalid `etype` is specified
-        - if nonzero `eps` is specified when etype = 0
-        - if negative `eps` is specified
+        - if invalid ``itype`` is specified
+        - if invalid ``etype`` is specified
+        - if nonzero ``eps`` is specified when etype = 0
+        - if negative ``eps`` is specified
 
     RuntimeError
         - if zero(s) are found in periodogram
@@ -866,7 +866,7 @@ def fftcep(np.ndarray[np.float64_t, ndim=1, mode="c"] logsp not None,
 
     Parameters
     ----------
-    logsp : array, shape (`frame_len`)
+    logsp : array, shape (``frame_len``)
         Log power spectrum
 
     order : int, optional
@@ -880,7 +880,7 @@ def fftcep(np.ndarray[np.float64_t, ndim=1, mode="c"] logsp not None,
 
     Returns
     -------
-    c : array, shape (`order + 1`)
+    c : array, shape (``order + 1``)
         Cepstrum
 
     See Also
@@ -905,7 +905,7 @@ def lpc(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
 
     Parameters
     ----------
-    windowed : array, shape (`frame_len`)
+    windowed : array, shape (``frame_len``)
         A windowed frame
 
     order : int, optional
@@ -917,13 +917,13 @@ def lpc(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
 
     Returns
     -------
-    a : array, shape (`order + 1`)
+    a : array, shape (``order + 1``)
         LPC
 
     Raises
     ------
     ValueError
-        - if negative `min_det` is specified
+        - if negative ``min_det`` is specified
 
     RuntimeError
         - if error happened in levdur
@@ -1078,11 +1078,11 @@ def lpc2c(np.ndarray[np.float64_t, ndim=1, mode="c"] lpc not None,
         LPC
 
     order : int, optional
-        Order of cepstrum. Default is `len(lpc)` - 1.
+        Order of cepstrum. Default is ``len(lpc) - 1``.
 
     Returns
     -------
-    ceps : array, shape (`order + 1`)
+    ceps : array, shape (``order + 1``)
         cepstrum
 
     See Also
@@ -1141,13 +1141,13 @@ def lpc2lsp(np.ndarray[np.float64_t, ndim=1, mode="c"] lpc not None,
 
     Returns
     -------
-    lsp : array, shape (`order + 1`)
+    lsp : array, shape (``order + 1``)
         LSP
 
     raises
     ------
     ValueError
-        if `fs` is not specified when otype = 2 or 3.
+        if ``fs`` is not specified when otype = 2 or 3.
 
     See Also
     --------
@@ -1189,7 +1189,7 @@ def lpc2par(np.ndarray[np.float64_t, ndim=1, mode="c"] lpc not None):
 
     Returns
     -------
-    par : array, shape (same as `lpc`)
+    par : array, shape (same as ``lpc``)
         PARCOR
 
     See Also
@@ -1217,7 +1217,7 @@ def par2lpc(np.ndarray[np.float64_t, ndim=1, mode="c"] par not None):
 
     Returns
     -------
-    lpc : array, shape (same as `par`)
+    lpc : array, shape (same as ``par``)
         LPC
 
     See Also
@@ -1246,7 +1246,7 @@ def lsp2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] lsp not None,
     fftlen : int, optional
         FFT length
 
-    TODO: consider `otype` optional argument
+    TODO: consider ``otype`` optional argument
 
     Returns
     -------
@@ -1255,7 +1255,7 @@ def lsp2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] lsp not None,
 
     Notes
     -----
-    It is asuumed that `lsp` has loggain at `lsp[0]`.
+    It is asuumed that ``lsp`` has loggain at ``lsp[0]``.
 
     See Also
     --------
@@ -1288,7 +1288,7 @@ def mc2b(np.ndarray[np.float64_t, ndim=1, mode="c"] mc not None,
 
     Returns
     -------
-    b : array, shape(same as `mc`)
+    b : array, shape(same as ``mc``)
         MLSA filter coefficients
 
     See Also
@@ -1322,7 +1322,7 @@ def b2mc(np.ndarray[np.float64_t, ndim=1, mode="c"] b not None,
 
     Returns
     -------
-    mc : array, shape (same as `b`)
+    mc : array, shape (same as ``b``)
         Mel-cepstrum.
 
     See Also
@@ -1363,20 +1363,20 @@ def c2acr(np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
         Cepstrum
 
     order : int, optional
-        Order of cepstrum. Default is `len(c) - 1`.
+        Order of cepstrum. Default is ``len(c) - 1``.
 
     fftlen : int, optional
         FFT length. Default is 256.
 
     Returns
     -------
-    r : array, shape (`order` + 1)
+    r : array, shape (``order + 1``)
         Autocorrelation
 
     Raises
     ------
     ValueError
-        if non power of 2 `fftlen` is specified
+        if non power of 2 ``fftlen`` is specified
 
     See Also
     --------
@@ -1410,7 +1410,7 @@ def c2ir(np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
 
     Returns
     -------
-    h : array, shape (`length`)
+    h : array, shape (``length``)
         impulse response
 
     See Also
@@ -1440,7 +1440,7 @@ def ic2ir(np.ndarray[np.float64_t, ndim=1, mode="c"] h not None,
 
     Returns
     -------
-    c : array, shape (`order` + 1)
+    c : array, shape (``order + 1``)
         Cepstrum
 
     See Also
@@ -1472,13 +1472,13 @@ def c2ndps(np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
 
     Returns
     -------
-    ndps : array, shape (`fftlen // 2 + 1`)
+    ndps : array, shape (``fftlen // 2 + 1``)
         NDPS
 
     Raises
     ------
     ValueError
-        if non power of 2 `fftlen` is specified
+        if non power of 2 ``fftlen`` is specified
 
     See Also
     --------
@@ -1505,7 +1505,7 @@ def ndps2c(np.ndarray[np.float64_t, ndim=1, mode="c"] ndps not None,
 
     Parameters
     ----------
-    ndps : array, shape (`fftlen` // 2 + 1)
+    ndps : array, shape (``fftlen // 2 + 1``)
         NDPS
 
     order : int, optional
@@ -1513,13 +1513,13 @@ def ndps2c(np.ndarray[np.float64_t, ndim=1, mode="c"] ndps not None,
 
     Returns
     -------
-    c : array, shape (`order` + 1)
+    c : array, shape (``order + 1``)
          Cepstrum
 
     Raises
     ------
     ValueError
-        if non power of 2 `fftlen` is detected
+        if non power of 2 ``fftlen`` is detected
 
     See Also
     --------
@@ -1550,21 +1550,21 @@ def gc2gc(np.ndarray[np.float64_t, ndim=1, mode="c"] src_ceps not None,
         Gamma of source cepstrum. Default is 0.0.
 
     dst_order : int, optional
-        Order of destination cepstrum. Default is `len(src_ceps) - 1`.
+        Order of destination cepstrum. Default is ``len(src_ceps) - 1``.
 
     dst_gamma : float, optional
         Gamma of destination cepstrum. Default is 0.0.
 
     Returns
     -------
-    dst_ceps : array, shape (`dst_order` + 1)
+    dst_ceps : array, shape (``dst_order + 1``)
          Converted generalized cepstrum
 
     Raises
     ------
     ValueError
-        - if invalid `src_gamma` is specified
-        - if invalid `dst_gamma` is specified
+        - if invalid ``src_gamma`` is specified
+        - if invalid ``dst_gamma`` is specified
 
     See Also
     --------
@@ -1605,13 +1605,13 @@ def gnorm(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
 
     Returns
     -------
-    dst_ceps : array, shape(same as `ceps`)
+    dst_ceps : array, shape(same as ``ceps``)
         Normalized generalized cepstrum
 
     Raises
     ------
     ValueError
-        if invalid `gamma` is specified
+        if invalid ``gamma`` is specified
 
     See Also
     --------
@@ -1646,13 +1646,13 @@ def ignorm(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
 
     Returns
     -------
-    dst_ceps : array, shape (same as `ceps`)
+    dst_ceps : array, shape (same as ``ceps``)
         Generalized cepstrum
 
     Raises
     ------
     ValueError
-        if invalid `gamma` is specified
+        if invalid ``gamma`` is specified
 
     See Also
     --------
@@ -1690,7 +1690,7 @@ def freqt(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
 
     Returns
     -------
-    dst_ceps : array, shape(`order` + 1)
+    dst_ceps : array, shape(``order + 1``)
         frequency transofmed cepsttrum (typically mel-cepstrum)
 
     See Also
@@ -1732,7 +1732,7 @@ def mgc2mgc(np.ndarray[np.float64_t, ndim=1, mode="c"] src_ceps not None,
         Gamma of source cepstrum. Default is 0.0.
 
     dst_order : int, optional
-        Order of destination cepstrum. Default is `len(src_ceps) - 1`.
+        Order of destination cepstrum. Default is ``len(src_ceps) - 1``.
 
     dst_alpha : float, optional
         All-pass constant of destination cesptrum. Default is 0.0.
@@ -1742,14 +1742,14 @@ def mgc2mgc(np.ndarray[np.float64_t, ndim=1, mode="c"] src_ceps not None,
 
     Returns
     -------
-    dst_ceps : array, shape (`dst_order` + 1)
+    dst_ceps : array, shape (``dst_order + 1``)
          Converted mel-generalized cepstrum
 
     Raises
     ------
     ValueError
-        - if invalid `src_gamma` is specified
-        - if invalid `dst_gamma` is specified
+        - if invalid ``src_gamma`` is specified
+        - if invalid ``dst_gamma`` is specified
 
     See Also
     --------
@@ -1800,14 +1800,14 @@ def mgc2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
 
     Returns
     -------
-    sp : array, shape (`fftlen` // 2 + 1)
+    sp : array, shape (``fftlen // 2 + 1``)
          Complex spectrum
 
     Raises
     ------
     ValueError
-        - if invalid `gamma` is specified
-        - if non power of 2 `fftlen` is specified
+        - if invalid ``gamma`` is specified
+        - if non power of 2 ``fftlen`` is specified
 
     See Also
     --------
@@ -1862,14 +1862,14 @@ def mgclsp2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] lsp not None,
 
     Returns
     -------
-    sp : array, shape (`fftlen` // 2 + 1)
+    sp : array, shape (``fftlen // 2 + 1``)
          Complex spectrum
 
     Raises
     ------
     ValueError
-        - if invalid `gamma` is specified
-        - if non power of 2 `fftlen` is specified
+        - if invalid ``gamma`` is specified
+        - if non power of 2 ``fftlen`` is specified
 
     See Also
     --------
@@ -1920,7 +1920,7 @@ def swipe(np.ndarray[np.float64_t, ndim=1, mode="c"] x not None,
 
     Returns
     -------
-    f0  : array, shape(`len(x)/frame_shift+1`)
+    f0  : array, shape(``len(x)/frame_shift+1``)
         Estimated f0 trajectory
 
     Raises

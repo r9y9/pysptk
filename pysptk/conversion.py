@@ -33,7 +33,7 @@ def mgc2b(mgc, alpha=0.35, gamma=0.0):
 
     Returns
     -------
-    b : array, shape(same as `mgc`)
+    b : array, shape(same as ``mgc``)
         MGLSA filter coefficients
 
     See Also
