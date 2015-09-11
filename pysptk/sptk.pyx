@@ -991,16 +991,16 @@ def mfcc(np.ndarray[np.float64_t, ndim=1, mode="c"] x not None,
         Frame length. Default is ``len(x)``.
 
     num_filterbanks : int
-        Number of mel-filter banks.
+        Number of mel-filter banks. Default is 20.
 
     cepslift : int
         Liftering coefficient. Default is 22.
 
     use_dft : bool
-        Use DFT (not FFT) or not.
+        Use DFT (not FFT) or not. Default is False.
 
     use_hamming : bool
-        Use hamming window or not.
+        Use hamming window or not. Default is False.
 
     czero : bool
         If True, ``mfcc`` returns 0-th coefficient as well. Default is False.
