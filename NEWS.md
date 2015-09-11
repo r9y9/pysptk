@@ -7,6 +7,7 @@
 - Add `pysptk.conversion.mgc2b`
 - Add speech analysis and re-synthesis demonstration notebook
 - Add `pysptk.util.example_audio_file`
+- Add `pysptk.sptk.mfcc`
 
 ## v0.1.1
 
