@@ -469,7 +469,7 @@ def mcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] mc
     cdef int windowed_length = len(windowed)
     cdef int ret
-    mc = np.zeros(order + 1, dtype=np.float64)
+    mc = np.empty(order + 1, dtype=np.float64)
     ret = _mcep(&windowed[0], windowed_length, &mc[0],
                 order, alpha, miniter, maxiter, threshold, etype, eps,
                 min_det, itype)
@@ -585,7 +585,7 @@ def gcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] gc
     cdef int windowed_length = len(windowed)
     cdef int ret
-    gc = np.zeros(order + 1, dtype=np.float64)
+    gc = np.empty(order + 1, dtype=np.float64)
     ret = _gcep(&windowed[0], windowed_length, &gc[0], order,
                 gamma, miniter, maxiter, threshold, etype, eps, min_det, itype)
     assert ret == -1 or ret == 0 or ret == 3
@@ -732,7 +732,7 @@ def mgcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] mgc
     cdef int windowed_length = len(windowed)
     cdef int ret
-    mgc = np.zeros(order + 1, dtype=np.float64)
+    mgc = np.empty(order + 1, dtype=np.float64)
     ret = _mgcep(&windowed[0], windowed_length, &mgc[0],
                  order, alpha, gamma, num_recursions, miniter, maxiter,
                  threshold, etype, eps, min_det, itype)
@@ -847,7 +847,7 @@ def uels(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] c
     cdef int windowed_length = len(windowed)
     cdef int ret
-    c = np.zeros(order + 1, dtype=np.float64)
+    c = np.empty(order + 1, dtype=np.float64)
     ret = _uels(&windowed[0], windowed_length, &c[0], order,
                 miniter, maxiter, threshold, etype, eps, itype)
     assert ret == -1 or ret == 0 or ret == 3
@@ -891,7 +891,7 @@ def fftcep(np.ndarray[np.float64_t, ndim=1, mode="c"] logsp not None,
 
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] c
     cdef int logsp_length = len(logsp)
-    c = np.zeros(order + 1, dtype=np.float64)
+    c = np.empty(order + 1, dtype=np.float64)
     _fftcep(&logsp[0], logsp_length, &c[0], order,
             num_iter, acceleration_factor)
 
@@ -946,7 +946,7 @@ def lpc(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] a
     cdef int windowed_length = len(windowed)
     cdef int ret
-    a = np.zeros(order + 1, dtype=np.float64)
+    a = np.empty(order + 1, dtype=np.float64)
     ret = _lpc(&windowed[0], windowed_length, &a[0], order, min_det)
     assert ret == -2 or ret == -1 or ret == 0
     if ret == -2:
@@ -1054,7 +1054,7 @@ def mfcc(np.ndarray[np.float64_t, ndim=1, mode="c"] x not None,
     # after ccall we get
     # mfcc[0], mfcc[1], mfcc[2], ... mfcc[m-1], c0, Power
     _mfcc(&x[0], &cc[0], fs, alpha, eps, window_len, frame_len, order+1,
-           num_filterbanks, cepslift, _dft_mode, _use_hamming)
+          num_filterbanks, cepslift, _dft_mode, _use_hamming)
 
     if (not czero) and power:
         cc[-2] = cc[-1]
@@ -1097,7 +1097,7 @@ def lpc2c(np.ndarray[np.float64_t, ndim=1, mode="c"] lpc not None,
 
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] ceps
     cdef int src_order = len(lpc) - 1
-    ceps = np.zeros(order + 1, dtype=np.float64)
+    ceps = np.empty(order + 1, dtype=np.float64)
     _lpc2c(&lpc[0], src_order, &ceps[0], order)
     return ceps
 
@@ -1201,7 +1201,7 @@ def lpc2par(np.ndarray[np.float64_t, ndim=1, mode="c"] lpc not None):
     """
 
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] par
-    par = np.zeros_like(lpc)
+    par = np.empty_like(lpc)
     cdef int order = len(lpc) - 1
     _lpc2par(&lpc[0], &par[0], order)
     return par
@@ -1228,7 +1228,7 @@ def par2lpc(np.ndarray[np.float64_t, ndim=1, mode="c"] par not None):
     """
 
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] lpc
-    lpc = np.zeros_like(par)
+    lpc = np.empty_like(par)
     cdef int order = len(par) - 1
     _par2lpc(&par[0], &lpc[0], order)
     return lpc
@@ -1266,7 +1266,7 @@ def lsp2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] lsp not None,
     assert_fftlen(fftlen)
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] sp
     cdef int sp_length = (fftlen >> 1) + 1
-    sp = np.zeros(sp_length, dtype=np.float64)
+    sp = np.empty(sp_length, dtype=np.float64)
     cdef int order = len(lsp) - 1
     _lsp2sp(&lsp[0], order, &sp[0], sp_length, 1)
     return sp
@@ -1302,7 +1302,7 @@ def mc2b(np.ndarray[np.float64_t, ndim=1, mode="c"] mc not None,
 
     """
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] b
-    b = np.zeros_like(mc)
+    b = np.empty_like(mc)
     cdef int order = len(mc) - 1
     _mc2b(&mc[0], &b[0], order, alpha)
     return b
@@ -1334,7 +1334,7 @@ def b2mc(np.ndarray[np.float64_t, ndim=1, mode="c"] b not None,
     """
 
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] mc
-    mc = np.zeros_like(b)
+    mc = np.empty_like(b)
     cdef int order = len(b) - 1
     _b2mc(&b[0], &mc[0], order, alpha)
     return mc
@@ -1347,7 +1347,7 @@ def b2c(np.ndarray[np.float64_t, ndim=1, mode="c"] b not None,
     if dst_order is None:
         dst_order = src_order
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] c
-    c = np.zeros(dst_order + 1, dtype=np.float64)
+    c = np.empty(dst_order + 1, dtype=np.float64)
     _b2c(&b[0], src_order, &c[0], dst_order, alpha)
     return c
 
@@ -1391,7 +1391,7 @@ def c2acr(np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
     cdef int src_order = len(c) - 1
     if order is None:
         order = src_order
-    r = np.zeros(order + 1, dtype=np.float64)
+    r = np.empty(order + 1, dtype=np.float64)
     _c2acr(&c[0], src_order, &r[0], order, fftlen)
     return r
 
@@ -1421,7 +1421,7 @@ def c2ir(np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
 
     cdef int order = len(c)  # NOT len(c) - 1
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] h
-    h = np.zeros(length, dtype=np.float64)
+    h = np.empty(length, dtype=np.float64)
     _c2ir(&c[0], order, &h[0], length)
     return h
 
@@ -1451,7 +1451,7 @@ def ic2ir(np.ndarray[np.float64_t, ndim=1, mode="c"] h not None,
 
     cdef int length = len(h)
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] c
-    c = np.zeros(order + 1, dtype=np.float64)
+    c = np.empty(order + 1, dtype=np.float64)
     _ic2ir(&h[0], length, &c[0], len(c))
     return c
 
@@ -1489,9 +1489,9 @@ def c2ndps(np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
     assert_fftlen(fftlen)
     cdef int dst_length = (fftlen >> 1) + 1
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] ndps, buf
-    ndps = np.zeros(dst_length, dtype=np.float64)
+    ndps = np.empty(dst_length, dtype=np.float64)
     cdef int order = len(c) - 1
-    buf = np.zeros(fftlen, dtype=np.float64)
+    buf = np.empty(fftlen, dtype=np.float64)
     _c2ndps(&c[0], order, &buf[0], fftlen)
 
     buf[0:dst_length] = buf[0:dst_length]
@@ -1532,7 +1532,7 @@ def ndps2c(np.ndarray[np.float64_t, ndim=1, mode="c"] ndps not None,
     cdef int fftlen = (len(ndps) - 1) << 1
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] c
     assert_fftlen(fftlen)
-    c = np.zeros(order + 1, dtype=np.float64)
+    c = np.empty(order + 1, dtype=np.float64)
     _ndps2c(&ndps[0], fftlen, &c[0], order)
     return ndps
 
@@ -1583,7 +1583,7 @@ def gc2gc(np.ndarray[np.float64_t, ndim=1, mode="c"] src_ceps not None,
     if dst_order is None:
         dst_order = src_order
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] dst_ceps
-    dst_ceps = np.zeros(dst_order + 1, dtype=np.float64)
+    dst_ceps = np.empty(dst_order + 1, dtype=np.float64)
 
     _gc2gc(&src_ceps[0], src_order, src_gamma,
            &dst_ceps[0], dst_order, dst_gamma)
@@ -1627,7 +1627,7 @@ def gnorm(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
     assert_gamma(gamma)
     cdef int order = len(ceps) - 1
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] dst_ceps
-    dst_ceps = np.zeros_like(ceps)
+    dst_ceps = np.empty_like(ceps)
     _gnorm(&ceps[0], &dst_ceps[0], order, gamma)
     return dst_ceps
 
@@ -1668,7 +1668,7 @@ def ignorm(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
     assert_gamma(gamma)
     cdef int order = len(ceps) - 1
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] dst_ceps
-    dst_ceps = np.zeros_like(ceps)
+    dst_ceps = np.empty_like(ceps)
     _ignorm(&ceps[0], &dst_ceps[0], order, gamma)
     return dst_ceps
 
@@ -1701,7 +1701,7 @@ def freqt(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
 
     cdef int src_order = len(ceps) - 1
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] dst_ceps
-    dst_ceps = np.zeros(order + 1, dtype=np.float64)
+    dst_ceps = np.empty(order + 1, dtype=np.float64)
     _freqt(&ceps[0], src_order, &dst_ceps[0], order, alpha)
     return dst_ceps
 
@@ -1710,7 +1710,7 @@ def frqtr(np.ndarray[np.float64_t, ndim=1, mode="c"] src_ceps not None,
           order=25, alpha=0.0):
     cdef int src_order = len(src_ceps) - 1
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] dst_ceps
-    dst_ceps = np.zeros(order + 1, dtype=np.float64)
+    dst_ceps = np.empty(order + 1, dtype=np.float64)
     _frqtr(&src_ceps[0], src_order, &dst_ceps[0], order, alpha)
     return dst_ceps
 
@@ -1770,7 +1770,7 @@ def mgc2mgc(np.ndarray[np.float64_t, ndim=1, mode="c"] src_ceps not None,
     if dst_order is None:
         dst_order = src_order
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] dst_ceps
-    dst_ceps = np.zeros(dst_order + 1, dtype=np.float64)
+    dst_ceps = np.empty(dst_order + 1, dtype=np.float64)
 
     _mgc2mgc(&src_ceps[0], src_order, src_alpha, src_gamma,
              &dst_ceps[0], dst_order, dst_alpha, dst_gamma)
@@ -1825,7 +1825,7 @@ def mgc2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
     cdef np.ndarray[np.complex128_t, ndim = 1, mode = "c"] sp
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] sp_r, sp_i
 
-    sp = np.zeros((fftlen >> 1) + 1, dtype=np.complex128)
+    sp = np.empty((fftlen >> 1) + 1, dtype=np.complex128)
     sp_r = np.zeros(fftlen, dtype=np.float64)
     sp_i = np.zeros(fftlen, dtype=np.float64)
 
@@ -1881,7 +1881,7 @@ def mgclsp2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] lsp not None,
 
     cdef int order = gain if len(lsp) - 1 else len(lsp)
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] sp
-    sp = np.zeros((fftlen >> 1) + 1, dtype=np.float64)
+    sp = np.empty((fftlen >> 1) + 1, dtype=np.float64)
 
     _mgclsp2sp(alpha, gamma, &lsp[0], order, &sp[0], len(sp), int(gain))
 
@@ -1950,7 +1950,7 @@ def swipe(np.ndarray[np.float64_t, ndim=1, mode="c"] x not None,
     cdef int x_length = len(x)
     cdef int expected_len = int(x_length / hopsize) + 1
 
-    f0 = np.zeros(expected_len, dtype=np.float64)
+    f0 = np.empty(expected_len, dtype=np.float64)
 
     _swipe(&x[0], &f0[0], x_length, fs, hopsize, min, max, threshold, otype)
     return f0
