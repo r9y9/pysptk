@@ -12,9 +12,11 @@ environment:
       PYTHON_ARCH: "32"
       MINICONDA: C:\Miniconda3
 
-    - PYTHON_VERSION: "3.4"
-      PYTHON_ARCH: "64"
-      MINICONDA: C:\Miniconda3-x64
+# Disable this for now
+# ref: http://stackoverflow.com/questions/4676728
+#    - PYTHON_VERSION: "3.4"
+#      PYTHON_ARCH: "64"
+#      MINICONDA: C:\Miniconda3-x64
 
 branches:
   only:
