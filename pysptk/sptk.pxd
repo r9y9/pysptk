@@ -12,7 +12,7 @@ cdef enum Boolean:
     FA = 0
     TR = 1
 
-cdef extern from "../lib/SPTK/include/SPTK.h":
+cdef extern from "SPTK.h":
 
     # Library routines
     double _agexp "agexp"(double r, double x, double y)
