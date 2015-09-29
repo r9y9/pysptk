@@ -28,7 +28,6 @@ before_install:
   - source activate test-environment
 
 install:
-  - git submodule update --init --recursive
   - pip install -e .
 
 script:
