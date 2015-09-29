@@ -1,0 +1,53 @@
+environment:
+  matrix:
+    - PYTHON_VERSION: "2.7"
+      PYTHON_ARCH: "32"
+      MINICONDA: C:\Miniconda
+
+    - PYTHON_VERSION: "2.7"
+      PYTHON_ARCH: "64"
+      MINICONDA: C:\Miniconda-x64
+
+    - PYTHON_VERSION: "3.4"
+      PYTHON_ARCH: "32"
+      MINICONDA: C:\Miniconda3
+
+# Disable this for now
+# ref: http://stackoverflow.com/questions/4676728
+#    - PYTHON_VERSION: "3.4"
+#      PYTHON_ARCH: "64"
+#      MINICONDA: C:\Miniconda3-x64
+
+branches:
+  only:
+    - master
+    - /release-.*/
+
+skip_commits:
+  message: /\[av skip\]/
+
+notifications:
+  - provider: Email
+    on_build_success: false
+    on_build_failure: false
+    on_build_status_changed: false
+
+init:
+  - "ECHO %PYTHON_VERSION% %PYTHON_ARCH% %MINICONDA%"
+
+install:
+  - "SET PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
+  - conda config --set always_yes yes  --set changeps1 no
+  - conda update -q conda
+  - conda config --add channels pypi
+  - conda info -a
+  - "conda create -q -n test-environment python=%PYTHON_VERSION% numpy scipy cython nose coverage six"
+  - activate test-environment
+
+build_script:
+  - ls /c/projects/pysptk/lib/SPTK/
+  - git submodule update --init --recursive
+  - pip install -e .
+
+test_script:
+  - nosetests --with-coverage --cover-package=pysptk -v -w tests/
