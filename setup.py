@@ -38,16 +38,23 @@ else:
 
 # SPTK sources
 src_top = join("lib", "SPTK")
+src_bin_top = join(src_top, "bin")
 swipe_src = [
-    join(src_top, "bin", "pitch", "swipe", "swipe.c"),
-    join(src_top, "bin", "pitch", "swipe", "vector.c"),
+    join(src_bin_top, "pitch", "swipe", "swipe.c"),
+    join(src_bin_top, "pitch", "swipe", "vector.c"),
 ]
-hts_engine_src = glob(join(src_top, "bin", "vc", "hts_engine_API", "*.c"))
 sptklib_src = glob(join(src_top, "lib", "*.c"))
-sptk_src = glob(join(src_top, "bin", "*", "_*.c"))
+sptk_src = glob(join(src_bin_top, "*", "_*.c"))
 
 # collect all sources
-sptk_all_src = sptk_src + sptklib_src + swipe_src + hts_engine_src
+sptk_all_src = sptk_src + sptklib_src + swipe_src
+
+# Filter ignore list
+ignore_bin_list = [join(src_bin_top, "wavjoin"), join(src_bin_top, "wavsplit"),
+                   join(src_bin_top, "vc")]
+for ignore in ignore_bin_list:
+    sptk_all_src = list(
+        filter(lambda s: not s.startswith(ignore), sptk_all_src))
 
 # define core cython module
 ext_modules = [Extension(
