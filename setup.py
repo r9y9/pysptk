@@ -33,18 +33,18 @@ if cython:
 else:
     ext = '.c'
     cmdclass = {}
-    if not os.path.exists("pysptk/sptk" + ext):
+    if not os.path.exists(join("pysptk", "sptk" + ext)):
         raise RuntimeError("Cython is required to generate C codes.")
 
 # SPTK sources
-src_top = "lib/SPTK"
+src_top = join("lib", "SPTK")
 swipe_src = [
-    join(src_top, 'bin/pitch/swipe/swipe.c'),
-    join(src_top, 'bin/pitch/swipe/vector.c'),
+    join(src_top, "bin", "pitch", "swipe", "swipe.c"),
+    join(src_top, "bin", "pitch", "swipe", "vector.c"),
 ]
-hts_engine_src = glob(join(src_top, 'bin/vc/hts_engine_API/*.c'))
-sptklib_src = glob(join(src_top, 'lib/*.c'))
-sptk_src = glob(join(src_top, 'bin/*/_*.c'))
+hts_engine_src = glob(join(src_top, "bin", "vc", "hts_engine_API", "*.c"))
+sptklib_src = glob(join(src_top, "lib", "*.c"))
+sptk_src = glob(join(src_top, "bin", "*", "_*.c"))
 
 # collect all sources
 sptk_all_src = sptk_src + sptklib_src + swipe_src + hts_engine_src
@@ -52,8 +52,9 @@ sptk_all_src = sptk_src + sptklib_src + swipe_src + hts_engine_src
 # define core cython module
 ext_modules = [Extension(
     name="pysptk.sptk",
-    sources=["pysptk/sptk" + ext] + sptk_all_src,
-    include_dirs=[np.get_include(), join(os.getcwd(), 'lib/SPTK/include')],
+    sources=[join("pysptk", "sptk" + ext)] + sptk_all_src,
+    include_dirs=[np.get_include(), join(
+        os.getcwd(), "lib", "SPTK", "include")],
     language="c",
 )]
 
