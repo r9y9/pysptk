@@ -51,3 +51,9 @@ build_script:
 
 test_script:
   - nosetests --with-coverage --cover-package=pysptk -v -w tests/
+
+after_test:
+  - python setup.py bdist_wheel
+
+artifacts:
+  - path: dist\*
