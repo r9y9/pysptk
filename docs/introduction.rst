@@ -34,7 +34,7 @@ This should resolve the package dependencies and install ``pysptk`` property.
 For Windows users
 ^^^^^^^^^^^^^^^^^
 
-There are some binary wheels available on pypi, so you can install ``pysptk`` via pip **without cython and C compilier** if there exists a binary wheel that matches your environment (depends on bits of system and python version). For now, wheels are avilable for:
+There are some binary wheels available on pypi, so you can install ``pysptk`` via pip **without cython and C compilier** if there exists a binary wheel that matches your environment (depends on bits of system and python version). For now, wheels are available for:
 
 * Python 2.7 on 32 bit system
 * Python 2.7 on 64 bit system
