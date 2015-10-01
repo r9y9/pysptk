@@ -1,5 +1,12 @@
 # News for pysptk
 
+## v0.1.3
+
+- Building binary wheels for Windows using Appveyor ([#28])
+- Add Installation guide on windows ([#25])
+- Start Windows continuous integration on AppVeyor ([#24]). As part of the issue, binary dependency was updated so that SPTK library can be compiled on linux, osx and Windows as well.
+- Remove unnecesarry array initialization ([#23])
+
 ## v0.1.2
 
 - Add `pysptk.synthesis` package that provides high level interfaces for speech waveform synthesis ([#14])
@@ -24,3 +31,7 @@
 [#14]: https://github.com/r9y9/pysptk/pull/14
 [#18]: https://github.com/r9y9/pysptk/issues/18
 [#21]: https://github.com/r9y9/pysptk/pull/21
+[#23]: https://github.com/r9y9/pysptk/pull/23
+[#24]: https://github.com/r9y9/pysptk/pull/24
+[#25]: https://github.com/r9y9/pysptk/issues/25
+[#28]: https://github.com/r9y9/pysptk/pull/28
