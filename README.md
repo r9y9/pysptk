@@ -14,3 +14,24 @@ A python wrapper for [Speech Signal Processing Toolkit (SPTK)](http://sp-tk.sour
 ## Documentation
 
 See http://pysptk.readthedocs.org/ for the complete documentation.
+
+## Demonstration notebook
+
+- [Introduction notebook](http://nbviewer.ipython.org/github/r9y9/pysptk/blob/master/examples/pysptk%20introduction.ipynb): a brief introduction to pysptk
+- [Speech analysis and re-synthesis](http://nbviewer.ipython.org/github/r9y9/pysptk/blob/master/examples/Speech%20analysis%20and%20re-synthesis.ipynb): a demonstration notebook for speech analysis and re-synthesis. Synthesized audio examples (English) are available on the notebook.
+
+## Installation
+
+The latest release is availabe on pypi and you can install it by:
+
+```bash
+pip install pysptk
+```
+
+If yout want the latest master, run
+
+```bash
+pip install git+https://github.com/r9y9/pysptk
+```
+
+or clone the repository and then build it yourself.
