@@ -1,5 +1,9 @@
 # News for pysptk
 
+## v0.1.4
+
+- Fix inconsistent docs about normalization flag for windows functions
+
 ## v0.1.3
 
 - Building binary wheels for Windows using Appveyor ([#28])

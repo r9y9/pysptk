@@ -1980,7 +1980,7 @@ def blackman(n, normalize=1):
             (1) normalize by power
             (2) normalize by magnitude
 
-        Defalt is 0.
+        Default is 1.
 
     Returns
     -------
@@ -2009,7 +2009,7 @@ def hamming(n, normalize=1):
             (1) normalize by power
             (2) normalize by magnitude
 
-        Defalt is 0.
+        Default is 1.
 
     Returns
     -------
@@ -2038,7 +2038,7 @@ def hanning(n, normalize=1):
             (1) normalize by power
             (2) normalize by magnitude
 
-        Defalt is 0.
+        Default is 1.
 
     Returns
     -------
@@ -2067,7 +2067,7 @@ def bartlett(n, normalize=1):
             (1) normalize by power
             (2) normalize by magnitude
 
-        Defalt is 0.
+        Default is 1.
 
     Returns
     -------
@@ -2096,7 +2096,7 @@ def trapezoid(n, normalize=1):
             (1) normalize by power
             (2) normalize by magnitude
 
-        Defalt is 0.
+        Default is 1.
 
     Returns
     -------
@@ -2125,7 +2125,7 @@ def rectangular(n, normalize=1):
             (1) normalize by power
             (2) normalize by magnitude
 
-        Defalt is 0.
+        Default is 1.
 
     Returns
     -------
