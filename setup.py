@@ -87,14 +87,22 @@ setup(
         'develop': ['cython >= ' + min_cython_ver],
     },
     classifiers=[
+        "Operating System :: Microsoft :: Windows",
+        "Operating System :: POSIX",
+        "Operating System :: Unix",
+        "Operating System :: MacOS",
         "Programming Language :: Cython",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.5",
         "License :: OSI Approved :: MIT License",
-        "Topic :: Scientific/Engineering"
+        "Topic :: Scientific/Engineering",
+        "Topic :: Software Development",
+        "Intended Audience :: Science/Research",
+        "Intended Audience :: Developers",
     ],
     keywords=["SPTK"]
 )
