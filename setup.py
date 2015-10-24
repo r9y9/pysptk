@@ -43,11 +43,16 @@ swipe_src = [
     join(src_bin_top, "pitch", "swipe", "swipe.c"),
     join(src_bin_top, "pitch", "swipe", "vector.c"),
 ]
+rapt_src = [
+    join(src_bin_top, "pitch", "snack", "jkGetF0.c"),
+    join(src_bin_top, "pitch", "snack", "sigproc.c"),
+]
+
 sptklib_src = glob(join(src_top, "lib", "*.c"))
 sptk_src = glob(join(src_bin_top, "*", "_*.c"))
 
 # collect all sources
-sptk_all_src = sptk_src + sptklib_src + swipe_src
+sptk_all_src = sptk_src + sptklib_src + swipe_src + rapt_src
 
 # Filter ignore list
 ignore_bin_list = [join(src_bin_top, "wavjoin"), join(src_bin_top, "wavsplit"),
@@ -57,13 +62,14 @@ for ignore in ignore_bin_list:
         filter(lambda s: not s.startswith(ignore), sptk_all_src))
 
 # define core cython module
-ext_modules = [Extension(
-    name="pysptk.sptk",
-    sources=[join("pysptk", "sptk" + ext)] + sptk_all_src,
-    include_dirs=[np.get_include(), join(
-        os.getcwd(), "lib", "SPTK", "include")],
-    language="c",
-)]
+ext_modules = [
+    Extension(
+        name="pysptk.sptk",
+        sources=[join("pysptk", "sptk" + ext)] + sptk_all_src,
+        include_dirs=[np.get_include(), join(
+            os.getcwd(), "lib", "SPTK", "include")],
+        language="c"),
+]
 
 setup(
     name='pysptk',
