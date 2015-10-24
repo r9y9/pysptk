@@ -77,6 +77,7 @@ F0 analysis
     :toctree: generated/
 
     swipe
+    rapt
 
 Window functions
 ----------------
@@ -1920,7 +1921,7 @@ def swipe(np.ndarray[np.float64_t, ndim=1, mode="c"] x not None,
 
     Returns
     -------
-    f0  : array, shape(``len(x)/frame_shift+1``)
+    f0  : array, shape(``np.ceil(float(len(x))/hopsize)``)
         Estimated f0 trajectory
 
     Raises
@@ -1942,17 +1943,112 @@ def swipe(np.ndarray[np.float64_t, ndim=1, mode="c"] x not None,
     >>> plt.legend()
     >>> plt.tight_layout()
 
+    See Also
+    --------
+    pysptk.sptk.rapt
+
     """
     if not otype in range(0, 3):
         raise ValueError("otype must be 0, 1, or 2")
 
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] f0
     cdef int x_length = len(x)
-    cdef int expected_len = int(x_length / hopsize) + 1
+    cdef int expected_len = int(np.ceil(float(x_length) / hopsize))
 
     f0 = np.empty(expected_len, dtype=np.float64)
 
     _swipe(&x[0], &f0[0], x_length, fs, hopsize, min, max, threshold, otype)
+    return f0
+
+
+def rapt(np.ndarray[np.float32_t, ndim=1, mode="c"] x not None,
+         fs, hopsize,
+         min=60, max=240, voice_bias=0.0, otype=1):
+    """RAPT - a pitch tracker
+
+    Parameters
+    ----------
+    x : array, dtype=np.float32
+        A whole audio signal
+
+    fs : int
+        Sampling frequency.
+
+    hopsize : int
+        Hop size.
+
+    min : float, optional
+        Minimum fundamental frequency. Default is 60.0
+
+    max : float, optional
+        Maximum fundamental frequency. Default is 240.0
+
+    voice_bias : float, optional
+        Voice/unvoiced threshold. Default is 0.0.
+
+    otype : int, optional
+        Output format (0) pitch (1) f0 (2) log(f0). Default is 1.
+
+    Notes
+    -----
+    It is assumed that input array `x` has np.float32 dtype, while swipe
+    assumes np.float64 dtype.
+
+    Returns
+    -------
+    f0  : array, shape(``np.ceil(float(len(x))/hopsize)``)
+        Estimated f0 trajectory
+
+    Raises
+    ------
+    ValueError
+        - if invalid/inconsistent parameters are specified
+        - if input range too small for analysis by get_f0
+
+    RuntimeError
+        - problem in init_dp_f0()
+
+    Please see the RAPT code in SPTK for more detailed exception conditions.
+
+    Examples
+    --------
+
+    >>> from scipy.io import wavfile
+    >>> fs, x = wavfile.read(pysptk.util.example_audio_file())
+    >>> hopsize = 80 # 5ms for 16kHz data
+    >>> f0 = pysptk.rapt(x.astype(np.float32), fs, 80)
+
+    >>> import matplotlib.pyplot as plt
+    >>> plt.plot(f0, linewidth=2, label="F0 trajectory estimated by RAPT")
+    >>> plt.xlim(0, len(f0))
+    >>> plt.legend()
+    >>> plt.tight_layout()
+
+    See Also
+    --------
+    pysptk.sptk.swipe
+
+    """
+
+    if not otype in range(0, 3):
+        raise ValueError("otype must be 0, 1, or 2")
+
+    cdef np.ndarray[np.float32_t, ndim = 1, mode = "c"] f0
+    cdef int x_length = len(x)
+    cdef int expected_len = int(np.ceil(float(x_length) / hopsize))
+    cdef int ret
+
+    f0 = np.empty(expected_len, dtype=np.float32)
+
+    ret = _rapt(& x[0], & f0[0], x_length, fs, hopsize, min, max,
+                 voice_bias, otype)
+    if ret == 1:
+        raise ValueError("invalid/inconsistent parameters")
+    elif ret == 2:
+        raise ValueError("input range too small for analysis by get_f0")
+    elif ret == 3:
+        raise RuntimeError("problem in init_dp_f0(). Please file an issue")
+
     return f0
 
 

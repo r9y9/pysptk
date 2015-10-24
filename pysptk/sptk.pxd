@@ -93,6 +93,10 @@ cdef extern from "SPTK.h":
     # F0 analysis
     void _swipe "swipe"(double *input, double *output, int length, int samplerate,
                         int frame_shift, double min, double max, double st, int otype)
+    int _rapt "rapt"(float * input, float * output, int length, double sample_freq,
+                     int frame_shift, double minF0, double maxF0, double voice_bias,
+                     int otype)
+
 
     # Waveform generation filters
     double _poledf "poledf"(double x, double *a, int m, double *d)
