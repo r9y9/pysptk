@@ -2040,14 +2040,16 @@ def rapt(np.ndarray[np.float32_t, ndim=1, mode="c"] x not None,
 
     f0 = np.empty(expected_len, dtype=np.float32)
 
-    ret = _rapt(& x[0], & f0[0], x_length, fs, hopsize, min, max,
-                 voice_bias, otype)
+    ret = _rapt(&x[0], &f0[0], x_length, fs, hopsize, min, max,
+                voice_bias, otype)
     if ret == 1:
         raise ValueError("invalid/inconsistent parameters")
     elif ret == 2:
         raise ValueError("input range too small for analysis by get_f0")
     elif ret == 3:
         raise RuntimeError("problem in init_dp_f0(). Please file an issue")
+
+    assert ret == 0
 
     return f0
 
