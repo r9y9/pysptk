@@ -2033,6 +2033,14 @@ def rapt(np.ndarray[np.float32_t, ndim=1, mode="c"] x not None,
     if not otype in range(0, 3):
         raise ValueError("otype must be 0, 1, or 2")
 
+    if min >=max or max >= fs//2 or min <= float(fs)/10000.0:
+        raise ValueError("invalid min/max frequency parameters")
+
+    frame_period = float(hopsize) / fs
+    frame_period = float(int(0.5 + (fs * frame_period))) / fs
+    if frame_period > 0.1 or frame_period < 1.0/fs:
+       raise ValueError("frame period must be between [1/fs, 0.1]")
+
     cdef np.ndarray[np.float32_t, ndim = 1, mode = "c"] f0
     cdef int x_length = len(x)
     cdef int expected_len = int(np.ceil(float(x_length) / hopsize))
@@ -2042,12 +2050,10 @@ def rapt(np.ndarray[np.float32_t, ndim=1, mode="c"] x not None,
 
     ret = _rapt(&x[0], &f0[0], x_length, fs, hopsize, min, max,
                 voice_bias, otype)
-    if ret == 1:
-        raise ValueError("invalid/inconsistent parameters")
-    elif ret == 2:
+    if ret == 2:
         raise ValueError("input range too small for analysis by get_f0")
     elif ret == 3:
-        raise RuntimeError("problem in init_dp_f0(). Please file an issue")
+        raise RuntimeError("problem in init_dp_f0()")
 
     assert ret == 0
 
