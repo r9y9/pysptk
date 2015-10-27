@@ -103,7 +103,10 @@ def test_rapt_regression():
 
     fs, x = wavfile.read(pysptk.util.example_audio_file())
     assert fs == 16000
-    f0 = pysptk.rapt(x.astype(np.float32), fs=fs, hopsize=80,
-                     min=60, max=240, voice_bias=0.0, otype=0)
 
-    assert np.allclose(ground_truth, f0)
+    # Since SPTK might have memory corruption bug and the result might be
+    # non-deterministic, test it with multiple time...
+    for i in range(5):
+        f0 = pysptk.rapt(x.astype(np.float32), fs=fs, hopsize=80,
+                         min=60, max=240, voice_bias=0.0, otype=0)
+        assert np.allclose(ground_truth, f0)
