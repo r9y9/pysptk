@@ -2002,13 +2002,14 @@ def rapt(np.ndarray[np.float32_t, ndim=1, mode="c"] x not None,
     Raises
     ------
     ValueError
-        - if invalid/inconsistent parameters are specified
+        - if invalid min/max frequency specified
+        - if invalid frame period specified (not in [1/fs, 0.1])
         - if input range too small for analysis by get_f0
 
     RuntimeError
         - problem in init_dp_f0()
 
-    Please see the RAPT code in SPTK for more detailed exception conditions.
+    Please see also the RAPT code in SPTK for more detailed exception conditions.
 
     Examples
     --------
