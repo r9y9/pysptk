@@ -14,6 +14,8 @@ def test_swipe():
     def __test(x, fs, hopsize, otype):
         f0 = pysptk.swipe(x, fs, hopsize, otype=otype)
         assert np.all(np.isfinite(f0))
+        if otype == 1:
+            assert np.all(f0 >= 0)
 
     np.random.seed(98765)
     fs = 16000
@@ -33,6 +35,8 @@ def test_rapt():
     def __test(x, fs, hopsize, min, max, otype):
         f0 = pysptk.rapt(x, fs, hopsize, min=min, max=max, otype=otype)
         assert np.all(np.isfinite(f0))
+        if otype == 1:
+            assert np.all(f0 >= 0)
 
     np.random.seed(98765)
     fs = 16000

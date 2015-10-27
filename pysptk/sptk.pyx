@@ -1893,7 +1893,7 @@ def mgclsp2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] lsp not None,
 
 def swipe(np.ndarray[np.float64_t, ndim=1, mode="c"] x not None,
           fs, hopsize,
-          min=50.0, max=800.0, threshold=0.3, otype=1):
+          min=60.0, max=240.0, threshold=0.3, otype=0):
     """SWIPE' - A Saw-tooth Waveform Inspired Pitch Estimation
 
     Parameters
@@ -1908,16 +1908,16 @@ def swipe(np.ndarray[np.float64_t, ndim=1, mode="c"] x not None,
         Hop size.
 
     min : float, optional
-        Minimum fundamental frequency. Default is 50.0
+        Minimum fundamental frequency. Default is 60.0
 
     max : float, optional
-        Maximum fundamental frequency. Default is 800.0
+        Maximum fundamental frequency. Default is 240.0
 
     threshold : float, optional
         Voice/unvoiced threshold. Default is 0.3.
 
     otype : int, optional
-        Output format (0) pitch (1) f0 (2) log(f0). Default is 1.
+        Output format (0) pitch (1) f0 (2) log(f0). Default is 0.
 
     Returns
     -------
@@ -1935,7 +1935,7 @@ def swipe(np.ndarray[np.float64_t, ndim=1, mode="c"] x not None,
     >>> from scipy.io import wavfile
     >>> fs, x = wavfile.read(pysptk.util.example_audio_file())
     >>> hopsize = 80 # 5ms for 16kHz data
-    >>> f0 = pysptk.swipe(x.astype(np.float64), fs, 80)
+    >>> f0 = pysptk.swipe(x.astype(np.float64), fs, 80, otype=1)
 
     >>> import matplotlib.pyplot as plt
     >>> plt.plot(f0, linewidth=2, label="F0 trajectory estimated by SWIPE'")
@@ -1963,7 +1963,7 @@ def swipe(np.ndarray[np.float64_t, ndim=1, mode="c"] x not None,
 
 def rapt(np.ndarray[np.float32_t, ndim=1, mode="c"] x not None,
          fs, hopsize,
-         min=60, max=240, voice_bias=0.0, otype=1):
+         min=60, max=240, voice_bias=0.0, otype=0):
     """RAPT - a pitch tracker
 
     Parameters
@@ -1987,7 +1987,7 @@ def rapt(np.ndarray[np.float32_t, ndim=1, mode="c"] x not None,
         Voice/unvoiced threshold. Default is 0.0.
 
     otype : int, optional
-        Output format (0) pitch (1) f0 (2) log(f0). Default is 1.
+        Output format (0) pitch (1) f0 (2) log(f0). Default is 0.
 
     Notes
     -----
@@ -2017,7 +2017,7 @@ def rapt(np.ndarray[np.float32_t, ndim=1, mode="c"] x not None,
     >>> from scipy.io import wavfile
     >>> fs, x = wavfile.read(pysptk.util.example_audio_file())
     >>> hopsize = 80 # 5ms for 16kHz data
-    >>> f0 = pysptk.rapt(x.astype(np.float32), fs, 80)
+    >>> f0 = pysptk.rapt(x.astype(np.float32), fs, 80, otype=1)
 
     >>> import matplotlib.pyplot as plt
     >>> plt.plot(f0, linewidth=2, label="F0 trajectory estimated by RAPT")
