@@ -25,9 +25,13 @@ def test_swipe():
         for otype in [0, 1, 2]:
             yield __test, x, fs, hopsize, otype
 
+    for otype in ["pitch", "f0", "logf0"]:
+        yield __test, x, fs, 80, otype
+
     # unsupported otype
     yield raises(ValueError)(__test), x, fs, 80, -1
     yield raises(ValueError)(__test), x, fs, 80, 3
+    yield raises(ValueError)(__test), x, fs, 80, "ff0"
 
 
 def test_rapt():
@@ -42,13 +46,17 @@ def test_rapt():
     fs = 16000
     x = np.random.rand(16000).astype(np.float32)
 
-    for hopsize in [40, 80, 160, 320]:
-        for otype in [0, 1, 2]:
+    for otype in [0, 1, 2]:
+        for hopsize in [40, 80, 160, 320]:
             yield __test, x, fs, hopsize, 60, 240, otype
+
+    for otype in ["pitch", "f0", "logf0"]:
+        yield __test, x, fs, 80, 60, 240, otype
 
     # unsupported otype
     yield raises(ValueError)(__test), x, fs, 80, 60, 240, -1
     yield raises(ValueError)(__test), x, fs, 80, 60, 240, 3
+    yield raises(ValueError)(__test), x, fs, 80, 60, 240, "f00"
 
     # valid min freq
     yield __test, x, fs, 80, 10, 240, 0
