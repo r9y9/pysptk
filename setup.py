@@ -62,14 +62,14 @@ for ignore in ignore_bin_list:
         filter(lambda s: not s.startswith(ignore), sptk_all_src))
 
 # define core cython module
-ext_modules = [
-    Extension(
-        name="pysptk.sptk",
-        sources=[join("pysptk", "sptk" + ext)] + sptk_all_src,
-        include_dirs=[np.get_include(), join(
-            os.getcwd(), "lib", "SPTK", "include")],
-        language="c"),
-]
+ext_modules = [Extension(
+    name="pysptk.sptk",
+    sources=[join("pysptk", "sptk" + ext)] + sptk_all_src,
+    include_dirs=[np.get_include(), join(
+        os.getcwd(), "lib", "SPTK", "include")],
+    language="c",
+    extra_compile_args=['-std=c99']
+)]
 
 setup(
     name='pysptk',

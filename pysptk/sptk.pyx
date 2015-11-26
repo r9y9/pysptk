@@ -2760,6 +2760,18 @@ def mglsadf(x, np.ndarray[np.float64_t, ndim=1, mode="c"] b not None,
 
     return _mglsadf(x, &b[0], order, alpha, stage, &delay[0])
 
+### Excitation ###
+def excite(np.ndarray[np.float64_t, ndim=1, mode = "c"] pitch, frame_period=100, interp_period=1, gaussian=False, seed=1):
+    # Allocate memory for output
+    cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] excitation
+    cdef int n = len(pitch)
+    cdef int expected_len = int(frame_period*(n-1))
+
+    excitation = np.empty(expected_len, dtype=np.float64)
+    # Call
+    _excite(&pitch[0], n, &excitation[0], frame_period, interp_period, gaussian, seed)
+    # Return allocated output
+    return excitation
 
 ### Utils ###
 
