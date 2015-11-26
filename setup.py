@@ -43,11 +43,14 @@ swipe_src = [
     join(src_bin_top, "pitch", "swipe", "swipe.c"),
     join(src_bin_top, "pitch", "swipe", "vector.c"),
 ]
+#excite_src = [
+#    join(src_bin_top, "excite", "_excite.c")
+#]
 sptklib_src = glob(join(src_top, "lib", "*.c"))
 sptk_src = glob(join(src_bin_top, "*", "_*.c"))
 
 # collect all sources
-sptk_all_src = sptk_src + sptklib_src + swipe_src
+sptk_all_src = sptk_src + sptklib_src + swipe_src #+ excite_src
 
 # Filter ignore list
 ignore_bin_list = [join(src_bin_top, "wavjoin"), join(src_bin_top, "wavsplit"),
@@ -63,6 +66,7 @@ ext_modules = [Extension(
     include_dirs=[np.get_include(), join(
         os.getcwd(), "lib", "SPTK", "include")],
     language="c",
+    extra_compile_args=['-std=c99']
 )]
 
 setup(
