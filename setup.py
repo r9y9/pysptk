@@ -43,14 +43,16 @@ swipe_src = [
     join(src_bin_top, "pitch", "swipe", "swipe.c"),
     join(src_bin_top, "pitch", "swipe", "vector.c"),
 ]
-#excite_src = [
-#    join(src_bin_top, "excite", "_excite.c")
-#]
+rapt_src = [
+    join(src_bin_top, "pitch", "snack", "jkGetF0.c"),
+    join(src_bin_top, "pitch", "snack", "sigproc.c"),
+]
+
 sptklib_src = glob(join(src_top, "lib", "*.c"))
 sptk_src = glob(join(src_bin_top, "*", "_*.c"))
 
 # collect all sources
-sptk_all_src = sptk_src + sptklib_src + swipe_src #+ excite_src
+sptk_all_src = sptk_src + sptklib_src + swipe_src + rapt_src
 
 # Filter ignore list
 ignore_bin_list = [join(src_bin_top, "wavjoin"), join(src_bin_top, "wavsplit"),
