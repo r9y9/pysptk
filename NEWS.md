@@ -2,6 +2,10 @@
 
 ## v0.1.4
 
+- Add developer documentation ([#34])
+- Separate cython implementation and interface ([#35])
+- Add RAPT ([#32])
+- Add excite function ([#31]) [@jfsantos](https://github.com/jfsantos)
 - Fix inconsistent docs about normalization flag for windows functions
 
 ## v0.1.3
@@ -39,3 +43,7 @@
 [#24]: https://github.com/r9y9/pysptk/pull/24
 [#25]: https://github.com/r9y9/pysptk/issues/25
 [#28]: https://github.com/r9y9/pysptk/pull/28
+[#31]: https://github.com/r9y9/pysptk/pull/31
+[#32]: https://github.com/r9y9/pysptk/pull/32
+[#34]: https://github.com/r9y9/pysptk/issues/34
+[#35]: https://github.com/r9y9/pysptk/pull/35
