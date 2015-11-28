@@ -33,7 +33,7 @@ if cython:
 else:
     ext = '.c'
     cmdclass = {}
-    if not os.path.exists(join("pysptk", "sptk" + ext)):
+    if not os.path.exists(join("pysptk", "_sptk" + ext)):
         raise RuntimeError("Cython is required to generate C codes.")
 
 # SPTK sources
@@ -63,8 +63,8 @@ for ignore in ignore_bin_list:
 
 # define core cython module
 ext_modules = [Extension(
-    name="pysptk.sptk",
-    sources=[join("pysptk", "sptk" + ext)] + sptk_all_src,
+    name="pysptk._sptk",
+    sources=[join("pysptk", "_sptk" + ext)] + sptk_all_src,
     include_dirs=[np.get_include(), join(
         os.getcwd(), "lib", "SPTK", "include")],
     language="c",
