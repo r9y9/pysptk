@@ -458,7 +458,7 @@ def c2ndps(np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
     buf = np.empty(fftlen, dtype=np.float64)
     _c2ndps(&c[0], order, &buf[0], fftlen)
 
-    buf[0:dst_length] = buf[0:dst_length]
+    ndps[:] = buf[0:dst_length]
 
     return ndps
 
@@ -471,7 +471,7 @@ def ndps2c(np.ndarray[np.float64_t, ndim=1, mode="c"] ndps not None,
     assert_fftlen(fftlen)
     c = np.empty(order + 1, dtype=np.float64)
     _ndps2c(&ndps[0], fftlen, &c[0], order)
-    return ndps
+    return c
 
 
 def gc2gc(np.ndarray[np.float64_t, ndim=1, mode="c"] src_ceps not None,
