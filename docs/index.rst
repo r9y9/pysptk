@@ -26,6 +26,15 @@ API documentation
     api
 
 
+Developer Documentation
+-----------------------
+
+.. toctree::
+    :maxdepth: 2
+
+    development
+
+
 Indices and tables
 ==================
 

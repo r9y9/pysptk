@@ -6,16 +6,16 @@ A python wrapper for `Speech Signal Processing Toolkit (SPTK)
 
 https://github.com/r9y9/pysptk
 
+The wrapper is based on a modified version of SPTK (`r9y9/SPTK`_)
+
+.. _r9y9/SPTK: https://github.com/r9y9/SPTK
+
 Full documentation
 ------------------
 
 A full documentation of SPTK is available at http://sp-tk.sourceforge.net.
 If you are not familiar with SPTK, I recommend you to take a look at the doc
 first before using ``pysptk``.
-
-The wrapper is based on a modified version of SPTK (`r9y9/SPTK`_)
-
-.. _r9y9/SPTK: https://github.com/r9y9/SPTK
 
 Demonstration notebooks
 -----------------------
