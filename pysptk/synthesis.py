@@ -55,7 +55,7 @@ from abc import ABCMeta, abstractmethod
 
 import pysptk
 
-from pysptk import assert_pade, assert_stage
+from pysptk.util import assert_pade, assert_stage
 
 
 class SynthesisFilter(object):
