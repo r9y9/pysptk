@@ -427,12 +427,11 @@ def mcep(windowed,
     pysptk.sptk.mlsadf
 
     """
-    return _sptk.mcep(windowed, order, alpha, miniter, maxiter, threshold, etype, eps,
-                      min_det, itype)
+    return _sptk.mcep(windowed, order, alpha, miniter, maxiter, threshold,
+                      etype, eps, min_det, itype)
 
 
-def gcep(windowed,
-         order=25, gamma=0.0,
+def gcep(windowed, order=25, gamma=0.0,
          miniter=2,
          maxiter=30,
          threshold=0.001,
@@ -514,11 +513,11 @@ def gcep(windowed,
 
     """
 
-    return _sptk.gcep(windowed, order, gamma, miniter, maxiter, threshold, etype, eps, min_det, itype)
+    return _sptk.gcep(windowed, order, gamma, miniter, maxiter, threshold,
+                      etype, eps, min_det, itype)
 
 
-def mgcep(windowed,
-          order=25, alpha=0.35, gamma=0.0,
+def mgcep(windowed, order=25, alpha=0.35, gamma=0.0,
           num_recursions=None,
           miniter=2,
           maxiter=30,
@@ -624,12 +623,11 @@ def mgcep(windowed,
 
     """
 
-    return _sptk.mgcep(windowed, order, alpha, gamma, num_recursions, miniter, maxiter,
-                       threshold, etype, eps, min_det, itype, otype)
+    return _sptk.mgcep(windowed, order, alpha, gamma, num_recursions, miniter,
+                       maxiter, threshold, etype, eps, min_det, itype, otype)
 
 
-def uels(windowed,
-         order=25,
+def uels(windowed, order=25,
          miniter=2,
          maxiter=30,
          threshold=0.001,
@@ -702,8 +700,8 @@ def uels(windowed,
 
     """
 
-    return _sptk.uels(windowed, order,
-                      miniter, maxiter, threshold, etype, eps, itype)
+    return _sptk.uels(windowed, order, miniter, maxiter, threshold, etype, eps,
+                      itype)
 
 
 def fftcep(logsp,
@@ -740,9 +738,7 @@ def fftcep(logsp,
     return _sptk.fftcep(logsp, order, num_iter, acceleration_factor)
 
 
-def lpc(windowed,
-        order=25,
-        min_det=1.0e-6):
+def lpc(windowed, order=25, min_det=1.0e-6):
     """Linear prediction analysis
 
     Parameters
@@ -894,8 +890,7 @@ def lpc2c(lpc, order=None):
     return _sptk.lpc2c(lpc, order)
 
 
-def lpc2lsp(lpc,
-            numsp=512, maxiter=4, eps=1.0e-6, loggain=False, otype=0,
+def lpc2lsp(lpc, numsp=512, maxiter=4, eps=1.0e-6, loggain=False, otype=0,
             fs=None):
     """LPC to LSP
 
@@ -1376,13 +1371,11 @@ def freqt(ceps, order=25, alpha=0.0):
     return _sptk.freqt(ceps, order, alpha)
 
 
-def frqtr(src_ceps,
-          order=25, alpha=0.0):
+def frqtr(src_ceps, order=25, alpha=0.0):
     return _sptk.frqtr(src_ceps, order, alpha)
 
 
-def mgc2mgc(src_ceps,
-            src_alpha=0.0, src_gamma=0.0,
+def mgc2mgc(src_ceps, src_alpha=0.0, src_gamma=0.0,
             dst_order=None, dst_alpha=0.0, dst_gamma=0.0):
     """Mel-generalized cepstrum transform
 
@@ -1429,8 +1422,7 @@ def mgc2mgc(src_ceps,
 
     """
 
-    return _sptk.mgc2mgc(src_ceps,
-                         src_alpha, src_gamma,
+    return _sptk.mgc2mgc(src_ceps, src_alpha, src_gamma,
                          dst_order, dst_alpha, dst_gamma)
 
 
@@ -1475,8 +1467,7 @@ def mgc2sp(ceps, alpha=0.0, gamma=0.0, fftlen=256):
     return _sptk.mgc2sp(ceps, alpha, gamma, fftlen)
 
 
-def mgclsp2sp(lsp,
-              alpha=0.0, gamma=0.0, fftlen=256, gain=True):
+def mgclsp2sp(lsp, alpha=0.0, gamma=0.0, fftlen=256, gain=True):
     """MGC-LSP to spectrum
 
     Parameters
@@ -1514,14 +1505,12 @@ def mgclsp2sp(lsp,
 
     """
 
-    return _sptk.mgclsp2sp(lsp,
-                           alpha, gamma, fftlen, gain)
+    return _sptk.mgclsp2sp(lsp, alpha, gamma, fftlen, gain)
 
 ### F0 analysis ###
 
 
-def swipe(x, fs, hopsize,
-          min=60.0, max=240.0, threshold=0.3, otype="f0"):
+def swipe(x, fs, hopsize, min=60.0, max=240.0, threshold=0.3, otype="f0"):
     """SWIPE' - A Saw-tooth Waveform Inspired Pitch Estimation
 
     Parameters
@@ -1581,13 +1570,10 @@ def swipe(x, fs, hopsize,
 
     """
 
-    return _sptk.swipe(x, fs, hopsize,
-                       min, max, threshold, otype)
+    return _sptk.swipe(x, fs, hopsize, min, max, threshold, otype)
 
 
-def rapt(x,
-         fs, hopsize,
-         min=60, max=240, voice_bias=0.0, otype="f0"):
+def rapt(x, fs, hopsize, min=60, max=240, voice_bias=0.0, otype="f0"):
     """RAPT - a robust algorithm for pitch tracking
 
     Parameters
@@ -1659,9 +1645,7 @@ def rapt(x,
 
     """
 
-    return _sptk.rapt(x,
-                      fs, hopsize,
-                      min, max, voice_bias, otype)
+    return _sptk.rapt(x, fs, hopsize, min, max, voice_bias, otype)
 
 ### Window functions ###
 
@@ -2108,9 +2092,7 @@ def glsadf(x, c,
 
     """
 
-    return _sptk.glsadf(x, c,
-                        stage,
-                        delay)
+    return _sptk.glsadf(x, c, stage, delay)
 
 
 def mlsadf_delay(order, pd):
@@ -2253,8 +2235,8 @@ def mglsadf(x, b, alpha, stage, delay):
 def excite(pitch, frame_period=100, interp_period=1, gaussian=False, seed=1):
     return _sptk.excite(pitch, frame_period, interp_period, gaussian, seed)
 
-### Utils ###
 
+### Utils ###
 
 def phidf(x, order, alpha, delay):
     _sptk.phidf(x, order, alpha, delay)
