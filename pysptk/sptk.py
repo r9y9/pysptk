@@ -78,6 +78,13 @@ F0 analysis
     swipe
     rapt
 
+Excitation generation
+---------------------
+.. autosummary::
+    :toctree: generated/
+
+    excite
+
 Window functions
 ----------------
 .. autosummary::
@@ -2232,8 +2239,48 @@ def mglsadf(x, b, alpha, stage, delay):
 
 ### Excitation ###
 
-def excite(pitch, frame_period=100, interp_period=1, gaussian=False, seed=1):
-    return _sptk.excite(pitch, frame_period, interp_period, gaussian, seed)
+def excite(pitch, hopsize=100, interp_period=1, gaussian=False, seed=1):
+    """Excitation generation
+
+    Parameters
+    ----------
+    pitch : array
+        Pitch sequence.
+
+        .. note::
+
+            ``excite`` assumes that input is a **pitch** sequence, not **f0**
+            sequence. Pitch sequence can be obtained by speficying
+            ```otype="pitch"`` to F0 estimation methods.
+
+    hopsize : int
+        Hop size (frame period in sample). Default is 100.
+
+    interp_period : int
+        Interpolation period. Default is 1.
+
+    gaussian : bool
+        If True, generate gausssian noise for unvoiced frames, otherwise
+        generate M-sequence. Default is False.
+
+    seed : int
+        Seed for nrand for Gaussian noise. Default is 1.
+
+    Returns
+    -------
+    excitation : array
+        Excitation signal
+
+    See also
+    --------
+
+    pysptk.sptk.poledf
+    pysptk.sptk.swipe
+    pysptk.sptk.rapt
+
+
+    """
+    return _sptk.excite(pitch, hopsize, interp_period, gaussian, seed)
 
 
 ### Utils ###
