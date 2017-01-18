@@ -88,10 +88,15 @@ def mcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
         raise ValueError("min_det must be positive: min_det = %f" % min_det)
 
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] mc
-    cdef int windowed_length = len(windowed)
+    cdef int frame_length
+    if itype == 0:
+       frame_length = len(windowed)
+    else:
+       frame_length = (len(windowed) - 1) * 2
+
     cdef int ret
     mc = np.empty(order + 1, dtype=np.float64)
-    ret = _mcep(&windowed[0], windowed_length, &mc[0],
+    ret = _mcep(&windowed[0], frame_length, &mc[0],
                 order, alpha, miniter, maxiter, threshold, etype, eps,
                 min_det, itype)
     assert ret == -1 or ret == 0 or ret == 3 or ret == 4
