@@ -39,7 +39,8 @@ def test_mcep_invalid_args():
     yield raises(ValueError)(__test_eps), -1
     yield raises(ValueError)(__test_eps), -3
     yield raises(ValueError)(__test_eps), 1, -1.0
-    yield raises(ValueError)(__test_eps), 2, -1.0
+    yield raises(ValueError)(__test_eps), 2, 0.0
+    yield raises(ValueError)(__test_eps), 2, 1.0
 
     def __test_min_det(min_det):
         pysptk.mcep(x, min_det=min_det)

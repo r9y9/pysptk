@@ -81,22 +81,28 @@ def mcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
     if etype == 0 and eps != 0.0:
         raise ValueError("eps cannot be specified for etype = 0")
 
-    if (etype == 1 or etype == 2) and eps < 0.0:
+    if etype == 1 and eps < 0.0:
         raise ValueError("eps: %f, must be >= 0" % eps)
+
+    if etype == 2 and eps >= 0.0:
+        raise ValueError("eps: %f, must be < 0" % eps)
 
     if min_det < 0.0:
         raise ValueError("min_det must be positive: min_det = %f" % min_det)
 
+    cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] x
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] mc
     cdef int frame_length
     if itype == 0:
        frame_length = len(windowed)
     else:
-       frame_length = (len(windowed) - 1) * 2
+       frame_length = (len(windowed) - 1) * 2  # fftlen
 
     cdef int ret
     mc = np.empty(order + 1, dtype=np.float64)
-    ret = _mcep(&windowed[0], frame_length, &mc[0],
+    x = np.zeros(frame_length, dtype=np.float64)
+    x[:len(windowed)] = windowed
+    ret = _mcep(&x[0], frame_length, &mc[0],
                 order, alpha, miniter, maxiter, threshold, etype, eps,
                 min_det, itype)
     assert ret == -1 or ret == 0 or ret == 3 or ret == 4
