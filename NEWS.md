@@ -1,5 +1,9 @@
 # News for pysptk
 
+## v0.1.5
+
+- Fix mcep eps check and input length [#39]
+
 ## v0.1.4
 
 - Add developer documentation ([#34])
@@ -49,3 +53,4 @@
 [#32]: https://github.com/r9y9/pysptk/pull/32
 [#34]: https://github.com/r9y9/pysptk/issues/34
 [#35]: https://github.com/r9y9/pysptk/pull/35
+[#39]: https://github.com/r9y9/pysptk/pull/39
