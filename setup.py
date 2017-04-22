@@ -11,7 +11,7 @@ from glob import glob
 from os.path import join
 
 
-min_cython_ver = '0.19.0'
+min_cython_ver = '0.21.0'
 try:
     import Cython
     ver = Cython.__version__
