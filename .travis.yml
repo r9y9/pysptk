@@ -27,6 +27,7 @@ before_install:
   - deps='pip numpy scipy cython nose coverage six'
   - conda create -q -n test-environment "python=$TRAVIS_PYTHON_VERSION" $deps
   - source activate test-environment
+  - pip install --upgrade cython coveralls
 
 install:
   - pip install -e .
