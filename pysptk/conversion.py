@@ -7,6 +7,8 @@ Other conversions
     :toctree: generated/
 
     mgc2b
+    sp2mc
+    mc2sp
 
 """
 
@@ -44,7 +46,6 @@ def mgc2b(mgc, alpha=0.35, gamma=0.0):
     pysptk.sptk.b2mc
     pysptk.sptk.mcep
     pysptk.sptk.mgcep
-    pysptk.sptk.mgcep
 
     """
 
@@ -61,6 +62,34 @@ def mgc2b(mgc, alpha=0.35, gamma=0.0):
 
 
 def sp2mc(powerspec, order, alpha):
+    """Convert spectrum envelope to mel-cepstrum
+
+    This is a simplified implementation of ``mcep`` for input type
+    is 4.
+
+    Parameters
+    ----------
+    powerspec : array
+        Power spectrum
+
+    order : int
+        Order of mel-cepstrum
+
+    alpha : float
+        All-pass constant.
+
+    Returns
+    -------
+    mc : array, shape(``order+1``)
+        mel-cepstrum
+
+    See Also
+    --------
+    pysptk.sptk.mcep
+    pysptk.conversion.mc2sp
+
+    """
+
     # |X(ω)|² -> log(|X(ω)²|)
     logperiodogram = np.log(powerspec)
 
@@ -74,6 +103,30 @@ def sp2mc(powerspec, order, alpha):
 
 
 def mc2sp(mc, alpha, fftlen):
+    """Convert mel-cepstrum back to power spectrum
+
+    Parameters
+    ----------
+    mc : array
+        Mel-spectrum
+
+    alpha : float
+        All-pass constant.
+
+    fftlen : int
+        FFT length
+
+    Returns
+    -------
+    powerspec : array, shape(``fftlen//2 +1``)
+        Power spectrum
+
+    See Also
+    --------
+    pysptk.sptk.mcep
+    pysptk.conversion.sp2mc
+
+    """
     # back to cepstrum from mel-cesptrum
     # cₐ(m) -> c(m)
     c = freqt(mc, int(fftlen // 2), -alpha)
