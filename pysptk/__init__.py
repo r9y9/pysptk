@@ -43,5 +43,5 @@ __version__ = pkg_resources.get_distribution('pysptk').version
 from .sptk import *  # pylint: disable=wildcard-import
 
 from . import synthesis
-from .conversion import mgc2b
+from .conversion import mgc2b, sp2mc, mc2sp
 from . import util
