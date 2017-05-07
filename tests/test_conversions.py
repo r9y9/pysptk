@@ -267,3 +267,18 @@ def test_mgc2b():
         for alpha in [0.0, 0.35, 0.41]:
             for gamma in [-1.0, -0.5, 0.0]:
                 yield __test_transform_base, pysptk.mgc2b, order, alpha, gamma
+
+
+def test_sp2mc():
+    def __test(order, alpha, fftlen):
+        np.random.seed(98765)
+        sp = np.random.rand(int(fftlen // 2 + 1))
+        mc = pysptk.sp2mc(sp, order, alpha)
+        approx_sp = pysptk.mc2sp(mc, alpha, fftlen)
+        # TODO: tolerance should be more carefully chosen
+        assert np.allclose(sp, approx_sp, atol=0.9)
+
+    for order in [20, 20, 40, 50, 60]:
+        for alpha in [0.35, 0.41]:
+            for fftlen in [512, 1024, 2048]:
+                yield __test, order, alpha, fftlen
