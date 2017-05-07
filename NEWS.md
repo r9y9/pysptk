@@ -1,5 +1,9 @@
 # News for pysptk
 
+## v0.1.6
+
+- Add `sp2mc` and `mc2sp`. [#41]
+
 ## v0.1.5
 
 - Fix mcep eps check and input length [#39]
@@ -54,3 +58,4 @@
 [#34]: https://github.com/r9y9/pysptk/issues/34
 [#35]: https://github.com/r9y9/pysptk/pull/35
 [#39]: https://github.com/r9y9/pysptk/pull/39
+[#41]: https://github.com/r9y9/pysptk/pull/41
