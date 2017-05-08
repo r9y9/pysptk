@@ -9,14 +9,14 @@ Other conversions
     mgc2b
     sp2mc
     mc2sp
-
+    mc2e
 """
 
 from __future__ import division, print_function, absolute_import
 
 import numpy as np
 
-from pysptk.sptk import mc2b, gnorm, freqt
+from pysptk.sptk import mc2b, gnorm, freqt, c2ir
 
 
 def mgc2b(mgc, alpha=0.35, gamma=0.0):
@@ -141,3 +141,33 @@ def mc2sp(mc, alpha, fftlen):
     # back to power spectrum
     # c(m) -> log(|X(ω)|²) -> |X(ω)|²
     return np.exp(np.fft.rfft(symc).real)
+
+
+def mc2e(mc, alpha=0.35, irlen=256):
+    """Compute energy from mel-cepstrum
+
+    Inspired from hts_engine
+
+    Parameters
+    ----------
+    mc : array
+        Mel-spectrum
+
+    alpha : float
+        All-pass constant.
+
+    irlen : int
+        IIR filter length
+
+    Returns
+    -------
+    energy : floating point, scalar
+        frame energy
+    """
+    # back to linear frequency domain
+    c = freqt(mc, irlen - 1, -alpha)
+
+    # compute impule response from cepsturm
+    ir = c2ir(c, irlen)
+
+    return np.sum(np.abs(ir * ir))
