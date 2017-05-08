@@ -282,3 +282,9 @@ def test_sp2mc():
         for alpha in [0.35, 0.41]:
             for fftlen in [512, 1024, 2048]:
                 yield __test, order, alpha, fftlen
+
+
+def test_mc2b():
+    x = windowed_dummy_data(1024)
+    mc = pysptk.mcep(x)
+    assert pysptk.mc2e(mc) > 0
