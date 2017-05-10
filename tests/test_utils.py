@@ -3,6 +3,7 @@
 import numpy as np
 import pysptk
 from nose.tools import raises
+from pysptk.util import mcepalpha
 
 
 def test_assert_gamma():
@@ -58,3 +59,12 @@ def test_example_audio_file():
     from os.path import exists
     path = pysptk.util.example_audio_file()
     assert exists(path)
+
+
+def test_mcepalpha():
+    assert np.isclose(mcepalpha(8000), 0.312)
+    assert np.isclose(mcepalpha(11025), 0.357)
+    assert np.isclose(mcepalpha(16000), 0.41)
+    assert np.isclose(mcepalpha(22050), 0.455)
+    assert np.isclose(mcepalpha(44100),  0.544)
+    assert np.isclose(mcepalpha(48000), 0.554)
