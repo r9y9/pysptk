@@ -1,13 +1,11 @@
 Installation guide
 ==================
 
-The latest release is availabe on pypi. You can install it by:
+The latest release is availabe on pypi. Assuming you have already ``numpy`` installed, you can install pysptk by:
 
 .. code::
 
     pip install pysptk
-
-Note that you have to install ``numpy`` to build C-extensions.
 
 If yout want the latest development version, run:
 
