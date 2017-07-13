@@ -3,6 +3,10 @@
 """
 Other conversions
 -----------------
+
+Not exist in SPTK itself, but can be used with the core API.
+Functions in the ``pysptk.conversion`` module can also be directly accesible by ``pysptk.*``.
+
 .. autosummary::
     :toctree: generated/
 

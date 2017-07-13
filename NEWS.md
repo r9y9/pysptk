@@ -1,5 +1,10 @@
 # News for pysptk
 
+## v0.1.7
+
+- Extend vec2vec functions to mat2mat [#49]
+- Support automatic type conversions [#48]
+
 ## v0.1.6
 
 - Add `mcepalpha`. [#43]
@@ -63,3 +68,5 @@
 [#41]: https://github.com/r9y9/pysptk/pull/41
 [#42]: https://github.com/r9y9/pysptk/pull/42
 [#43]: https://github.com/r9y9/pysptk/issues/43
+[#48]: https://github.com/r9y9/pysptk/issues/48
+[#49]: https://github.com/r9y9/pysptk/issues/49

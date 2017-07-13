@@ -5,5 +5,6 @@ API
     :maxdepth: 2
 
     sptk
+    conversion
     synthesis
     util
