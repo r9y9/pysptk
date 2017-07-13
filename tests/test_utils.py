@@ -4,6 +4,7 @@ import numpy as np
 import pysptk
 from nose.tools import raises
 from pysptk.util import mcepalpha
+from pysptk.util import apply_along_last_axis, automatic_type_conversion
 
 
 def test_assert_gamma():
@@ -68,3 +69,70 @@ def test_mcepalpha():
     assert np.isclose(mcepalpha(22050), 0.455)
     assert np.isclose(mcepalpha(44100),  0.544)
     assert np.isclose(mcepalpha(48000), 0.554)
+
+
+def test_automatic_type_conversion():
+    @automatic_type_conversion
+    def f(x):
+        return x
+
+    for dtype in [np.float32, np.float16, np.float64]:
+        x = np.ones(10, dtype=dtype)
+        y = f(x)
+        assert y.dtype == x.dtype
+        y = f(x=x)
+        assert y.dtype == x.dtype
+
+
+def test_apply_along_last_axis():
+    @apply_along_last_axis
+    def f(x):
+        assert x.ndim == 1
+        return x[:len(x) // 2] + np.arange(len(x) // 2)
+
+    for shape in [(10,), (2, 10), (2, 2, 10)]:
+        x = np.ones(shape)
+        y = f(x)
+        xshape = x.shape
+        yshape = y.shape
+        assert len(xshape) == len(yshape)
+        assert xshape[-1] // 2 == yshape[-1]
+        y = f(x=x)
+        yshape = y.shape
+        assert len(xshape) == len(yshape)
+        assert xshape[-1] // 2 == yshape[-1]
+
+    # manually expand 1-loop
+    x = np.ones((2, 10), dtype=np.float64)
+    y = np.empty((2, 5), dtype=np.float64)
+    for i in range(len(x)):
+        y[i] = f(x[i])
+    yhat = f(x)
+    assert np.allclose(yhat, y)
+
+    # expand 2-loop
+    x = np.ones((2, 2, 10), dtype=np.float64)
+    y = np.empty((2, 2, 5), dtype=np.float64)
+    for i in range(len(x)):
+        for j in range(len(x[i])):
+            y[i][j] = f(x[i][j])
+    yhat = f(x)
+    assert np.allclose(yhat, y)
+
+
+def test_multiple_decorators():
+    @apply_along_last_axis
+    @automatic_type_conversion
+    def half_vec(x):
+        assert x.ndim == 1
+        return x[:len(x) // 2]
+
+    for shape in [(10,), (2, 10), (2, 2, 10)]:
+        for dtype in [np.float32, np.float16, np.float64]:
+            x = np.ones(shape, dtype=dtype)
+            y = half_vec(x)
+            xshape = x.shape
+            yshape = y.shape
+            assert len(xshape) == len(yshape)
+            assert xshape[-1] // 2 == yshape[-1]
+            assert x.dtype == y.dtype
