@@ -3,6 +3,10 @@
 """
 Other conversions
 -----------------
+
+Not exist in SPTK itself, but can be used with the core API.
+Functions in the ``pysptk.conversion`` module can also be directly accesible by ``pysptk.*``.
+
 .. autosummary::
     :toctree: generated/
 
@@ -17,8 +21,11 @@ from __future__ import division, print_function, absolute_import
 import numpy as np
 
 from pysptk.sptk import mc2b, gnorm, freqt, c2ir
+from pysptk.util import apply_along_last_axis, automatic_type_conversion
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def mgc2b(mgc, alpha=0.35, gamma=0.0):
     """Mel-generalized cepstrum to MGLSA filter coefficients
 
@@ -61,6 +68,8 @@ def mgc2b(mgc, alpha=0.35, gamma=0.0):
     return b
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def sp2mc(powerspec, order, alpha):
     """Convert spectrum envelope to mel-cepstrum
 
@@ -102,6 +111,8 @@ def sp2mc(powerspec, order, alpha):
     return freqt(c, order, alpha)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def mc2sp(mc, alpha, fftlen):
     """Convert mel-cepstrum back to power spectrum
 
@@ -143,6 +154,8 @@ def mc2sp(mc, alpha, fftlen):
     return np.exp(np.fft.rfft(symc).real)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def mc2e(mc, alpha=0.35, irlen=256):
     """Compute energy from mel-cepstrum
 

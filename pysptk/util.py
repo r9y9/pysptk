@@ -27,9 +27,71 @@ from __future__ import division, print_function, absolute_import
 import pkg_resources
 import numpy as np
 
+
 # 16kHz, 16bit example audio from cmu_us_awb_arctic
 # see COPYING for the license of the audio file.
 EXAMPLE_AUDIO = 'example_audio_data/arctic_a0007.wav'
+
+# I originally tried with functools.wraps to create decoraters, but it didn't
+# work to me if I use multiple decoratores to decorate a function.
+# Specifically, I cannot inspect argspec with a decorated function, so cannot
+# get a argment name simply from it. As suggested in the following
+# stackoverflow thread, using decorator package.
+# https://stackoverflow.com/questions/12558505/preserve-argspec-when-decorating
+try:
+    from inspect import getfullargspec
+except:
+    # python 2.7
+    from inspect import getargspec as getfullargspec
+from decorator import decorator
+
+
+@decorator
+def apply_along_last_axis(func, *args, **kwargs):
+    """Apply function along last axis
+
+    This is used for extending vector-to-vector operations to matrix-to-matrix
+    operations. This basically does the following thing in a convenient way:
+
+    ```py
+    np.apply_along_axis(func, input_vector, -1, *args, **kwargs)
+    ```
+
+    Note: The decorator assumes that the first argment of the function is the
+    input vector (1d numpy array).
+    """
+
+    # Get first arg
+    first_arg_name = getfullargspec(func)[0][0]
+    has_positional_arg = len(args) > 0
+    input_arg = args[0] if has_positional_arg else kwargs[first_arg_name]
+
+    if input_arg.ndim == 1:
+        ret = func(*args, **kwargs)
+    else:
+        # we need at least 1 positonal argment
+        if len(args) == 0:
+            args = kwargs.pop(first_arg_name)
+        ret = np.apply_along_axis(func, -1, *args, **kwargs)
+
+    return ret
+
+
+@decorator
+def automatic_type_conversion(func, *args, **kwargs):
+    first_arg_name = getfullargspec(func)[0][0]
+    has_positional_arg = len(args) > 0
+    input_arg = args[0] if has_positional_arg else kwargs[first_arg_name]
+    dtypein = input_arg.dtype
+
+    # Since C functions can only accept double
+    if dtypein != np.float64:
+        if has_positional_arg:
+            args = tuple(map(lambda v: input_arg.astype(
+                np.float64) if v[0] == 0 else v[1], enumerate(args)))
+        else:
+            kwargs[first_arg_name] = input_arg.astype(np.float64)
+    return func(*args, **kwargs).astype(dtypein)
 
 
 def assert_gamma(gamma):

@@ -84,7 +84,8 @@ setup(
     cmdclass=cmdclass,
     install_requires=[
         'numpy >= 1.8.0',
-        'six'
+        'six',
+        'decorator'
     ],
     tests_require=['nose', 'coverage'],
     extras_require={

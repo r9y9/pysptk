@@ -2,13 +2,18 @@
 
 import numpy as np
 import pysptk
-from warnings import warn
 from nose.tools import raises
 
 
 def windowed_dummy_data(N):
     np.random.seed(98765)
     return pysptk.hanning(N) * np.random.randn(N)
+
+
+def windowed_dummy_frames(T, N, dtype=np.float64):
+    np.random.seed(98765)
+    frames = pysptk.hanning(N) * np.random.randn(T, N)
+    return frames.astype(np.float64)
 
 
 def test_mcep():
@@ -21,6 +26,16 @@ def test_mcep():
     for order in [15, 20, 25]:
         for alpha in [0.0, 0.35, 0.41]:
             yield __test, order, alpha
+
+    # Test for broadcasting
+    def __test_broadcast(dtype):
+        frames = windowed_dummy_frames(100, 512, dtype=dtype)
+        mc = pysptk.mcep(frames, order, alpha)
+        assert np.all(np.isfinite(mc))
+        assert frames.shape[0] == mc.shape[0]
+
+    for dtype in [np.float16, np.float32, np.float64]:
+        __test_broadcast(dtype)
 
 
 def test_mcep_invalid_args():

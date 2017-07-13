@@ -128,9 +128,10 @@ Utilities for waveform generation filters
 import numpy as np
 
 from . import _sptk
-
+from pysptk.util import apply_along_last_axis, automatic_type_conversion
 
 ### Library routines ###
+
 
 def agexp(r, x, y):
     """Magnitude squared generalized exponential function
@@ -351,6 +352,8 @@ def amcep(x, b, alpha=0.35, lambda_coef=0.98, step=0.1, tau=0.9, pd=4, eps=1.0e-
 
 ### Mel-generalized cepstrum analysis ###
 
+@apply_along_last_axis
+@automatic_type_conversion
 def mcep(windowed,
          order=25, alpha=0.35,
          miniter=2,
@@ -438,6 +441,8 @@ def mcep(windowed,
                       etype, eps, min_det, itype)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def gcep(windowed, order=25, gamma=0.0,
          miniter=2,
          maxiter=30,
@@ -524,6 +529,8 @@ def gcep(windowed, order=25, gamma=0.0,
                       etype, eps, min_det, itype)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def mgcep(windowed, order=25, alpha=0.35, gamma=0.0,
           num_recursions=None,
           miniter=2,
@@ -634,6 +641,8 @@ def mgcep(windowed, order=25, alpha=0.35, gamma=0.0,
                        maxiter, threshold, etype, eps, min_det, itype, otype)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def uels(windowed, order=25,
          miniter=2,
          maxiter=30,
@@ -711,6 +720,8 @@ def uels(windowed, order=25,
                       itype)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def fftcep(logsp,
            order=25,
            num_iter=0,
@@ -745,6 +756,8 @@ def fftcep(logsp,
     return _sptk.fftcep(logsp, order, num_iter, acceleration_factor)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def lpc(windowed, order=25, min_det=1.0e-6):
     """Linear prediction analysis
 
@@ -789,6 +802,8 @@ def lpc(windowed, order=25, min_det=1.0e-6):
 
 ### MFCC ###
 
+@apply_along_last_axis
+@automatic_type_conversion
 def mfcc(x, order=14, fs=16000, alpha=0.97, eps=1.0, window_len=None,
          frame_len=None, num_filterbanks=20, cepslift=22, use_dft=False,
          use_hamming=False, czero=False, power=False):
@@ -871,6 +886,8 @@ def mfcc(x, order=14, fs=16000, alpha=0.97, eps=1.0, window_len=None,
 
 ### LPC, LSP and PARCOR conversions ###
 
+@apply_along_last_axis
+@automatic_type_conversion
 def lpc2c(lpc, order=None):
     """LPC to cepstrum
 
@@ -897,6 +914,8 @@ def lpc2c(lpc, order=None):
     return _sptk.lpc2c(lpc, order)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def lpc2lsp(lpc, numsp=512, maxiter=4, eps=1.0e-6, loggain=False, otype=0,
             fs=None):
     """LPC to LSP
@@ -951,6 +970,8 @@ def lpc2lsp(lpc, numsp=512, maxiter=4, eps=1.0e-6, loggain=False, otype=0,
     return _sptk.lpc2lsp(lpc, numsp, maxiter, eps, loggain, otype, fs)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def lpc2par(lpc):
     """LPC to PARCOR
 
@@ -975,6 +996,8 @@ def lpc2par(lpc):
     return _sptk.lpc2par(lpc)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def par2lpc(par):
     """PARCOR to LPC
 
@@ -998,6 +1021,8 @@ def par2lpc(par):
     return _sptk.par2lpc(par)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def lsp2sp(lsp, fftlen=256):
     """LSP to spectrum
 
@@ -1031,6 +1056,8 @@ def lsp2sp(lsp, fftlen=256):
 
 ### Mel-generalized cepstrum conversions ###
 
+@apply_along_last_axis
+@automatic_type_conversion
 def mc2b(mc, alpha=0.35):
     """Mel-cepsrum to MLSA filter coefficients
 
@@ -1061,6 +1088,8 @@ def mc2b(mc, alpha=0.35):
     return _sptk.mc2b(mc, alpha)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def b2mc(b, alpha=0.35):
     """MLSA filter coefficients to mel-cesptrum
 
@@ -1088,10 +1117,14 @@ def b2mc(b, alpha=0.35):
     return _sptk.b2mc(b, alpha)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def b2c(b, dst_order=None, alpha=0.35):
     return _sptk.b2c(b, dst_order, alpha)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def c2acr(c, order=None, fftlen=256):
     """Cepstrum to autocorrelation
 
@@ -1127,6 +1160,8 @@ def c2acr(c, order=None, fftlen=256):
     return _sptk.c2acr(c, order, fftlen)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def c2ir(c, length=256):
     """Cepstrum to impulse response
 
@@ -1152,6 +1187,8 @@ def c2ir(c, length=256):
     return _sptk.c2ir(c, length)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def ic2ir(h, order=25):
     """Impulse response to cepstrum
 
@@ -1177,6 +1214,8 @@ def ic2ir(h, order=25):
     return _sptk.ic2ir(h, order)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def c2ndps(c, fftlen=256):
     """Cepstrum to Negative Derivative of Phase Spectrum (NDPS)
 
@@ -1208,6 +1247,8 @@ def c2ndps(c, fftlen=256):
     return _sptk.c2ndps(c, fftlen)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def ndps2c(ndps, order=25):
     """Cepstrum to Negative Derivative of Phase Spectrum (NDPS)
 
@@ -1239,6 +1280,8 @@ def ndps2c(ndps, order=25):
     return _sptk.ndps2c(ndps, order)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def gc2gc(src_ceps, src_gamma=0.0, dst_order=None, dst_gamma=0.0):
     """Generalized cepstrum transform
 
@@ -1280,6 +1323,8 @@ def gc2gc(src_ceps, src_gamma=0.0, dst_order=None, dst_gamma=0.0):
     return _sptk.gc2gc(src_ceps, src_gamma, dst_order, dst_gamma)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def gnorm(ceps, gamma=0.0):
     """Gain normalization
 
@@ -1315,6 +1360,8 @@ def gnorm(ceps, gamma=0.0):
     return _sptk.gnorm(ceps, gamma)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def ignorm(ceps, gamma=0.0):
     """Inverse gain normalization
 
@@ -1350,6 +1397,8 @@ def ignorm(ceps, gamma=0.0):
     return _sptk.ignorm(ceps, gamma)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def freqt(ceps, order=25, alpha=0.0):
     """Frequency transform
 
@@ -1378,10 +1427,14 @@ def freqt(ceps, order=25, alpha=0.0):
     return _sptk.freqt(ceps, order, alpha)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def frqtr(src_ceps, order=25, alpha=0.0):
     return _sptk.frqtr(src_ceps, order, alpha)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def mgc2mgc(src_ceps, src_alpha=0.0, src_gamma=0.0,
             dst_order=None, dst_alpha=0.0, dst_gamma=0.0):
     """Mel-generalized cepstrum transform
@@ -1433,6 +1486,8 @@ def mgc2mgc(src_ceps, src_alpha=0.0, src_gamma=0.0,
                          dst_order, dst_alpha, dst_gamma)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def mgc2sp(ceps, alpha=0.0, gamma=0.0, fftlen=256):
     """Mel-generalized cepstrum transform
 
@@ -1474,6 +1529,8 @@ def mgc2sp(ceps, alpha=0.0, gamma=0.0, fftlen=256):
     return _sptk.mgc2sp(ceps, alpha, gamma, fftlen)
 
 
+@apply_along_last_axis
+@automatic_type_conversion
 def mgclsp2sp(lsp, alpha=0.0, gamma=0.0, fftlen=256, gain=True):
     """MGC-LSP to spectrum
 
