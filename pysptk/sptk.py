@@ -1487,7 +1487,6 @@ def mgc2mgc(src_ceps, src_alpha=0.0, src_gamma=0.0,
 
 
 @apply_along_last_axis
-@automatic_type_conversion
 def mgc2sp(ceps, alpha=0.0, gamma=0.0, fftlen=256):
     """Mel-generalized cepstrum transform
 
@@ -1530,7 +1529,6 @@ def mgc2sp(ceps, alpha=0.0, gamma=0.0, fftlen=256):
 
 
 @apply_along_last_axis
-@automatic_type_conversion
 def mgclsp2sp(lsp, alpha=0.0, gamma=0.0, fftlen=256, gain=True):
     """MGC-LSP to spectrum
 
