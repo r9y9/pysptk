@@ -1,5 +1,9 @@
 # News for pysptk
 
+## v0.1.8
+
+- c2acr: Fix segfaults for small fftsize
+
 ## v0.1.7
 
 - Extend vec2vec functions to mat2mat [#49]

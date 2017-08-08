@@ -430,6 +430,8 @@ def c2acr(np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
           order=None,
           fftlen=256):
     assert_fftlen(fftlen)
+    if len(c) > fftlen:
+        raise ValueError("fftlen must be larger than length of input")
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] r
     cdef int src_order = len(c) - 1
     if order is None:

@@ -109,6 +109,9 @@ def test_c2acr():
     for fftlen in [257, 513]:
         yield raises(ValueError)(__test_fftlen), fftlen
 
+    def __test_small_fftsize():
+        yield raises(ValueError)(__test_fftlen), 16
+
 
 def test_c2ir():
     for order in [15, 20, 25, 30]:
