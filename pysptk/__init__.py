@@ -36,9 +36,7 @@ Speech%20analysis%20and%20re-synthesis.ipynb
 
 from __future__ import division, print_function, absolute_import
 
-import pkg_resources
-
-__version__ = pkg_resources.get_distribution('pysptk').version
+from .version import __version__
 
 from .sptk import *  # pylint: disable=wildcard-import
 

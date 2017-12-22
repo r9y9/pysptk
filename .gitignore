@@ -1,4 +1,5 @@
 pysptk/_sptk.c
+pysptk/version.py
 docs/generated
 
 # Created by https://www.gitignore.io
