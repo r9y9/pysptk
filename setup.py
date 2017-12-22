@@ -3,13 +3,54 @@
 from __future__ import with_statement, print_function, absolute_import
 
 from setuptools import setup, find_packages, Extension
+import setuptools.command.develop
+import setuptools.command.build_py
 from distutils.version import LooseVersion
 
 import numpy as np
 import os
 from glob import glob
 from os.path import join
+import subprocess
 
+version = '0.1.8'
+
+# Adapted from https://github.com/pytorch/pytorch
+cwd = os.path.dirname(os.path.abspath(__file__))
+if os.getenv('PYSPTK_BUILD_VERSION'):
+    version = os.getenv('PYSPTK_BUILD_VERSION')
+else:
+    try:
+        sha = subprocess.check_output(
+            ['git', 'rev-parse', 'HEAD'], cwd=cwd).decode('ascii').strip()
+        version += '+' + sha[:7]
+    except subprocess.CalledProcessError:
+        pass
+
+
+class build_py(setuptools.command.build_py.build_py):
+
+    def run(self):
+        self.create_version_file()
+        setuptools.command.build_py.build_py.run(self)
+
+    @staticmethod
+    def create_version_file():
+        global version, cwd
+        print('-- Building version ' + version)
+        version_path = os.path.join(cwd, 'pysptk', 'version.py')
+        with open(version_path, 'w') as f:
+            f.write("__version__ = '{}'\n".format(version))
+
+
+class develop(setuptools.command.develop.develop):
+
+    def run(self):
+        build_py.create_version_file()
+        setuptools.command.develop.develop.run(self)
+
+
+cmdclass = {"build_py": build_py, "develop": develop}
 
 min_cython_ver = '0.21.0'
 try:
@@ -29,12 +70,11 @@ except ImportError:
 
 if cython:
     ext = '.pyx'
-    cmdclass = {'build_ext': build_ext}
+    cmdclass['build_ext'] = build_ext
 else:
     ext = '.c'
-    cmdclass = {}
     if not os.path.exists(join("pysptk", "_sptk" + ext)):
-        raise RuntimeError("Cython is required to generate C codes.")
+        raise RuntimeError("Cython is required to generate C code.")
 
 # SPTK sources
 src_top = join("lib", "SPTK")
@@ -73,7 +113,7 @@ ext_modules = [Extension(
 
 setup(
     name='pysptk',
-    version='0.1.8-dev',
+    version=version,
     description='A python wrapper for Speech Signal Processing Toolkit (SPTK)',
     author='Ryuichi Yamamoto',
     author_email='zryuichi@gmail.com',
