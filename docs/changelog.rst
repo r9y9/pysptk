@@ -2,16 +2,16 @@ Change log
 ==========
 
 
-v0.1.9 <2019-xx-xx>
+v0.1.9 <2018-xx-xx>
 -------------------
 
 
-v0.1.8 <2018-12-25>
+v0.1.8 <2017-12-25>
 -------------------
 
 -  c2acr: Fix segfaults for small fftsize
 
-v0.1.7 <2018-06-28>
+v0.1.7 <2017-06-28>
 -------------------
 
 -  Extend vec2vec functions to mat2mat
@@ -19,7 +19,7 @@ v0.1.7 <2018-06-28>
 -  Support automatic type conversions
    `#48 <https://github.com/r9y9/pysptk/issues/48>`__
 
-v0.1.6 <2018-05-18>
+v0.1.6 <2017-05-18>
 -------------------
 
 -  Add ``mcepalpha``. `#43 <https://github.com/r9y9/pysptk/issues/43>`__
@@ -27,7 +27,7 @@ v0.1.6 <2018-05-18>
 -  Add ``sp2mc`` and ``mc2sp``.
    `#41 <https://github.com/r9y9/pysptk/pull/41>`__
 
-v0.1.5 <2018-04-22>
+v0.1.5 <2017-04-22>
 -------------------
 
 -  Fix mcep eps check and input length
