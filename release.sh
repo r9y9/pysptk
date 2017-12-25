@@ -17,6 +17,6 @@ VERSION=${TAG/v/}
 PYSPTK_BUILD_VERSION=$VERSION python setup.py develop sdist
 echo "*** Ready to release! pysptk $TAG ***"
 echo "Please run the following command manually:"
-echo pysptk_BUILD_VERSION=$VERSION python setup.py sdist upload
+echo PYSPTK_BUILD_VERSION=$VERSION python setup.py sdist upload
 echo "Please make sure that release verion is correct."
 cat pysptk/version.py
