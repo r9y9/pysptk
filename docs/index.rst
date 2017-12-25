@@ -3,6 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+:github_url: https://github.com/r9y9/pysptk
+
 pysptk
 ======
 
@@ -34,6 +36,12 @@ Developer Documentation
 
     development
 
+
+.. toctree::
+    :maxdepth: 1
+    :caption: Meta information
+
+    changelog
 
 Indices and tables
 ==================
