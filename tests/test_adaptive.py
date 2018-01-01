@@ -25,7 +25,7 @@ def test_acep():
 
     # invalid pade
     yield raises(ValueError)(__test), 20, 3
-    yield raises(ValueError)(__test), 20, 6
+    yield raises(ValueError)(__test), 20, 8
 
 
 def test_agcep():
@@ -58,4 +58,4 @@ def test_amcep():
 
     # invalid pade
     yield raises(ValueError)(__test), 20, 0.35, 3
-    yield raises(ValueError)(__test), 20, 0.35, 6
+    yield raises(ValueError)(__test), 20, 0.35, 8
