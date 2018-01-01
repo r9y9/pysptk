@@ -120,6 +120,7 @@ setup(
     url='https://github.com/r9y9/pysptk',
     license='MIT',
     packages=find_packages(),
+    package_data={'': ['example_audio_data/*']},
     ext_modules=ext_modules,
     cmdclass=cmdclass,
     install_requires=[

@@ -2,8 +2,10 @@ Change log
 ==========
 
 
-v0.1.9 <2018-xx-xx>
+v0.1.9 <2018-01-01>
 -------------------
+
+- BUG fix: example_audio_data is now included in the release tar.gz
 
 
 v0.1.8 <2017-12-25>
