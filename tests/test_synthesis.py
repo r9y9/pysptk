@@ -42,17 +42,18 @@ def test_LMADF():
         y = synthesizer.synthesis(source, b)
         assert np.all(np.isfinite(y))
 
-    def __test(order):
-        __test_synthesis(LMADF(order))
+    def __test(order, pd):
+        __test_synthesis(LMADF(order, pd=pd))
 
-    for order in [20, 25]:
-        yield __test, order
+    for pd in [4, 5, 6, 7]:
+        for order in [20, 25]:
+            yield __test, order, pd
 
     def __test_invalid_pade(pd):
         LMADF(20, pd=pd)
 
     yield raises(ValueError)(__test_invalid_pade), 3
-    yield raises(ValueError)(__test_invalid_pade), 6
+    yield raises(ValueError)(__test_invalid_pade), 8
 
 
 def test_MLSADF():
@@ -76,18 +77,19 @@ def test_MLSADF():
 
     from pysptk.synthesis import MLSADF
 
-    def __test(order, alpha):
-        __test_synthesis(MLSADF(order, alpha))
+    def __test(order, alpha, pd):
+        __test_synthesis(MLSADF(order, alpha, pd=pd))
 
-    for order in [20, 25]:
-        for alpha in [0.0, 0.41]:
-            yield __test, order, alpha
+    for pd in [4, 5, 6, 7]:
+        for order in [20, 25]:
+            for alpha in [0.0, 0.41]:
+                yield __test, order, alpha, pd
 
     def __test_invalid_pade(pd):
         MLSADF(20, pd=pd)
 
     yield raises(ValueError)(__test_invalid_pade), 3
-    yield raises(ValueError)(__test_invalid_pade), 6
+    yield raises(ValueError)(__test_invalid_pade), 8
 
 
 def test_MGLSADF():

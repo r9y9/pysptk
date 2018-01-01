@@ -19,7 +19,7 @@ def test_assert_pade():
     def __test(pade):
         pysptk.util.assert_pade(pade)
 
-    for pade in [3, 6]:
+    for pade in [3, 8]:
         yield raises(ValueError)(__test), pade
 
 

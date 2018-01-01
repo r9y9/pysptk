@@ -100,8 +100,9 @@ def assert_gamma(gamma):
 
 
 def assert_pade(pade):
-    if pade != 4 and pade != 5:
-        raise ValueError("4 or 5 pade approximation is supported")
+    valid = [4, 5, 6, 7]
+    if pade not in valid:
+        raise ValueError("4, 5, 6 or 7 pade approximation is supported")
 
 
 def assert_stage(stage):
