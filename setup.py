@@ -13,7 +13,7 @@ from glob import glob
 from os.path import join
 import subprocess
 
-version = '0.1.10'
+version = '0.1.11'
 
 # Adapted from https://github.com/pytorch/pytorch
 cwd = os.path.dirname(os.path.abspath(__file__))
