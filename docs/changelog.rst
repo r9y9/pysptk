@@ -1,7 +1,7 @@
 Change log
 ==========
 
-v0.1.10 <2018-xx-xx>
+v0.1.10 <2018-01-02>
 --------------------
 
 - `#54`_: Changes from SPTK v3.11 release. 6 and 7 pade approximatino in lmadf and mlsadf is now supported,
