@@ -4,6 +4,8 @@ Change log
 v0.1.11 <2018-xx-xx>
 --------------------
 
+- `#55`_: Add numpy implementation of cdist
+
 v0.1.10 <2018-01-02>
 --------------------
 
@@ -98,3 +100,4 @@ v0.1.0 <2015-09-05>
 -  Initial release
 
 .. _#54: https://github.com/r9y9/pysptk/pull/54
+.. _#55: https://github.com/r9y9/pysptk/issues/55

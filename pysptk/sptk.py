@@ -123,12 +123,64 @@ Utilities for waveform generation filters
     mlsadf_delay
     mglsadf_delay
 
+Metrics
+-------
+.. autosummary::
+    :toctree: generated/
+
+    cdist
+
 """
 
 import numpy as np
 
 from . import _sptk
 from pysptk.util import apply_along_last_axis, automatic_type_conversion
+
+
+def cdist(c1, c2, otype=0, frame=False):
+    """Calculation of cepstral distance
+
+    Parameters
+    ----------
+    c1 : array
+        Minimum-phase cepstrum
+    c2 : array
+        Minimum-phase cepstrum
+    otype : int
+        Output data type
+            (0) [db]
+            (1) squared error
+            (2) root squared error
+
+        Default is 0.
+    frame : bool
+        If True, returns frame-wise distance, otherwise returns mean distance.
+        Default is False.
+
+    Returns
+    -------
+    distance
+
+    """
+
+    if not otype in [0, 1, 2]:
+        raise ValueError("unsupported otype: %d, must be in 0:2" % otype)
+
+    assert c1.shape[0] == c2.shape[0]
+    T = c1.shape[0]
+
+    s = ((c1[:, 1:] - c2[:, 1:])**2).sum(-1)
+
+    if otype == 0:
+        s = np.sqrt(2 * s) * 10 / np.log(10)
+    elif otype == 2:
+        s = np.sqrt(s)
+
+    if frame:
+        return s
+    else:
+        return s.mean()
 
 ### Library routines ###
 
