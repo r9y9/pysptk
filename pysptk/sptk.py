@@ -1559,7 +1559,10 @@ def mgc2sp(ceps, alpha=0.0, gamma=0.0, fftlen=256):
     Returns
     -------
     sp : array, shape (``fftlen // 2 + 1``)
-         Complex spectrum
+         Complex spectrum log_e(H(ω))
+
+    .. warning:: There's no equivalent option ``o`` in SPTK's mgc2sp.
+        You have to normalize spectrum manually if needed.
 
     Raises
     ------
