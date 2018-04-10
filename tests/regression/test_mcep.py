@@ -43,3 +43,27 @@ def test_mcep_from_H():
 
     assert mc.shape == mc_hat.shape
     assert np.allclose(mc, mc_hat, atol=1e-6)
+
+
+def test_mgc2sp():
+    """mgc2sp
+
+    ref: https://github.com/r9y9/pysptk/issues/57
+    """
+    # frame -l 512 -p 80 < test16k.float | window -l 512| mcep -q 0 -l 512 \
+    # -a 0.41 -m 24 | mgc2sp -a 0.41 -m 24 -l 512 -o 3 > test16k_57.sp
+    # output type 3 means we get power spectrum |H(w)|^2
+    sp = np.fromfile(
+        join(DATA_DIR, "test16k_57.sp"), dtype=np.float32).reshape(759, 257).astype(np.float64)
+
+    # frame -l 512 -p 80 < test16k.float | window -l 512 \
+    # | mcep -q 0 -l 512 -a 0.41 -m 24 > test16k_57.mgc
+    mgc = np.fromfile(join(DATA_DIR, "test16k_57.mgc"), dtype=np.float32).reshape(
+        759, 25).astype(np.float64)
+
+    logk = 20 / np.log(10.0)
+    # mgc2sp does conversion: c(k) -> log H(w)
+    # so convert it to |H(w)|^2 to get power spectrum
+    sp_hat = np.exp(pysptk.mgc2sp(mgc, 0.41, 0, 512).real*2)
+
+    assert np.allclose(sp, sp_hat)
