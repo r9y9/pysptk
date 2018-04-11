@@ -61,7 +61,6 @@ def test_mgc2sp():
     mgc = np.fromfile(join(DATA_DIR, "test16k_57.mgc"), dtype=np.float32).reshape(
         759, 25).astype(np.float64)
 
-    logk = 20 / np.log(10.0)
     # mgc2sp does conversion: c(k) -> log H(w)
     # so convert it to |H(w)|^2 to get power spectrum
     sp_hat = np.exp(pysptk.mgc2sp(mgc, 0.41, 0, 512).real*2)
