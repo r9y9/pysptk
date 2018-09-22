@@ -216,6 +216,5 @@ def test_LSPDF():
     def __test(order):
         __test_synthesis(LSPDF(order))
 
-    warn("TODO: tests are failing")
-    # for order in [20, 25]:
-    #    yield __test, order
+    for order in [20, 25]:
+        yield __test, order
