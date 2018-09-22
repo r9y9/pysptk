@@ -48,6 +48,7 @@ LPC, LSP and PARCOR conversions
     lpc2lsp
     lpc2par
     par2lpc
+    lsp2lpc
     lsp2sp
 
 Mel-generalized cepstrum conversions
@@ -968,8 +969,8 @@ def lpc2c(lpc, order=None):
 
 @apply_along_last_axis
 @automatic_type_conversion
-def lpc2lsp(lpc, numsp=512, maxiter=4, eps=1.0e-6, loggain=False, otype=0,
-            fs=None):
+def lpc2lsp(lpc, numsp=128, maxiter=4, eps=1.0e-6, has_gain=True,
+            loggain=False, otype=0, fs=None):
     """LPC to LSP
 
     Parameters
@@ -978,13 +979,16 @@ def lpc2lsp(lpc, numsp=512, maxiter=4, eps=1.0e-6, loggain=False, otype=0,
         LPC
 
     numsp : int, optional
-        Number of unit circle. Default is 512.
+        Number of unit circle. Default is 128.
 
     maxiter : int, optional
         Maximum number of iteration. Default is 4.
 
     eps : float, optional
         End condition for iteration. Default is 1.0e-6.
+
+    has_gain : bool, optional
+        Whether input LPC has gain at the index 0 or not. Default is True.
 
     loggain : bool, optional
         whether the converted lsp should have loggain or not.
@@ -1019,7 +1023,7 @@ def lpc2lsp(lpc, numsp=512, maxiter=4, eps=1.0e-6, loggain=False, otype=0,
 
     """
 
-    return _sptk.lpc2lsp(lpc, numsp, maxiter, eps, loggain, otype, fs)
+    return _sptk.lpc2lsp(lpc, numsp, maxiter, eps, has_gain, loggain, otype, fs)
 
 
 @apply_along_last_axis
@@ -1075,7 +1079,56 @@ def par2lpc(par):
 
 @apply_along_last_axis
 @automatic_type_conversion
-def lsp2sp(lsp, fftlen=256):
+def lsp2lpc(lsp, has_gain=True, loggain=False, fs=None, itype=0):
+    """LSP to LPC
+
+
+    Parameters
+    ----------
+    lpc : array
+        LPC
+
+    has_gain : bool, optional
+        Whether input LPC has gain at the index 0 or not. Default is True.
+
+    loggain : bool, optional
+        If True, it's assumed that input LPC has loggain and convert it to linear
+        gain. Default is False.
+
+    fs : int, optional
+        Sampling frequency. Default is None and unused.
+
+    itype : int, optional
+        Input LPC format
+            (0)  normalized frequency (0 ~ pi)
+            (1)  normalized frequency (0 ~ 0.5)
+            (2)  frequency (kHz)
+            (3)  frequency (Hz)
+
+        Default is 0.
+
+    Returns
+    -------
+    lsp : array, shape (``order + 1``) if has_gain else (``order``)
+        LPC
+
+    raises
+    ------
+    ValueError
+        if ``fs`` is not specified when itype = 2 or 3.
+        if ``loggain`` and not ``has_gain``.
+
+    See Also
+    --------
+    pysptk.sptk.lpc2lsp
+    """
+
+    return _sptk.lsp2lpc(lsp, has_gain, loggain, fs, itype)
+
+
+@apply_along_last_axis
+@automatic_type_conversion
+def lsp2sp(lsp, fftlen=256, has_gain=True, loggain=False, fs=None, itype=0):
     """LSP to spectrum
 
     Parameters
@@ -1086,16 +1139,29 @@ def lsp2sp(lsp, fftlen=256):
     fftlen : int, optional
         FFT length
 
-    TODO: consider ``otype`` optional argument
+    has_gain : bool, optional
+        Whether input LPC has gain at the index 0 or not. Default is True.
+
+    loggain : bool, optional
+        If True, it's assumed that input LPC has loggain and convert it to linear
+        gain. Default is False.
+
+    fs : int, optional
+        Sampling frequency. Default is None and unused.
+
+    itype : int, optional
+        Input LPC format
+            (0)  normalized frequency (0 ~ pi)
+            (1)  normalized frequency (0 ~ 0.5)
+            (2)  frequency (kHz)
+            (3)  frequency (Hz)
+
+        Default is 0.
 
     Returns
     -------
     sp : array, shape
         Spectrum. ln|H(z)|.
-
-    Notes
-    -----
-    It is asuumed that ``lsp`` has loggain at ``lsp[0]``.
 
     See Also
     --------

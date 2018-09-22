@@ -64,6 +64,7 @@ cdef extern from "SPTK.h":
                            const int maxitr, const double eps)
     int _lpc2par "lpc2par"(double *a, double *k, const int m)
     void _par2lpc "par2lpc"(double *k, double *a, const int m)
+    void _lsp2lpc "lsp2lpc"(double *lsp, double *a, const int m)
     void _lsp2sp "lsp2sp"(double *lsp, const int m, double *x, const int l, const int gain)
 
 
