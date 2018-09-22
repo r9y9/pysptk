@@ -339,30 +339,28 @@ def lpc2c(np.ndarray[np.float64_t, ndim=1, mode="c"] lpc not None,
     return ceps
 
 
-@cython.boundscheck(False)
-@cython.wraparound(False)
 def lpc2lsp(np.ndarray[np.float64_t, ndim=1, mode="c"] lpc not None,
-            numsp=512, maxiter=4, eps=1.0e-6, loggain=False, otype=0,
-            fs=None):
+            numsp=128, maxiter=4, eps=1.0e-6, has_gain=True,
+            loggain=False, otype=0, fs=None):
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] lsp
-    cdef int order = len(lpc) - 1
+    cdef int lpc_start_idx = 1 if has_gain else 0
+    cdef int order = len(lpc) - 1 if has_gain else len(lpc)
     lsp = np.zeros_like(lpc)
-    _lpc2lsp(&lpc[0], &lsp[0], order, numsp, maxiter, eps)
-
+    _lpc2lsp(&lpc[0], &lsp[lpc_start_idx], order, numsp, maxiter, eps)
     if otype == 0:
-        lsp[1:] *= 2 * np.pi
+        lsp[lpc_start_idx:] *= 2 * np.pi
     elif otype == 2 or otype == 3:
         if fs is None:
             raise ValueError("fs must be specified when otype == 2 or 3")
-        lsp[1:] *= fs
+        lsp[lpc_start_idx:] *= fs
 
     if otype == 3:
-        lsp[1:] *= 1000.0
+        lsp[lpc_start_idx:] *= 1000.0
 
-    if loggain:
+    if has_gain:
+      lsp[0] = lpc[0]
+      if loggain:
         lsp[0] = np.log(lpc[0])
-    else:
-        lsp[0] = lpc[0]
 
     return lsp
 
@@ -383,14 +381,66 @@ def par2lpc(np.ndarray[np.float64_t, ndim=1, mode="c"] par not None):
     return lpc
 
 
+def lsp2lpc(np.ndarray[np.float64_t, ndim=1, mode="c"] lsp not None,
+    has_gain=True, loggain=False, fs=None, itype=0):
+    lsp = lsp.copy()
+    cdef int lpc_start_idx = 1 if has_gain else 0
+
+    if loggain and not has_gain:
+        raise ValueError("has_gain must be True if you set loggain=True")
+
+    if itype == 0:
+        lsp[lpc_start_idx:] /= 2 * np.pi
+    elif itype == 2 or itype == 3:
+        if fs is None:
+            raise ValueError("fs must be specified when itype == 2 or 3")
+        lsp[lpc_start_idx:] /= fs
+
+    if itype == 3:
+        lsp[lpc_start_idx:] /= 1000.0
+
+    cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] lpc
+    cdef int order
+    if has_gain:
+      order = len(lsp) - 1
+    else:
+      order = len(lsp)
+    lpc = np.empty_like(lsp)
+
+    _lsp2lpc(&lsp[lpc_start_idx], &lpc[0], order)
+
+    if has_gain:
+      lpc[0] = lsp[0]
+      if loggain:
+        lpc[0] = np.exp(lpc[0])
+
+    return lpc
+
+
 def lsp2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] lsp not None,
-           fftlen=256):
+           fftlen=256, has_gain=True, loggain=False, fs=None, itype=0):
     assert_fftlen(fftlen)
+    lsp = lsp.copy()
+    cdef int lsp_start_idx = 1 if has_gain else 0
+
+    if itype == 1:
+        lsp[lsp_start_idx:] *= 2 * np.pi
+    elif itype == 2 or itype == 3:
+        if fs is None:
+            raise ValueError("fs must be specified when itype == 2 or 3")
+        lsp[lsp_start_idx:] = lsp[lsp_start_idx:] / fs * 2 * np.pi
+
+    if itype == 3:
+        lsp[lsp_start_idx:] /= 1000.0
+
+    if loggain:
+        lsp[0] = np.log(lsp[0])
+
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] sp
     cdef int sp_length = (fftlen >> 1) + 1
     sp = np.empty(sp_length, dtype=np.float64)
     cdef int order = len(lsp) - 1
-    _lsp2sp(&lsp[0], order, &sp[0], sp_length, 1)
+    _lsp2sp(&lsp[0], order, &sp[0], sp_length, 1 if has_gain else 0)
     return sp
 
 

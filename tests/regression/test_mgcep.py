@@ -7,6 +7,37 @@ from os.path import join, dirname
 DATA_DIR = join(dirname(__file__), "..", "data")
 
 
+def test_lpc():
+    # frame -l 512 -p 80 < test16k.float | window -l 512 | dmp +f | awk \
+    # '{print $2}' > test16k_windowed.txt
+    frames = np.loadtxt(
+        join(DATA_DIR, "test16k_windowed.txt")).reshape(759, 512).astype(np.float64)
+    # frame -l 512 -p 80 < test16k.float | window -l 512 | lpc -m 25 -l 512 > test16k.lpc
+    lpc = np.fromfile(join(DATA_DIR, "test16k.lpc"), np.float32).reshape(759, 26).astype(np.float64)
+    lpc_hat = pysptk.lpc(frames, order=25)
+    # yeah may have a bug...
+    assert np.allclose(lpc, lpc_hat, atol=1e-1)
+
+
+def test_lpc2lsp():
+    # frame -l 512 -p 80 < test16k.float | window -l 512 | lpc -m 25 -l 512 > test16k.lpc
+    lpc = np.fromfile(join(DATA_DIR, "test16k.lpc"), np.float32).reshape(759, 26).astype(np.float64)
+    # frame -l 512 -p 80 < test16k.float | window -l 512 | lpc -m 25 -l 512 | lpc2lsp -m 25 > test16k.lsp
+    lsp = np.fromfile(join(DATA_DIR, "test16k.lsp"), np.float32).reshape(759, 26).astype(np.float64)
+    lsp_hat = pysptk.lpc2lsp(lpc)
+    assert np.allclose(lsp, lsp_hat, atol=1e-4)
+
+
+def test_lsp2lpc():
+    # frame -l 512 -p 80 < test16k.float | window -l 512 | lpc -m 25 -l 512 \
+    # | lpc2lsp -m 25 | lsp2lpc -m 25 > test16k.lsp2lpc
+    lpc = np.fromfile(join(DATA_DIR, "test16k.lsp2lpc"), np.float32).reshape(759, 26).astype(np.float64)
+    # frame -l 512 -p 80 < test16k.float | window -l 512 | lpc -m 25 -l 512 | lpc2lsp -m 25 > test16k.lsp
+    lsp = np.fromfile(join(DATA_DIR, "test16k.lsp"), np.float32).reshape(759, 26).astype(np.float64)
+    lpc_hat = pysptk.lsp2lpc(lsp)
+    assert np.allclose(lpc, lpc_hat, atol=1e-4)
+
+
 def test_mcep_from_windowed_frames():
     # frame -l 512 -p 80 < test16k.float | window -l 512 | mcep -q 0 -l 512 -a \
     # 0.41 -m 24 | dmp +f | awk '{print $2}' > test16k_mcep.txt
