@@ -1,7 +1,12 @@
 Change log
 ==========
 
-v0.1.11 <2018-xx-xx>
+v0.1.12 <2018-xx-xx>
+--------------------
+
+- #63`_: Fix lpc2lsp bug, add lsp2lpc function. Add regression tests for those.
+
+v0.1.11 <2018-02-05>
 --------------------
 
 - `#55`_: Add numpy implementation of cdist
@@ -101,3 +106,4 @@ v0.1.0 <2015-09-05>
 
 .. _#54: https://github.com/r9y9/pysptk/pull/54
 .. _#55: https://github.com/r9y9/pysptk/issues/55
+.. _#63: https://github.com/r9y9/pysptk/pull/63
