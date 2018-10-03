@@ -345,14 +345,17 @@ def lpc2lsp(np.ndarray[np.float64_t, ndim=1, mode="c"] lpc not None,
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] lsp
     cdef int lpc_start_idx = 1 if has_gain else 0
     cdef int order = len(lpc) - 1 if has_gain else len(lpc)
+    cdef int ret
     lsp = np.zeros_like(lpc)
-    _lpc2lsp(&lpc[0], &lsp[lpc_start_idx], order, numsp, maxiter, eps)
+    ret = _lpc2lsp(&lpc[0], &lsp[lpc_start_idx], order, numsp, maxiter, eps)
     if otype == 0:
         lsp[lpc_start_idx:] *= 2 * np.pi
     elif otype == 2 or otype == 3:
         if fs is None:
             raise ValueError("fs must be specified when otype == 2 or 3")
         lsp[lpc_start_idx:] *= fs
+    if ret == -1:
+      raise RuntimeError("Failed to transform linear predictive coefficients to line spectral pairs")
 
     if otype == 3:
         lsp[lpc_start_idx:] *= 1000.0
