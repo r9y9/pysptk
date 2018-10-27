@@ -9,6 +9,7 @@
 [![][docs-stable-img]][docs-stable-url]
 [![][docs-latest-img]][docs-latest-url]
 [![Dependency Status](https://dependencyci.com/github/r9y9/pysptk/badge)](https://dependencyci.com/github/r9y9/pysptk)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1472607.svg)](https://doi.org/10.5281/zenodo.1472607)
 
 A python wrapper for [Speech Signal Processing Toolkit (SPTK)](http://sp-tk.sourceforge.net/).
 

@@ -1,7 +1,11 @@
 Change log
 ==========
 
-v0.1.12 <2018-xx-xx>
+v0.1.13 <2018-xx-xx>
+--------------------
+
+
+v0.1.12 <2018-10-27>
 --------------------
 
 - #63`_: Fix lpc2lsp bug, add lsp2lpc function. Add regression tests for those.
