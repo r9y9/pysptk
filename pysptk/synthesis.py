@@ -7,6 +7,12 @@ High-level interface for waveform synthesis
 Module ``pysptk.synthesis`` provides high-leve interface that wraps low-level
 SPTK waveform synthesis functions (e.g. ``mlsadf``),
 
+Synthesis filter interface
+--------------------------
+
+.. autoclass:: SynthesisFilter
+    :members:
+
 Synthesizer
 -----------
 .. autoclass::  Synthesizer
@@ -25,6 +31,11 @@ MLSADF
 .. autoclass::  MLSADF
     :members:
 
+GLSADF
+^^^^^^
+.. autoclass::  GLSADF
+    :members:
+
 MGLSADF
 ^^^^^^^
 .. autoclass::  MGLSADF
@@ -38,12 +49,6 @@ AllPoleDF
 AllPoleLatticeDF
 ^^^^^^^^^^^^^^^^
 .. autoclass::  AllPoleLatticeDF
-    :members:
-
-Synthesis filter interface
---------------------------
-
-.. autoclass:: SynthesisFilter
     :members:
 
 """
@@ -61,7 +66,7 @@ from pysptk.util import assert_pade, assert_stage
 class SynthesisFilter(object):
     """Synthesis filter interface
 
-    All synthesis filters must implement this interface
+    All synthesis filters must implement this interface.
     """
     __metaclass__ = ABCMeta
 
@@ -85,6 +90,27 @@ class SynthesisFilter(object):
         """
         pass
 
+    def filtt(self, x, coef):
+        """Transpose filter
+
+        Can be optional.
+
+        Parameters
+        ----------
+        x : float
+            A input sample
+
+        coef : array
+            Filter coefficients
+
+        Returns
+        -------
+        y : float
+            A filtered sample
+
+        """
+        raise NotImplementedError()
+
 
 class Synthesizer(object):
     """Speech waveform synthesizer
@@ -98,9 +124,12 @@ class Synthesizer(object):
     hopsize : int
         Hop size
 
+    transpose : bool
+        Transpose filter or not. Default is False.
+
     """
 
-    def __init__(self, filt, hopsize):
+    def __init__(self, filt, hopsize, transpose=False):
         """Initialization
 
         Raises
@@ -114,6 +143,7 @@ class Synthesizer(object):
 
         self.filt = filt
         self.hopsize = hopsize
+        self.transpose = transpose
 
     def synthesis_one_frame(self, source, prev_b, curr_b):
         """Synthesize one frame waveform
@@ -141,9 +171,12 @@ class Synthesizer(object):
 
         y = np.empty_like(source)
 
+        # filter function
+        filt = self.filt.filtt if self.transpose else self.filt.filt
+
         for i in six.moves.range(len(source)):
             scaled_source = source[i] * np.exp(interpolated_coef[0])
-            y[i] = self.filt.filt(scaled_source, interpolated_coef)
+            y[i] = filt(scaled_source, interpolated_coef)
             interpolated_coef += slope
 
         return y
@@ -215,7 +248,7 @@ class LMADF(SynthesisFilter):
         self.delay = pysptk.lmadf_delay(order, pd)
 
     def filt(self, x, coef):
-        """Filter one sample using using ``lmadf``
+        """Filter one sample using ``lmadf``
 
         Parameters
         ----------
@@ -295,8 +328,103 @@ class MLSADF(SynthesisFilter):
         pysptk.sptk.mc2b
 
         """
-
         return pysptk.mlsadf(x, coef, self.alpha, self.pd, self.delay)
+
+    def filtt(self, x, coef):
+        """Transpose filter using ``mlsadft``
+
+        Parameters
+        ----------
+        x : float
+            A input sample
+
+        coef: array
+            MLSA filter coefficients
+
+        Returns
+        -------
+        y : float
+            A filtered sample
+
+        See Also
+        --------
+        pysptk.sptk.mlsadft
+        """
+        return pysptk.mlsadft(x, coef, self.alpha, self.pd, self.delay)
+
+
+class GLSADF(SynthesisFilter):
+    """GLSA digital filter that wraps ``glsadf``
+
+    Attributes
+    ----------
+    stage : int
+        -1/gamma
+
+    delay : array
+        Delay
+
+    """
+
+    def __init__(self, order=25, stage=1):
+        """Initialization
+
+        Raises
+        ------
+        ValueError
+            if invalid number of stage is specified
+
+        """
+        self.order = order
+
+        assert_stage(stage)
+
+        self.stage = stage
+        self.delay = pysptk.glsadf_delay(order, stage)
+
+    def filt(self, x, coef):
+        """Filter one sample using ``glsadf``
+
+        Parameters
+        ----------
+        x : float
+            A input sample
+
+        coef: array
+            GLSA filter coefficients
+
+        Returns
+        -------
+        y : float
+            A filtered sample
+
+        See Also
+        --------
+        pysptk.sptk.glsadf
+        """
+        return pysptk.glsadf(x, coef, self.stage, self.delay)
+
+    def filtt(self, x, coef):
+        """Filter one sample using ``glsadft``
+
+        Parameters
+        ----------
+        x : float
+            A input sample
+
+        coef: array
+            GLSA filter coefficients
+
+        Returns
+        -------
+        y : float
+            A filtered sample
+
+        See Also
+        --------
+        pysptk.sptk.glsadft
+        """
+        return pysptk.glsadft(x, coef, self.stage, self.delay)
 
 
 class MGLSADF(SynthesisFilter):
@@ -351,10 +479,30 @@ class MGLSADF(SynthesisFilter):
         See Also
         --------
         pysptk.sptk.mglsadf
-
         """
-
         return pysptk.mglsadf(x, coef, self.alpha, self.stage, self.delay)
+
+    def filtt(self, x, coef):
+        """Filter one sample using ``mglsadft``
+
+        Parameters
+        ----------
+        x : float
+            A input sample
+
+        coef: array
+            MGLSA filter coefficients
+
+        Returns
+        -------
+        y : float
+            A filtered sample
+
+        See Also
+        --------
+        pysptk.sptk.mglsadft
+        """
+        return pysptk.mglsadft(x, coef, self.alpha, self.stage, self.delay)
 
 
 class AllPoleDF(SynthesisFilter):
@@ -393,9 +541,29 @@ class AllPoleDF(SynthesisFilter):
         See Also
         --------
         pysptk.sptk.poledf
-
         """
+        return pysptk.poledf(x, coef, self.delay)
 
+    def filtt(self, x, coef):
+        """Filter one sample using using ``poledft``
+
+        Parameters
+        ----------
+        x : float
+            A input sample
+
+        coef: array
+            LPC (with loggain)
+
+        Returns
+        -------
+        y : float
+            A filtered sample
+
+        See Also
+        --------
+        pysptk.sptk.poledft
+        """
         return pysptk.poledf(x, coef, self.delay)
 
 

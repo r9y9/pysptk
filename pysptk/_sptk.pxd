@@ -104,15 +104,29 @@ cdef extern from "SPTK.h":
 
     # Waveform generation filters
     double _poledf "poledf"(double x, double *a, int m, double *d)
+    double _poledft "poledft"(double x, double *a, int m, double *d)
     double _lmadf "lmadf"(double x, double *c, const int m, const int pd, double *d)
+    double _lmadft "lmadft"(double x, double *c, const int m, const int pd, double *d,
+                            int block_num, int *block_size)
     double _lspdf_even "lspdf_even"(double x, double *f, const int m, double *d)
     double _lspdf_odd "lspdf_odd"(double x, double *f, const int m, double *d)
     double _ltcdf "ltcdf"(double x, double *k, int m, double *d)
     double _glsadf "glsadf"(double x, double *c, const int m, const int n, double *d)
+    double _glsadft "glsadft"(double x, double *c, const int m, const int n, double *d)
+    double _iglsadf "iglsadf"(double x, double *c, const int m, const int n, double *d)
+    double _iglsadft "iglsadft"(double x, double *c, const int m, const int n, double *d)
     double _mlsadf "mlsadf"(double x, double *b, const int m, const double a, const int pd,
                             double *d)
+    double _mlsadft "mlsadft"(double x, double *b, const int m, const double a, const int pd,
+                             double *d)
     double _mglsadf "mglsadf"(double x, double *b, const int m, const double a, const int n,
                               double *d)
+    double _mglsadft "mglsadft"(double x, double *b, const int m, const double a, const int n,
+                                double *d)
+    double _imglsadf "imglsadf"(double x, double *b, const int m, const double a, const int n,
+                                double *d)
+    double _imglsadft "imglsadft"(double x, double *b, const int m, const double a, const int n,
+                                  double *d)
 
     # Window functions
     double _window "window"(Window window_type, double *x, const int size, const int nflg)

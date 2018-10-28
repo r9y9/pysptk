@@ -34,8 +34,7 @@ def test_LMADF():
         # dummy filter coef.
         windowed = __dummy_windowed_frames(
             source, frame_len=512, hopsize=hopsize)
-        b = np.apply_along_axis(
-            pysptk.mcep, 1, windowed, filt.order, 0.0)
+        b = pysptk.mcep(windowed, filt.order, 0.0)
 
         # synthesis
         synthesizer = Synthesizer(filt, hopsize)
@@ -66,12 +65,16 @@ def test_MLSADF():
         # dummy filter coef.
         windowed = __dummy_windowed_frames(
             source, frame_len=512, hopsize=hopsize)
-        mc = np.apply_along_axis(
-            pysptk.mcep, 1, windowed, filt.order, filt.alpha)
-        b = np.apply_along_axis(pysptk.mc2b, 1, mc, filt.alpha)
+        mc = pysptk.mcep(windowed, filt.order, filt.alpha)
+        b = pysptk.mc2b(mc, filt.alpha)
 
         # synthesis
         synthesizer = Synthesizer(filt, hopsize)
+        y = synthesizer.synthesis(source, b)
+        assert np.all(np.isfinite(y))
+
+        # transpose
+        synthesizer = Synthesizer(filt, hopsize, transpose=True)
         y = synthesizer.synthesis(source, b)
         assert np.all(np.isfinite(y))
 
@@ -92,6 +95,46 @@ def test_MLSADF():
     yield raises(ValueError)(__test_invalid_pade), 8
 
 
+def test_GLSADF():
+    from pysptk.synthesis import GLSADF
+
+    def __test_synthesis(filt):
+        # dummy source excitation
+        source = __dummy_source()
+
+        hopsize = 80
+
+        # dummy filter coef.
+        windowed = __dummy_windowed_frames(
+            source, frame_len=512, hopsize=hopsize)
+        gamma = -1.0 / filt.stage
+        mgc = pysptk.mgcep(windowed, filt.order, 0.0, gamma)
+        b = pysptk.mgc2b(mgc, 0.0, gamma)
+
+        # synthesis
+        synthesizer = Synthesizer(filt, hopsize)
+        y = synthesizer.synthesis(source, b)
+        assert np.all(np.isfinite(y))
+
+        # transpose
+        synthesizer = Synthesizer(filt, hopsize, transpose=True)
+        y = synthesizer.synthesis(source, b)
+        assert np.all(np.isfinite(y))
+
+    def __test(order, stage):
+        __test_synthesis(GLSADF(order, stage))
+
+    for order in [20, 25]:
+        for stage in [2, 5, 10]:
+            yield __test, order, stage
+
+    def __test_invalid_stage(stage):
+        GLSADF(20, stage=stage)
+
+    yield raises(ValueError)(__test_invalid_stage), -1
+    yield raises(ValueError)(__test_invalid_stage), 0
+
+
 def test_MGLSADF():
     from pysptk.synthesis import MGLSADF
 
@@ -105,12 +148,16 @@ def test_MGLSADF():
         windowed = __dummy_windowed_frames(
             source, frame_len=512, hopsize=hopsize)
         gamma = -1.0 / filt.stage
-        mgc = np.apply_along_axis(pysptk.mgcep, 1, windowed,
-                                  filt.order, filt.alpha, gamma)
-        b = np.apply_along_axis(pysptk.mgc2b, 1, mgc, filt.alpha, gamma)
+        mgc = pysptk.mgcep(windowed, filt.order, filt.alpha, gamma)
+        b = pysptk.mgc2b(mgc, filt.alpha, gamma)
 
         # synthesis
         synthesizer = Synthesizer(filt, hopsize)
+        y = synthesizer.synthesis(source, b)
+        assert np.all(np.isfinite(y))
+
+        # transpose
+        synthesizer = Synthesizer(filt, hopsize, transpose=True)
         y = synthesizer.synthesis(source, b)
         assert np.all(np.isfinite(y))
 
@@ -141,14 +188,18 @@ def test_AllPoleDF():
         # dummy filter coef.
         windowed = __dummy_windowed_frames(
             source, frame_len=512, hopsize=hopsize)
-        lpc = np.apply_along_axis(
-            pysptk.lpc, 1, windowed, filt.order)
+        lpc = pysptk.lpc(windowed, filt.order)
 
         # make sure par has loggain
         lpc[:, 0] = np.log(lpc[:, 0])
 
         # synthesis
         synthesizer = Synthesizer(filt, hopsize)
+        y = synthesizer.synthesis(source, lpc)
+        assert np.all(np.isfinite(y))
+
+        # transpose
+        synthesizer = Synthesizer(filt, hopsize, transpose=True)
         y = synthesizer.synthesis(source, lpc)
         assert np.all(np.isfinite(y))
 
@@ -171,9 +222,8 @@ def test_AllPoleLatticeDF():
         # dummy filter coef.
         windowed = __dummy_windowed_frames(
             source, frame_len=512, hopsize=hopsize)
-        lpc = np.apply_along_axis(
-            pysptk.lpc, 1, windowed, filt.order)
-        par = np.apply_along_axis(pysptk.lpc2par, 1, lpc)
+        lpc = pysptk.lpc(windowed, filt.order)
+        par = pysptk.lpc2par(lpc)
 
         # make sure par has loggain
         par[:, 0] = np.log(par[:, 0])
@@ -202,10 +252,9 @@ def test_LSPDF():
         # dummy filter coef.
         windowed = __dummy_windowed_frames(
             source, frame_len=512, hopsize=hopsize)
-        lpc = np.apply_along_axis(
-            pysptk.lpc, 1, windowed, filt.order)
+        lpc = pysptk.lpc(windowed, filt.order)
+        lsp = pysptk.lpc2lsp(lpc)
         # make sure lsp has loggain
-        lsp = np.apply_along_axis(pysptk.lpc2lsp, 1, lpc)
         lsp[:, 0] = np.log(lsp[:, 0])
 
         # synthesis

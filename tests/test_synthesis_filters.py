@@ -20,6 +20,7 @@ def test_poledf():
     for order in [20, 25, 30]:
         delay = pysptk.poledf_delay(order)
         yield __test_filt_base, pysptk.poledf, order, delay
+        yield __test_filt_base, pysptk.poledft, order, delay
 
 
 @raises(ValueError)
@@ -76,6 +77,7 @@ def test_glsadf():
         for stage in six.moves.range(1, 7):
             delay = pysptk.glsadf_delay(order, stage)
             yield __test_filt_base, pysptk.glsadf, order, delay, stage
+            yield __test_filt_base, pysptk.glsadft, order, delay, stage
 
 
 @raises(ValueError)
@@ -94,6 +96,7 @@ def test_mlsadf():
             for pd in [4, 5]:
                 delay = pysptk.mlsadf_delay(order, pd)
                 yield __test_filt_base, pysptk.mlsadf, order, delay, alpha, pd
+                yield __test_filt_base, pysptk.mlsadft, order, delay, alpha, pd
 
 
 @raises(ValueError)
@@ -112,6 +115,7 @@ def test_mglsadf():
             for stage in six.moves.range(1, 7):
                 delay = pysptk.mglsadf_delay(order, stage)
                 yield __test_filt_base, pysptk.mglsadf, order, delay, alpha, stage
+                yield __test_filt_base, pysptk.mglsadft, order, delay, alpha, stage
 
 
 @raises(ValueError)

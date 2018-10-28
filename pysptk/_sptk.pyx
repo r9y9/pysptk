@@ -777,6 +777,14 @@ def poledf(x, np.ndarray[np.float64_t, ndim=1, mode="c"] a not None,
 
     return _poledf(x, &a[0], order, &delay[0])
 
+def poledft(x, np.ndarray[np.float64_t, ndim=1, mode="c"] a not None,
+            np.ndarray[np.float64_t, ndim=1, mode="c"] delay not None):
+    cdef int order = len(a) - 1
+    if len(delay) != poledf_delay_length(order):
+        raise ValueError("inconsistent delay length")
+
+    return _poledft(x, &a[0], order, &delay[0])
+
 def lmadf_delay_length(int order, int pd):
     return 2 * pd * (order + 1)
 
@@ -830,6 +838,17 @@ def glsadf(x, np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
 
     return _glsadf(x, &c[0], order, stage, &delay[0])
 
+def glsadft(x, np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
+            stage,
+            np.ndarray[np.float64_t, ndim=1, mode="c"] delay not None):
+    assert_stage(stage)
+
+    cdef int order = len(c) - 1
+    if len(delay) != glsadf_delay_length(order, stage):
+        raise ValueError("inconsistent delay length")
+
+    return _glsadft(x, &c[0], order, stage, &delay[0])
+
 def mlsadf_delay_length(int order, int pd):
     return 3 * (pd + 1) + pd * (order + 2)
 
@@ -843,6 +862,17 @@ def mlsadf(x, np.ndarray[np.float64_t, ndim=1, mode="c"] b not None,
         raise ValueError("inconsistent delay length")
 
     return _mlsadf(x, &b[0], order, alpha, pd, &delay[0])
+
+def mlsadft(x, np.ndarray[np.float64_t, ndim=1, mode="c"] b not None,
+            alpha, pd,
+            np.ndarray[np.float64_t, ndim=1, mode="c"] delay not None):
+    assert_pade(pd)
+
+    cdef int order = len(b) - 1
+    if len(delay) != mlsadf_delay_length(order, pd):
+        raise ValueError("inconsistent delay length")
+
+    return _mlsadft(x, &b[0], order, alpha, pd, &delay[0])
 
 def mglsadf_delay_length(int order, int stage):
     return (order + 1) * stage
@@ -858,6 +888,16 @@ def mglsadf(x, np.ndarray[np.float64_t, ndim=1, mode="c"] b not None,
 
     return _mglsadf(x, &b[0], order, alpha, stage, &delay[0])
 
+def mglsadft(x, np.ndarray[np.float64_t, ndim=1, mode="c"] b not None,
+             alpha, stage,
+             np.ndarray[np.float64_t, ndim=1, mode="c"] delay not None):
+    assert_stage(stage)
+
+    cdef int order = len(b) - 1
+    if len(delay) != mglsadf_delay_length(order, stage):
+        raise ValueError("inconsistent delay length")
+
+    return _mglsadft(x, &b[0], order, alpha, stage, &delay[0])
 
 ### Excitation ###
 

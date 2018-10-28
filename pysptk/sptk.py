@@ -104,12 +104,16 @@ Waveform generation filters
     :toctree: generated/
 
     poledf
+    poledft
     lmadf
     lspdf
     ltcdf
     glsadf
+    glsadft
     mlsadf
+    mlsadft
     mglsadf
+    mglsadft
 
 Utilities for waveform generation filters
 -----------------------------------------
@@ -2044,6 +2048,39 @@ def poledf(x, a, delay):
     return _sptk.poledf(x, a, delay)
 
 
+def poledft(x, a, delay):
+    """Transpose All-pole digital filter
+
+    Parameters
+    ----------
+    x : float
+        A input sample
+
+    a : array
+        AR coefficients
+
+    delay : array
+        Delay
+
+    Returns
+    -------
+    y : float
+        A filtered sample
+
+    Raises
+    ------
+    ValueError
+        if invalid delay length is supplied
+
+    See Also
+    --------
+    pysptk.sptk.poledf
+
+    """
+
+    return _sptk.poledft(x, a, delay)
+
+
 def lmadf_delay(order, pd):
     """Delay for lmadf
 
@@ -2278,6 +2315,44 @@ def glsadf(x, c,
     return _sptk.glsadf(x, c, stage, delay)
 
 
+def glsadft(x, c,
+            stage,
+            delay):
+    """Transpose GLSA digital filter
+
+    Parameters
+    ----------
+    x : float
+        A input sample
+
+    c : array
+        Geneeraized cepstrum
+
+    stage : int
+        -1 / gamma
+
+    delay : array
+        Delay
+
+    Returns
+    -------
+    y : float
+        A filtered sample
+
+    Raises
+    ------
+    ValueError
+        - if invalid number of stage is specified
+        - if invalid delay length is supplied
+
+    See Also
+    --------
+    pysptk.sptk.glsadf
+    """
+
+    return _sptk.glsadft(x, c, stage, delay)
+
+
 def mlsadf_delay(order, pd):
     """Delay for mlsadf
 
@@ -2344,6 +2419,46 @@ def mlsadf(x, b, alpha, pd, delay):
     """
 
     return _sptk.mlsadf(x, b, alpha, pd, delay)
+
+
+def mlsadft(x, b, alpha, pd, delay):
+    """Transpose MLSA digital filter
+
+    Parameters
+    ----------
+    x : float
+        A input sample
+
+    b : array
+        MLSA filter coefficients
+
+    alpha : float
+        All-pass constant
+
+    pd : int
+        Order of pade approximation
+
+    delay : array
+        Delay
+
+    Returns
+    -------
+    y : float
+        A filtered sample
+
+    Raises
+    ------
+    ValueError
+        - if invalid order of pade approximation is specified
+        - if invalid delay length is supplied
+
+    See Also
+    --------
+    pysptk.sptk.mlsadf
+
+    """
+
+    return _sptk.mlsadft(x, b, alpha, pd, delay)
 
 
 def mglsadf_delay(order, stage):
@@ -2413,7 +2528,46 @@ def mglsadf(x, b, alpha, stage, delay):
     return _sptk.mglsadf(x, b, alpha, stage, delay)
 
 
+def mglsadft(x, b, alpha, stage, delay):
+    """Transpose MGLSA digital filter
+
+    Parameters
+    ----------
+    x : float
+        A input sample
+
+    b : array
+        MGLSA filter coefficients
+
+    alpha : float
+        All-pass constant
+
+    stage : int
+        -1 / gamma
+
+    delay : array
+        Delay
+
+    Returns
+    -------
+    y : float
+        A filtered sample
+
+    Raises
+    ------
+    ValueError
+        - if invalid number of stage is specified
+        - if invalid delay length is supplied
+
+    See Also
+    --------
+    pysptk.sptk.mglsadf
+    """
+
+    return _sptk.mglsadft(x, b, alpha, stage, delay)
+
 ### Excitation ###
+
 
 def excite(pitch, hopsize=100, interp_period=1, gaussian=False, seed=1):
     """Excitation generation

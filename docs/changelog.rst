@@ -4,6 +4,8 @@ Change log
 v0.1.13 <2018-xx-xx>
 --------------------
 
+- Add tranposed synthesis filters (``mlsadft``, ``poledft``, ``mglsadft``, ``glsadft``)
+- Add missing high level synthesis filter class ``GLSADF``.
 
 v0.1.12 <2018-10-27>
 --------------------

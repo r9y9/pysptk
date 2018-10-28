@@ -1,6 +1,8 @@
 pysptk/_sptk.c
 pysptk/version.py
 docs/generated
+docs/.doctrees
+docs/plot_directive
 
 # Created by https://www.gitignore.io
 
