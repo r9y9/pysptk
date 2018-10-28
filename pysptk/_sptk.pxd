@@ -134,3 +134,4 @@ cdef extern from "SPTK.h":
     # Utils
     int _lspcheck "lspcheck"(double *lsp, const int ord)
     void _phidf "phidf"(const double x, const int m, double a, double *d)
+    int _levdur "levdur"(double *r, double *a, const int m, double eps)

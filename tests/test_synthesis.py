@@ -190,7 +190,7 @@ def test_AllPoleDF():
             source, frame_len=512, hopsize=hopsize)
         lpc = pysptk.lpc(windowed, filt.order)
 
-        # make sure par has loggain
+        # make sure lpc has loggain
         lpc[:, 0] = np.log(lpc[:, 0])
 
         # synthesis
@@ -203,8 +203,29 @@ def test_AllPoleDF():
         y = synthesizer.synthesis(source, lpc)
         assert np.all(np.isfinite(y))
 
+    def __test_synthesis_levdur(filt):
+        # dummy source excitation
+        source = __dummy_source()
+
+        hopsize = 80
+
+        # dummy filter coef.
+        windowed = __dummy_windowed_frames(
+            source, frame_len=512, hopsize=hopsize)
+        c = pysptk.mcep(windowed, filt.order)
+        lpc = pysptk.levdur(pysptk.c2acr(c))
+
+        # make sure lpc has loggain
+        lpc[:, 0] = np.log(lpc[:, 0])
+
+        # synthesis
+        synthesizer = Synthesizer(filt, hopsize)
+        y = synthesizer.synthesis(source, lpc)
+        assert np.all(np.isfinite(y))
+
     def __test(order):
         __test_synthesis(AllPoleDF(order))
+        __test_synthesis_levdur(AllPoleDF(order))
 
     for order in [20, 25]:
         yield __test, order

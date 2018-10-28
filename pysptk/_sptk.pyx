@@ -927,3 +927,16 @@ def phidf(x, order, alpha,
 def lspcheck(np.ndarray[np.float64_t, ndim=1, mode="c"] lsp not None):
     cdef int ret = _lspcheck(&lsp[0], len(lsp) - 1)
     return ret
+
+
+def levdur(np.ndarray[np.float64_t, ndim=1, mode="c"] r not None, double eps):
+    cdef int order = len(r) - 1
+    cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] a
+    a = np.empty(order + 1, dtype=np.float64)
+    cdef int ret = _levdur(&r[0], &a[0], order, eps)
+    if ret == -1:
+      raise RuntimeError("abnormally completed")
+    elif ret == -2:
+      raise RuntimeError("Unstable LPC")
+
+    return a

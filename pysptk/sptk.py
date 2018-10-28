@@ -59,6 +59,7 @@ Mel-generalized cepstrum conversions
     mc2b
     b2mc
     c2acr
+    levdur
     c2ir
     ic2ir
     c2ndps
@@ -1276,6 +1277,7 @@ def c2acr(c, order=None, fftlen=256):
     pysptk.sptk.uels
     pysptk.sptk.c2ir
     pysptk.sptk.lpc2c
+    pysptk.sptk.levdur
 
     """
 
@@ -2621,3 +2623,33 @@ def phidf(x, order, alpha, delay):
 
 def lspcheck(lsp):
     return _sptk.lspcheck(lsp)
+
+
+@apply_along_last_axis
+@automatic_type_conversion
+def levdur(r, eps=0.0):
+    """Solve an Autocorrelation Normal Equation Using Levinson-Durbin Method
+
+    Parameters
+    ----------
+    r : array
+        Autocorrelation sequence
+
+    eps : float
+        Singular check (eps(if -1., 0.0 is assumed))
+
+    Returns
+    -------
+    a : array
+        LPC
+
+    Raises
+    ------
+    RuntimeError
+        - if abnormally completed or unstable LPC
+
+    See Also
+    --------
+    pysptk.sptk.c2acr
+    """
+    return _sptk.levdur(r, eps)
