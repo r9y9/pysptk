@@ -103,6 +103,8 @@ cdef extern from "SPTK.h":
     void _excite "excite"(double *pitch, int n, double *out, int fprd, int iprd, Boolean gauss, int seed_i)
 
     # Waveform generation filters
+    double _zerodf "zerodf"(double x, double *b, int m, double *d)
+    double _zerodft "zerodft"(double x, double *b, const int m, double *d)
     double _poledf "poledf"(double x, double *a, int m, double *d)
     double _poledft "poledft"(double x, double *a, int m, double *d)
     double _lmadf "lmadf"(double x, double *c, const int m, const int pd, double *d)

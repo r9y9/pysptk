@@ -176,6 +176,33 @@ def test_MGLSADF():
     yield raises(ValueError)(__test_invalid_stage), 0
 
 
+def test_AllZeroDF():
+    from pysptk.synthesis import AllZeroDF
+
+    def __test_synthesis(filt):
+        # dummy source excitation
+        source = __dummy_source()
+
+        hopsize = 80
+
+        # dummy filter coef.
+        windowed = __dummy_windowed_frames(
+            source, frame_len=512, hopsize=hopsize)
+        lpc = pysptk.lpc(windowed, filt.order)
+        lpc[:, 0] = 0
+        b = -lpc
+
+        # synthesis
+        synthesizer = Synthesizer(filt, hopsize)
+        y = synthesizer.synthesis(source, b)
+        assert np.all(np.isfinite(y))
+
+        # transpose
+        synthesizer = Synthesizer(filt, hopsize, transpose=True)
+        y = synthesizer.synthesis(source, b)
+        assert np.all(np.isfinite(y))
+
+
 def test_AllPoleDF():
     from pysptk.synthesis import AllPoleDF
 

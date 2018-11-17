@@ -41,6 +41,11 @@ MGLSADF
 .. autoclass::  MGLSADF
     :members:
 
+AllZeroDF
+^^^^^^^^^
+.. autoclass::  AllZeroDF
+    :members:
+
 AllPoleDF
 ^^^^^^^^^
 .. autoclass::  AllPoleDF
@@ -503,6 +508,68 @@ class MGLSADF(SynthesisFilter):
         pysptk.sptk.mglsadft
         """
         return pysptk.mglsadft(x, coef, self.alpha, self.stage, self.delay)
+
+
+class AllZeroDF(SynthesisFilter):
+    """All-zero digital filter that wraps ``zerodf``
+
+    Attributes
+    ----------
+    delay : array
+        Delay
+
+    """
+
+    def __init__(self, order=25):
+        """Initialization
+        """
+
+        self.order = order
+        self.delay = pysptk.zerodf_delay(order)
+
+    def filt(self, x, coef):
+        """Filter one sample using using ``zerodf``
+
+        Parameters
+        ----------
+        x : float
+            A input sample
+
+        coef: array
+            FIR parameters
+_
+        Returns
+        -------
+        y : float
+            A filtered sample
+
+        See Also
+        --------
+        pysptk.sptk.zerodf
+        """
+        return pysptk.zerodf(x, coef, self.delay)
+
+    def filtt(self, x, coef):
+        """Filter one sample using using ``zerodft``
+
+        Parameters
+        ----------
+        x : float
+            A input sample
+
+        coef: array
+            FIR parameters
+
+        Returns
+        -------
+        y : float
+            A filtered sample
+
+        See Also
+        --------
+        pysptk.sptk.zerodft
+        """
+        return pysptk.zerodf(x, coef, self.delay)
 
 
 class AllPoleDF(SynthesisFilter):

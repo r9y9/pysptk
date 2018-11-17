@@ -104,6 +104,8 @@ Waveform generation filters
 .. autosummary::
     :toctree: generated/
 
+    zerodf
+    zerodft
     poledf
     poledft
     lmadf
@@ -121,6 +123,7 @@ Utilities for waveform generation filters
 .. autosummary::
     :toctree: generated/
 
+    zerodf_delay
     poledf_delay
     lmadf_delay
     lspdf_delay
@@ -1996,6 +1999,90 @@ def rectangular(n, normalize=1):
 
 
 ### Waveform generation filters ###
+
+def zerodf_delay(order):
+    """Delay for zerodf
+
+    Parameters
+    ----------
+    order : int
+        Order of zerodf filter coefficients
+
+    Returns
+    -------
+    delay : array
+        Delay
+
+    """
+    return np.zeros(_sptk.zerodf_delay_length(order))
+
+
+def zerodf(x, b, delay):
+    """All zero digital filter
+
+    Parameters
+    ----------
+    x : float
+        A input sample
+
+    b : array
+        FIR parameters
+
+    delay : array
+        Delay
+
+    Returns
+    -------
+    y : float
+        A filtered sample
+
+    Raises
+    ------
+    ValueError
+        if invalid delay length is supplied
+
+    See Also
+    --------
+    pysptk.sptk.lpc
+    pysptk.sptk.ltcdf
+    pysptk.sptk.lmadf
+
+    """
+
+    return _sptk.zerodf(x, b, delay)
+
+
+def zerodft(x, b, delay):
+    """Transpose All zero digital filter
+
+    Parameters
+    ----------
+    x : float
+        A input sample
+
+    b : array
+        FIR parameters
+
+    delay : array
+        Delay
+
+    Returns
+    -------
+    y : float
+        A filtered sample
+
+    Raises
+    ------
+    ValueError
+        if invalid delay length is supplied
+
+    See Also
+    --------
+    pysptk.sptk.zerodf
+
+    """
+
+    return _sptk.zerodft(x, b, delay)
 
 
 def poledf_delay(order):

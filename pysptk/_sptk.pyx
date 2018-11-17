@@ -766,6 +766,25 @@ def rectangular(n, normalize=1):
 
 ### Waveform generation filters ###
 
+def zerodf_delay_length(int order):
+    return order
+
+def zerodf(x, np.ndarray[np.float64_t, ndim=1, mode="c"] a not None,
+           np.ndarray[np.float64_t, ndim=1, mode="c"] delay not None):
+    cdef int order = len(a) - 1
+    if len(delay) != zerodf_delay_length(order):
+        raise ValueError("inconsistent delay length")
+
+    return _zerodf(x, &a[0], order, &delay[0])
+
+def zerodft(x, np.ndarray[np.float64_t, ndim=1, mode="c"] a not None,
+            np.ndarray[np.float64_t, ndim=1, mode="c"] delay not None):
+    cdef int order = len(a) - 1
+    if len(delay) != zerodf_delay_length(order):
+        raise ValueError("inconsistent delay length")
+
+    return _zerodft(x, &a[0], order, &delay[0])
+
 def poledf_delay_length(int order):
     return order
 
