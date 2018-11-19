@@ -1,7 +1,7 @@
 Change log
 ==========
 
-v0.1.13 <2018-xx-xx>
+v0.1.13 <2018-11-19>
 --------------------
 
 - Add All zero synthesis filter.
