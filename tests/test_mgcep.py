@@ -222,11 +222,13 @@ def test_lpc():
     def __test(order):
         a1 = pysptk.lpc(x, order, use_scipy=False)
         a2 = pysptk.lpc(x, order, use_scipy=True)
-        a3 = pysptk.levdur(pysptk.acorr(x, order))
+        a3 = pysptk.levdur(pysptk.acorr(x, order), use_scipy=False)
+        a4 = pysptk.levdur(pysptk.acorr(x, order), use_scipy=True)
 
         assert np.all(np.isfinite(a1))
         assert np.allclose(a1, a2)
         assert np.allclose(a1, a3)
+        assert np.allclose(a1, a4)
 
     for order in [15, 20, 25, 30, 40]:
         yield __test, order
