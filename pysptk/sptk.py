@@ -10,6 +10,7 @@ Library routines
     gexp
     glog
     mseq
+    acorr
 
 Adaptive cepstrum analysis
 --------------------------
@@ -260,6 +261,32 @@ def mseq():
 
     """
     return _sptk.mseq()
+
+
+@apply_along_last_axis
+@automatic_type_conversion
+def acorr(x, order):
+    """Autocorrelation
+
+    Parameters
+    ----------
+    x : array
+        Input frame
+
+    order : int
+        Order of sequence
+
+    Returns
+    -------
+    r : array
+        Autocorrelation
+
+    See Also
+    --------
+    pysptk.sptk.levdur
+    pysptk.sptk.c2acr
+    """
+    return _sptk.acorr(x, order)
 
 
 ### Adaptive mel-generalized cepstrum analysis ###
@@ -819,7 +846,7 @@ def fftcep(logsp,
 
 @apply_along_last_axis
 @automatic_type_conversion
-def lpc(windowed, order=25, min_det=1.0e-6):
+def lpc(windowed, order=25, min_det=1.0e-6, use_scipy=True):
     """Linear prediction analysis
 
     Parameters
@@ -833,6 +860,10 @@ def lpc(windowed, order=25, min_det=1.0e-6):
     min_det : float, optional
         Mimimum value of the determinant of normal matrix.
         Default is 1.0e-6.
+
+    use_scipy : bool
+        Use scipy's solve_toeplitz implementation or not. Default is True.
+        This would be more numerically stable than SPTK.
 
     Returns
     -------
@@ -858,7 +889,11 @@ def lpc(windowed, order=25, min_det=1.0e-6):
     pysptk.sptk.lspdf
 
     """
-    return _sptk.lpc(windowed, order, min_det)
+    if use_scipy:
+        r = _sptk.acorr(windowed, order)
+        return levdur(r, use_scipy=True)
+    else:
+        return _sptk.lpc(windowed, order, min_det)
 
 
 ### MFCC ###
@@ -2714,7 +2749,7 @@ def lspcheck(lsp):
 
 @apply_along_last_axis
 @automatic_type_conversion
-def levdur(r, eps=0.0):
+def levdur(r, eps=0.0, use_scipy=True):
     """Solve an Autocorrelation Normal Equation Using Levinson-Durbin Method
 
     Parameters
@@ -2724,6 +2759,10 @@ def levdur(r, eps=0.0):
 
     eps : float
         Singular check (eps(if -1., 0.0 is assumed))
+
+    use_scipy : bool
+        Use scipy's solve_toeplitz implementation or not. Default is True.
+        This would be more numerically stable than SPTK.
 
     Returns
     -------
@@ -2739,4 +2778,14 @@ def levdur(r, eps=0.0):
     --------
     pysptk.sptk.c2acr
     """
-    return _sptk.levdur(r, eps)
+    if use_scipy:
+        from scipy.linalg import solve_toeplitz
+        a = np.empty_like(r)
+        # Rx = r where R is a toeplitz matrix
+        a[1:] = -solve_toeplitz(r[:-1], r[1:])
+        # http://www.seas.ucla.edu/~ingrid/ee213a/speech/vlad_present.pdf
+        G = np.sqrt(r[0] + (a[1:] * r[1:]).sum())
+        a[0] = G
+        return a
+    else:
+        return _sptk.levdur(r, eps)

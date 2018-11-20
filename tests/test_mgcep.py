@@ -220,10 +220,13 @@ def test_lpc():
     x = windowed_dummy_data(1024)
 
     def __test(order):
-        a = pysptk.lpc(x, order)
-        assert np.all(np.isfinite(a))
+        a1 = pysptk.lpc(x, order, use_scipy=False)
+        a2 = pysptk.lpc(x, order, use_scipy=True)
 
-    for order in [15, 20, 25]:
+        assert np.all(np.isfinite(a1))
+        assert np.allclose(a1, a2)
+
+    for order in [15, 20, 25, 30, 40]:
         yield __test, order
 
 
@@ -231,11 +234,11 @@ def test_lpc_invalid_args():
     x = windowed_dummy_data(1024)
 
     def __test_min_det(min_det):
-        pysptk.lpc(x, min_det=min_det)
+        pysptk.lpc(x, min_det=min_det, use_scipy=False)
 
     yield raises(ValueError)(__test_min_det), -1.0
 
 
 @raises(RuntimeError)
 def test_lpc_failure():
-    pysptk.lpc(np.zeros(256), 40)
+    pysptk.lpc(np.zeros(256), 40, use_scipy=False)

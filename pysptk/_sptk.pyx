@@ -29,6 +29,13 @@ def mseq():
     return _mseq()
 
 
+def acorr(np.ndarray[np.float64_t, ndim=1, mode="c"] x not None, order):
+    cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] r
+    r = np.zeros(order + 1)
+    _acorr(&x[0], len(x), &r[0], order)
+    return r
+
+
 ### Adaptive mel-generalized cepstrum analysis ###
 
 def acep(x, np.ndarray[np.float64_t, ndim=1, mode="c"] c not None,
