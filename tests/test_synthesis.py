@@ -240,7 +240,10 @@ def test_AllPoleDF():
         windowed = __dummy_windowed_frames(
             source, frame_len=512, hopsize=hopsize)
         c = pysptk.mcep(windowed, filt.order)
-        lpc = pysptk.levdur(pysptk.c2acr(c))
+        a = pysptk.c2acr(c)
+        lpc = pysptk.levdur(a)
+        lpc2 = pysptk.levdur(a, use_scipy=True)
+        assert np.allclose(lpc, lpc2)
 
         # make sure lpc has loggain
         lpc[:, 0] = np.log(lpc[:, 0])

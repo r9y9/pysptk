@@ -21,6 +21,8 @@ cdef extern from "SPTK.h":
     int _mseq "mseq"()
 
 
+    void _acorr "acorr"(double *x, int l, double *r, const int np)
+
     # Adaptive mel-generalized cepstrum analysis
     double _acep "acep"(double x, double *c, const int m, const double lambda_coef,
                         const double step, const double tau, const int pd,
@@ -31,7 +33,6 @@ cdef extern from "SPTK.h":
     double _amcep "amcep"(double x, double *b, const int m, const double a,
                           const double lambda_coef, const double step, const double tau,
                           const int pd, const double eps);
-
 
     # Mel-generalized cepstrum analysis
     int _mcep "mcep"(double *xw, const int flng, double *mc, const int m, const double a,
