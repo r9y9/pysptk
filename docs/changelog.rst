@@ -4,8 +4,8 @@ Change log
 v0.1.14 <2018-xx-xx>
 --------------------
 
-- `#62`_: **IMPORTANT**: Add ``use_scipy`` option to ``levdur`` and ``lpc``, and set it to True by default to improve numerical stability. The results should be same regardless to the option, but this would be technically a breaking change.
-- Add ``acorr``.
+- `#62`_, `#64`_: **IMPORTANT**: Add ``use_scipy`` option to ``levdur`` and ``lpc``, and set it to True by default to improve numerical stability. The results should be same regardless to the option, but this would be technically a breaking change.
+- `#64`_: Add ``acorr``.
 
 v0.1.13 <2018-11-19>
 --------------------
@@ -122,3 +122,4 @@ v0.1.0 <2015-09-05>
 .. _#55: https://github.com/r9y9/pysptk/issues/55
 .. _#63: https://github.com/r9y9/pysptk/pull/63
 .. _#62: https://github.com/r9y9/pysptk/issues/62
+.. _#64: https://github.com/r9y9/pysptk/pull/64
