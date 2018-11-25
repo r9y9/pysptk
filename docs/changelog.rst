@@ -1,7 +1,7 @@
 Change log
 ==========
 
-v0.1.14 <2018-xx-xx>
+v0.1.14 <2018-11-25>
 --------------------
 
 - `#62`_, `#64`_: **IMPORTANT**: Add ``use_scipy`` option to ``levdur`` and ``lpc``, and set it to True by default to improve numerical stability. The results should be same regardless to the option, but this would be technically a breaking change.
