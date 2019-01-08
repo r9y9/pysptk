@@ -1,7 +1,7 @@
 Change log
 ==========
 
-v0.1.15 <2019-xx-xx>
+v0.1.15 <2019-01-08>
 --------------------
 
 - `#65`_, #67`_: Should avoid build-time numpy dependency for newer releases
