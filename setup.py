@@ -80,9 +80,12 @@ try:
 except ImportError:
     cython = False
 
+include_dirs = [join(os.getcwd(), "lib", "SPTK", "include")]
 cmdclass['build_ext'] = build_ext
 if cython:
     ext = '.pyx'
+    import numpy as np
+    include_dirs.insert(0, np.get_include())
 else:
     ext = '.c'
     if not os.path.exists(join("pysptk", "_sptk" + ext)):
@@ -117,7 +120,7 @@ for ignore in ignore_bin_list:
 ext_modules = [Extension(
     name="pysptk._sptk",
     sources=[join("pysptk", "_sptk" + ext)] + sptk_all_src,
-    include_dirs=[join(os.getcwd(), "lib", "SPTK", "include")],
+    include_dirs=include_dirs,
     language="c",
     extra_compile_args=['-std=c99']
 )]
@@ -143,7 +146,7 @@ setup(
     tests_require=['nose', 'coverage'],
     extras_require={
         'docs': ['numpydoc', 'sphinx_rtd_theme', 'seaborn'],
-        'test': ['nose'],
+        'test': ['nose', 'coverage'],
         'develop': ['cython >= ' + min_cython_ver],
     },
     classifiers=[
