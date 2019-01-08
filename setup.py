@@ -13,9 +13,9 @@ from glob import glob
 from os.path import join
 import subprocess
 
-version = '0.1.15'
+version = '0.1.16'
 
-# Adapted from https://github.com/pytorch/pytorch
+# Adapted from https://github.com/py_torch/pytorch
 cwd = os.path.dirname(os.path.abspath(__file__))
 if os.getenv('PYSPTK_BUILD_VERSION'):
     version = os.getenv('PYSPTK_BUILD_VERSION')
