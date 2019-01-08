@@ -1,8 +1,10 @@
 Change log
 ==========
 
-v0.1.15 <2018-xx-xx>
+v0.1.15 <2019-xx-xx>
 --------------------
+
+- `#65`_, #67`_: Should avoid build-time numpy dependency for newer releases
 
 v0.1.14 <2018-11-25>
 --------------------
@@ -126,3 +128,5 @@ v0.1.0 <2015-09-05>
 .. _#63: https://github.com/r9y9/pysptk/pull/63
 .. _#62: https://github.com/r9y9/pysptk/issues/62
 .. _#64: https://github.com/r9y9/pysptk/pull/64
+.. _#65: https://github.com/r9y9/pysptk/issues/65
+.. _#67: https://github.com/r9y9/pysptk/pull/67
