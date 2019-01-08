@@ -6,8 +6,8 @@ from setuptools import setup, find_packages, Extension
 import setuptools.command.develop
 import setuptools.command.build_py
 from distutils.version import LooseVersion
+from setuptools.command.build_ext import build_ext as _build_ext
 
-import numpy as np
 import os
 from glob import glob
 from os.path import join
@@ -28,6 +28,16 @@ else:
         pass
     except IOError:  # FileNotFoundError for python 3
         pass
+
+
+class build_ext(_build_ext):
+    # https://stackoverflow.com/questions/19919905/how-to-bootstrap-numpy-installation-in-setup-py
+    def finalize_options(self):
+        _build_ext.finalize_options(self)
+        # Prevent numpy from thinking it is still in its setup process:
+        __builtins__.__NUMPY_SETUP__ = False
+        import numpy
+        self.include_dirs.append(numpy.get_include())
 
 
 class build_py(setuptools.command.build_py.build_py):
@@ -70,9 +80,9 @@ try:
 except ImportError:
     cython = False
 
+cmdclass['build_ext'] = build_ext
 if cython:
     ext = '.pyx'
-    cmdclass['build_ext'] = build_ext
 else:
     ext = '.c'
     if not os.path.exists(join("pysptk", "_sptk" + ext)):
@@ -107,8 +117,7 @@ for ignore in ignore_bin_list:
 ext_modules = [Extension(
     name="pysptk._sptk",
     sources=[join("pysptk", "_sptk" + ext)] + sptk_all_src,
-    include_dirs=[np.get_include(), join(
-        os.getcwd(), "lib", "SPTK", "include")],
+    include_dirs=[join(os.getcwd(), "lib", "SPTK", "include")],
     language="c",
     extra_compile_args=['-std=c99']
 )]
@@ -125,8 +134,8 @@ setup(
     package_data={'': ['example_audio_data/*']},
     ext_modules=ext_modules,
     cmdclass=cmdclass,
+    setup_requires=["numpy >= 1.8.0"],
     install_requires=[
-        'numpy >= 1.8.0',
         'scipy',
         'six',
         'decorator'
