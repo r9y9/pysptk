@@ -1,6 +1,11 @@
 Change log
 ==========
 
+v0.1.16 <2019-02-17>
+--------------------
+
+- Fixed cython-generated files in the release tarball with latest numpy
+
 v0.1.15 <2019-01-08>
 --------------------
 
