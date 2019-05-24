@@ -22,7 +22,7 @@ before_install:
   - bash miniconda.sh -b -p $HOME/miniconda
   - export PATH="$HOME/miniconda/bin:$PATH"
   - hash -r
-  - pip install coveralls
+  - pip install coveralls flake8
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
   # Useful for debugging any issues with conda
@@ -37,6 +37,7 @@ install:
 
 script:
   - nosetests --with-coverage --cover-package=pysptk -v -w tests/
+  - flake8
 
 after_success:
   - coveralls

@@ -40,7 +40,7 @@ EXAMPLE_AUDIO = 'example_audio_data/arctic_a0007.wav'
 # https://stackoverflow.com/questions/12558505/preserve-argspec-when-decorating
 try:
     from inspect import getfullargspec
-except:
+except ImportError:
     # python 2.7
     from inspect import getargspec as getfullargspec
 from decorator import decorator

@@ -174,7 +174,7 @@ def cdist(c1, c2, otype=0, frame=False):
 
     """
 
-    if not otype in [0, 1, 2]:
+    if otype not in [0, 1, 2]:
         raise ValueError("unsupported otype: %d, must be in 0:2" % otype)
 
     assert c1.shape[0] == c2.shape[0]

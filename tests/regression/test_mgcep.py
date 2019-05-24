@@ -99,6 +99,6 @@ def test_mgc2sp():
 
     # mgc2sp does conversion: c(k) -> log H(w)
     # so convert it to |H(w)|^2 to get power spectrum
-    sp_hat = np.exp(pysptk.mgc2sp(mgc, 0.41, 0, 512).real*2)
+    sp_hat = np.exp(pysptk.mgc2sp(mgc, 0.41, 0, 512).real * 2)
 
     assert np.allclose(sp, sp_hat)

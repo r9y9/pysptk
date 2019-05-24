@@ -34,7 +34,7 @@ def test_lpc2c():
 
 
 def test_lpc2lsp():
-    #for order in [15, 20, 25, 30]:
+    # for order in [15, 20, 25, 30]:
     #    yield __test_transform_base, pysptk.lpc2lsp, order
 
     def __test_invalid_otype(dummy_lpc, otype):
@@ -52,7 +52,7 @@ def test_lpc2lsp():
     assert np.allclose(lsp1, lsp2)
 
     # loggain
-    lsp3 = pysptk.lpc2lsp(dummy_lpc,  otype=3, fs=16, loggain=True)
+    lsp3 = pysptk.lpc2lsp(dummy_lpc, otype=3, fs=16, loggain=True)
     assert lsp3[0] == np.log(lsp2[0])
 
 
