@@ -64,7 +64,7 @@ class develop(setuptools.command.develop.develop):
 
 cmdclass = {"build_py": build_py, "develop": develop}
 
-min_cython_ver = '0.21.0'
+min_cython_ver = '0.28.0'
 try:
     import Cython
     ver = Cython.__version__
