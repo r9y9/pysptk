@@ -1,6 +1,12 @@
 Change log
 ==========
 
+v0.1.18 <2019-xx-xx>
+--------------------
+
+- `#72`_: Fix itype!=0 for mgcep, gcep and related functions
+
+
 v0.1.17 <2019-05-31>
 --------------------
 
@@ -140,3 +146,4 @@ v0.1.0 <2015-09-05>
 .. _#64: https://github.com/r9y9/pysptk/pull/64
 .. _#65: https://github.com/r9y9/pysptk/issues/65
 .. _#67: https://github.com/r9y9/pysptk/pull/67
+.. _#72: https://github.com/r9y9/pysptk/issues/72
