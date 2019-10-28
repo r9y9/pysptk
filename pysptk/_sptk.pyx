@@ -149,10 +149,14 @@ def gcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
         raise ValueError("min_det must be positive: min_det = %f" % min_det)
 
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] gc
-    cdef int windowed_length = len(windowed)
+    cdef int frame_length
+    if itype == 0:
+       frame_length = len(windowed)
+    else:
+       frame_length = (len(windowed) - 1) * 2  # fftlen
     cdef int ret
     gc = np.empty(order + 1, dtype=np.float64)
-    ret = _gcep(&windowed[0], windowed_length, &gc[0], order,
+    ret = _gcep(&windowed[0], frame_length, &gc[0], order,
                 gamma, miniter, maxiter, threshold, etype, eps, min_det, itype)
     assert ret == -1 or ret == 0 or ret == 3
     if ret == 3:
@@ -200,10 +204,14 @@ def mgcep(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
         num_recursions = len(windowed) - 1
 
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] mgc
-    cdef int windowed_length = len(windowed)
+    cdef int frame_length
+    if itype == 0:
+       frame_length = len(windowed)
+    else:
+       frame_length = (len(windowed) - 1) * 2  # fftlen
     cdef int ret
     mgc = np.empty(order + 1, dtype=np.float64)
-    ret = _mgcep(&windowed[0], windowed_length, &mgc[0],
+    ret = _mgcep(&windowed[0], frame_length, &mgc[0],
                  order, alpha, gamma, num_recursions, miniter, maxiter,
                  threshold, etype, eps, min_det, itype)
     assert ret == -1 or ret == 0 or ret == 3
@@ -249,10 +257,14 @@ def uels(np.ndarray[np.float64_t, ndim=1, mode="c"] windowed not None,
         raise ValueError("eps: %f, must be >= 0" % eps)
 
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] c
-    cdef int windowed_length = len(windowed)
+    cdef int frame_length
+    if itype == 0:
+       frame_length = len(windowed)
+    else:
+       frame_length = (len(windowed) - 1) * 2  # fftlen
     cdef int ret
     c = np.empty(order + 1, dtype=np.float64)
-    ret = _uels(&windowed[0], windowed_length, &c[0], order,
+    ret = _uels(&windowed[0], frame_length, &c[0], order,
                 miniter, maxiter, threshold, etype, eps, itype)
     assert ret == -1 or ret == 0 or ret == 3
     if ret == 3:
