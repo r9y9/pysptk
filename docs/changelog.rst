@@ -1,9 +1,10 @@
 Change log
 ==========
 
-v0.1.18 <2019-xx-xx>
+v0.1.18 <2020-03-02>
 --------------------
 
+- `#75`_: Enable py38 test on travis
 - `#72`_: Fix itype!=0 for mgcep, gcep and related functions
 
 
@@ -147,3 +148,4 @@ v0.1.0 <2015-09-05>
 .. _#65: https://github.com/r9y9/pysptk/issues/65
 .. _#67: https://github.com/r9y9/pysptk/pull/67
 .. _#72: https://github.com/r9y9/pysptk/issues/72
+.. _#75: https://github.com/r9y9/pysptk/pull/75
