@@ -125,10 +125,15 @@ ext_modules = [Extension(
     extra_compile_args=['-std=c99']
 )]
 
+with open("README.md", "r") as fh:
+    LONG_DESC = fh.read()
+
 setup(
     name='pysptk',
     version=version,
     description='A python wrapper for Speech Signal Processing Toolkit (SPTK)',
+    long_description=LONG_DESC,
+    long_description_content_type="text/markdown",
     author='Ryuichi Yamamoto',
     author_email='zryuichi@gmail.com',
     url='https://github.com/r9y9/pysptk',
