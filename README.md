@@ -8,7 +8,6 @@
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE.md)
 [![][docs-stable-img]][docs-stable-url]
 [![][docs-latest-img]][docs-latest-url]
-[![Dependency Status](https://dependencyci.com/github/r9y9/pysptk/badge)](https://dependencyci.com/github/r9y9/pysptk)
 [![DOI](https://zenodo.org/badge/41618046.svg)](https://zenodo.org/badge/latestdoi/41618046)
 
 A python wrapper for [Speech Signal Processing Toolkit (SPTK)](http://sp-tk.sourceforge.net/).
