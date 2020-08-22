@@ -138,7 +138,7 @@ setup(
     author_email='zryuichi@gmail.com',
     url='https://github.com/r9y9/pysptk',
     license='MIT',
-    packages=find_packages(include=["pysptk"]),
+    packages=find_packages(exclude=["tests", "examples"]),
     package_data={'': ['example_audio_data/*']},
     ext_modules=ext_modules,
     cmdclass=cmdclass,
