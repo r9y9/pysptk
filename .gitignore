@@ -3,6 +3,7 @@ pysptk/version.py
 docs/generated
 docs/.doctrees
 docs/plot_directive
+*.raw
 
 # Created by https://www.gitignore.io
 
