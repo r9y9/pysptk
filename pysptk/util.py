@@ -94,6 +94,22 @@ def automatic_type_conversion(func, *args, **kwargs):
     return func(*args, **kwargs).astype(dtypein)
 
 
+@decorator
+def automatic_type_conversion_float32(func, *args, **kwargs):
+    first_arg_name = getfullargspec(func)[0][0]
+    has_positional_arg = len(args) > 0
+    input_arg = args[0] if has_positional_arg else kwargs[first_arg_name]
+    dtypein = input_arg.dtype
+
+    if dtypein != np.float32:
+        if has_positional_arg:
+            args = tuple(map(lambda v: input_arg.astype(
+                np.float32) if v[0] == 0 else v[1], enumerate(args)))
+        else:
+            kwargs[first_arg_name] = input_arg.astype(np.float32)
+    return func(*args, **kwargs).astype(dtypein)
+
+
 def assert_gamma(gamma):
     if not (-1 <= gamma <= 0.0):
         raise ValueError("unsupported gamma: must be -1 <= gamma <= 0")
