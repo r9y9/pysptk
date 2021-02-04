@@ -118,7 +118,7 @@ def test_rapt_regression():
 
     # Since SPTK might have memory corruption bug and the result might be
     # non-deterministic, test it with multiple time...
-    for i in range(5):
+    for _ in range(5):
         f0 = pysptk.rapt(x.astype(np.float32), fs=fs, hopsize=80,
                          min=60, max=240, voice_bias=0.0, otype=0)
         assert np.allclose(ground_truth, f0)
@@ -154,7 +154,7 @@ def test_swipe_regression():
 
     # Since SPTK might have memory corruption bug and the result might be
     # non-deterministic, test it with multiple time...
-    for i in range(5):
-        f0 = pysptk.swipe(x.astype(np.float64), fs=fs, hopsize=80,
-                         min=60, max=240, otype=0)
+    for _ in range(5):
+        f0 = pysptk.swipe(x.astype(np.float64),
+                          fs=fs, hopsize=80, min=60, max=240, otype=0)
         assert np.allclose(ground_truth, f0)

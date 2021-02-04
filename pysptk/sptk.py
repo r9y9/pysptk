@@ -1737,6 +1737,7 @@ def mgclsp2sp(lsp, alpha=0.0, gamma=0.0, fftlen=256, gain=True):
 
     return _sptk.mgclsp2sp(lsp, alpha, gamma, fftlen, gain)
 
+
 ### F0 analysis ###
 
 @automatic_type_conversion
@@ -1877,6 +1878,7 @@ def rapt(x, fs, hopsize, min=60, max=240, voice_bias=0.0, otype="f0"):
     """
 
     return _sptk.rapt(x, fs, hopsize, min, max, voice_bias, otype)
+
 
 ### Window functions ###
 
