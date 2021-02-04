@@ -145,7 +145,10 @@ Metrics
 import numpy as np
 
 from . import _sptk
-from pysptk.util import apply_along_last_axis, automatic_type_conversion
+from pysptk.util import (
+    apply_along_last_axis, automatic_type_conversion,
+    automatic_type_conversion_float32
+)
 
 
 def cdist(c1, c2, otype=0, frame=False):
@@ -1734,9 +1737,10 @@ def mgclsp2sp(lsp, alpha=0.0, gamma=0.0, fftlen=256, gain=True):
 
     return _sptk.mgclsp2sp(lsp, alpha, gamma, fftlen, gain)
 
+
 ### F0 analysis ###
 
-
+@automatic_type_conversion
 def swipe(x, fs, hopsize, min=60.0, max=240.0, threshold=0.3, otype="f0"):
     """SWIPE' - A Saw-tooth Waveform Inspired Pitch Estimation
 
@@ -1800,6 +1804,7 @@ def swipe(x, fs, hopsize, min=60.0, max=240.0, threshold=0.3, otype="f0"):
     return _sptk.swipe(x, fs, hopsize, min, max, threshold, otype)
 
 
+@automatic_type_conversion_float32
 def rapt(x, fs, hopsize, min=60, max=240, voice_bias=0.0, otype="f0"):
     """RAPT - a robust algorithm for pitch tracking
 
@@ -1873,6 +1878,7 @@ def rapt(x, fs, hopsize, min=60, max=240, voice_bias=0.0, otype="f0"):
     """
 
     return _sptk.rapt(x, fs, hopsize, min, max, voice_bias, otype)
+
 
 ### Window functions ###
 

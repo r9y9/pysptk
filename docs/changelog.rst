@@ -1,8 +1,10 @@
 Change log
 ==========
 
-v0.1.19 <2020-xx-xx>
+v0.1.19 <2021-xx-xx>
 --------------------
+
+- `#83`_: pitch: support automatic type converseion for swipe and rapt (API change)
 
 v0.1.18 <2020-03-02>
 --------------------
@@ -152,3 +154,4 @@ v0.1.0 <2015-09-05>
 .. _#67: https://github.com/r9y9/pysptk/pull/67
 .. _#72: https://github.com/r9y9/pysptk/issues/72
 .. _#75: https://github.com/r9y9/pysptk/pull/75
+.. _#83: https://github.com/r9y9/pysptk/pull/83
