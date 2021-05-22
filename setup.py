@@ -142,7 +142,7 @@ setup(
     install_requires=[
         'scipy',
         'six',
-        'decorator'
+        'decorator',
         'cython >= ' + min_cython_ver,
     ],
     tests_require=['nose', 'coverage'],
