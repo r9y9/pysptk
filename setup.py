@@ -143,12 +143,12 @@ setup(
         'scipy',
         'six',
         'decorator'
+        'cython >= ' + min_cython_ver,
     ],
     tests_require=['nose', 'coverage'],
     extras_require={
         'docs': ['numpydoc', 'sphinx_rtd_theme', 'seaborn'],
         'test': ['nose', 'coverage', "flake8"],
-        'develop': ['cython >= ' + min_cython_ver],
     },
     classifiers=[
         "Operating System :: Microsoft :: Windows",
