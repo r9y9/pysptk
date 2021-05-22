@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
 High-level interface for waveform synthesis
 ===========================================
@@ -57,14 +55,13 @@ AllPoleLatticeDF
     :members:
 
 """
-from __future__ import division, print_function, absolute_import
+
+from abc import abstractmethod
 
 import numpy as np
 import six
-from abc import ABCMeta, abstractmethod
 
 import pysptk
-
 from pysptk.util import assert_pade, assert_stage
 
 
@@ -73,7 +70,6 @@ class SynthesisFilter(object):
 
     All synthesis filters must implement this interface.
     """
-    __metaclass__ = ABCMeta
 
     @abstractmethod
     def filt(self, x, coef):

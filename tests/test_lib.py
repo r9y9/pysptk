@@ -1,7 +1,4 @@
-# coding: utf-8
-
 import numpy as np
-import six
 import pysptk
 
 
@@ -21,5 +18,5 @@ def test_glog():
 
 
 def test_mseq():
-    for i in six.moves.range(0, 100):
+    for _ in range(0, 100):
         assert np.isfinite(pysptk.mseq())
