@@ -1,17 +1,13 @@
-# coding: utf-8
-
-from __future__ import with_statement, print_function, absolute_import
-
-from setuptools import setup, find_packages, Extension
-import setuptools.command.develop
-import setuptools.command.build_py
-from distutils.version import LooseVersion
-from setuptools.command.build_ext import build_ext as _build_ext
-
 import os
+import subprocess
+from distutils.version import LooseVersion
 from glob import glob
 from os.path import join
-import subprocess
+
+import setuptools.command.build_py
+import setuptools.command.develop
+from setuptools import Extension, find_packages, setup
+from setuptools.command.build_ext import build_ext as _build_ext
 
 version = '0.1.19'
 
@@ -161,14 +157,13 @@ setup(
         "Operating System :: MacOS",
         "Programming Language :: Cython",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "License :: OSI Approved :: MIT License",
         "Topic :: Scientific/Engineering",
         "Topic :: Software Development",
