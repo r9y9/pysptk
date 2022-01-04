@@ -1,5 +1,3 @@
-sudo: false
-dist: xenial
 language: python
 
 python:
@@ -8,8 +6,13 @@ python:
 notifications:
   email: false
 
+os:
+  - linux
+
 before_install:
-  - sudo apt-get update
+  - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+  - git submodule update --init --recursive
+  # anaconda
   - wget http://repo.continuum.io/miniconda/Miniconda3-3.8.3-Linux-x86_64.sh -O miniconda.sh
   - bash miniconda.sh -b -p $HOME/miniconda
   - export PATH="$HOME/miniconda/bin:$PATH"
@@ -19,8 +22,7 @@ before_install:
   # Useful for debugging any issues with conda
   - conda config --add channels pypi
   - conda info -a
-  - deps='pip cython nose coverage'
-  - conda create -q -n test-environment "python=$TRAVIS_PYTHON_VERSION" $deps
+  - conda create -q -n test-environment "python=$TRAVIS_PYTHON_VERSION" pip cython nose coverage coveralls
   - source activate test-environment
 
 install:

@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
 Library routines
 ----------------
@@ -143,12 +141,13 @@ Metrics
 """
 
 import numpy as np
-
-from . import _sptk
 from pysptk.util import (
-    apply_along_last_axis, automatic_type_conversion,
-    automatic_type_conversion_float32
+    apply_along_last_axis,
+    automatic_type_conversion,
+    automatic_type_conversion_float32,
 )
+
+from . import _sptk  # type: ignore
 
 
 def cdist(c1, c2, otype=0, frame=False):
@@ -181,9 +180,9 @@ def cdist(c1, c2, otype=0, frame=False):
         raise ValueError("unsupported otype: %d, must be in 0:2" % otype)
 
     assert c1.shape[0] == c2.shape[0]
-    T = c1.shape[0]
+    c1.shape[0]
 
-    s = ((c1[:, 1:] - c2[:, 1:])**2).sum(-1)
+    s = ((c1[:, 1:] - c2[:, 1:]) ** 2).sum(-1)
 
     if otype == 0:
         s = np.sqrt(2 * s) * 10 / np.log(10)
@@ -195,7 +194,8 @@ def cdist(c1, c2, otype=0, frame=False):
     else:
         return s.mean()
 
-### Library routines ###
+
+# Library routines #
 
 
 def agexp(r, x, y):
@@ -292,7 +292,8 @@ def acorr(x, order):
     return _sptk.acorr(x, order)
 
 
-### Adaptive mel-generalized cepstrum analysis ###
+# Adaptive mel-generalized cepstrum analysis #
+
 
 def acep(x, c, lambda_coef=0.98, step=0.1, tau=0.9, pd=4, eps=1.0e-6):
     """Adaptive cepstral analysis
@@ -441,19 +442,23 @@ def amcep(x, b, alpha=0.35, lambda_coef=0.98, step=0.1, tau=0.9, pd=4, eps=1.0e-
     return _sptk.amcep(x, b, alpha, lambda_coef, step, tau, pd, eps)
 
 
-### Mel-generalized cepstrum analysis ###
+# Mel-generalized cepstrum analysis #
+
 
 @apply_along_last_axis
 @automatic_type_conversion
-def mcep(windowed,
-         order=25, alpha=0.35,
-         miniter=2,
-         maxiter=30,
-         threshold=0.001,
-         etype=0,
-         eps=0.0,
-         min_det=1.0e-6,
-         itype=0):
+def mcep(
+    windowed,
+    order=25,
+    alpha=0.35,
+    miniter=2,
+    maxiter=30,
+    threshold=0.001,
+    etype=0,
+    eps=0.0,
+    min_det=1.0e-6,
+    itype=0,
+):
     """Mel-cepstrum analysis
 
     Parameters
@@ -528,21 +533,26 @@ def mcep(windowed,
     pysptk.sptk.mlsadf
 
     """
-    return _sptk.mcep(windowed, order, alpha, miniter, maxiter, threshold,
-                      etype, eps, min_det, itype)
+    return _sptk.mcep(
+        windowed, order, alpha, miniter, maxiter, threshold, etype, eps, min_det, itype
+    )
 
 
 @apply_along_last_axis
 @automatic_type_conversion
-def gcep(windowed, order=25, gamma=0.0,
-         miniter=2,
-         maxiter=30,
-         threshold=0.001,
-         etype=0,
-         eps=0.0,
-         min_det=1.0e-6,
-         itype=0,
-         norm=False):
+def gcep(
+    windowed,
+    order=25,
+    gamma=0.0,
+    miniter=2,
+    maxiter=30,
+    threshold=0.001,
+    etype=0,
+    eps=0.0,
+    min_det=1.0e-6,
+    itype=0,
+    norm=False,
+):
     """Generalized-cepstrum analysis
 
     Parameters
@@ -616,22 +626,28 @@ def gcep(windowed, order=25, gamma=0.0,
 
     """
 
-    return _sptk.gcep(windowed, order, gamma, miniter, maxiter, threshold,
-                      etype, eps, min_det, itype)
+    return _sptk.gcep(
+        windowed, order, gamma, miniter, maxiter, threshold, etype, eps, min_det, itype
+    )
 
 
 @apply_along_last_axis
 @automatic_type_conversion
-def mgcep(windowed, order=25, alpha=0.35, gamma=0.0,
-          num_recursions=None,
-          miniter=2,
-          maxiter=30,
-          threshold=0.001,
-          etype=0,
-          eps=0.0,
-          min_det=1.0e-6,
-          itype=0,
-          otype=0):
+def mgcep(
+    windowed,
+    order=25,
+    alpha=0.35,
+    gamma=0.0,
+    num_recursions=None,
+    miniter=2,
+    maxiter=30,
+    threshold=0.001,
+    etype=0,
+    eps=0.0,
+    min_det=1.0e-6,
+    itype=0,
+    otype=0,
+):
     """Mel-generalized cepstrum analysis
 
     Parameters
@@ -728,19 +744,35 @@ def mgcep(windowed, order=25, alpha=0.35, gamma=0.0,
 
     """
 
-    return _sptk.mgcep(windowed, order, alpha, gamma, num_recursions, miniter,
-                       maxiter, threshold, etype, eps, min_det, itype, otype)
+    return _sptk.mgcep(
+        windowed,
+        order,
+        alpha,
+        gamma,
+        num_recursions,
+        miniter,
+        maxiter,
+        threshold,
+        etype,
+        eps,
+        min_det,
+        itype,
+        otype,
+    )
 
 
 @apply_along_last_axis
 @automatic_type_conversion
-def uels(windowed, order=25,
-         miniter=2,
-         maxiter=30,
-         threshold=0.001,
-         etype=0,
-         eps=0.0,
-         itype=0):
+def uels(
+    windowed,
+    order=25,
+    miniter=2,
+    maxiter=30,
+    threshold=0.001,
+    etype=0,
+    eps=0.0,
+    itype=0,
+):
     """Unbiased estimation of log spectrum
 
     Parameters
@@ -807,16 +839,12 @@ def uels(windowed, order=25,
 
     """
 
-    return _sptk.uels(windowed, order, miniter, maxiter, threshold, etype, eps,
-                      itype)
+    return _sptk.uels(windowed, order, miniter, maxiter, threshold, etype, eps, itype)
 
 
 @apply_along_last_axis
 @automatic_type_conversion
-def fftcep(logsp,
-           order=25,
-           num_iter=0,
-           acceleration_factor=0.0):
+def fftcep(logsp, order=25, num_iter=0, acceleration_factor=0.0):
     """FFT-based cepstrum analysis
 
     Parameters
@@ -899,13 +927,26 @@ def lpc(windowed, order=25, min_det=1.0e-6, use_scipy=True):
         return _sptk.lpc(windowed, order, min_det)
 
 
-### MFCC ###
+# MFCC #
+
 
 @apply_along_last_axis
 @automatic_type_conversion
-def mfcc(x, order=14, fs=16000, alpha=0.97, eps=1.0, window_len=None,
-         frame_len=None, num_filterbanks=20, cepslift=22, use_dft=False,
-         use_hamming=False, czero=False, power=False):
+def mfcc(
+    x,
+    order=14,
+    fs=16000,
+    alpha=0.97,
+    eps=1.0,
+    window_len=None,
+    frame_len=None,
+    num_filterbanks=20,
+    cepslift=22,
+    use_dft=False,
+    use_hamming=False,
+    czero=False,
+    power=False,
+):
     """MFCC
 
     Parameters
@@ -978,12 +1019,25 @@ def mfcc(x, order=14, fs=16000, alpha=0.97, eps=1.0, window_len=None,
 
     """
 
-    return _sptk.mfcc(x, order, fs, alpha, eps, window_len,
-                      frame_len, num_filterbanks, cepslift, use_dft,
-                      use_hamming, czero, power)
+    return _sptk.mfcc(
+        x,
+        order,
+        fs,
+        alpha,
+        eps,
+        window_len,
+        frame_len,
+        num_filterbanks,
+        cepslift,
+        use_dft,
+        use_hamming,
+        czero,
+        power,
+    )
 
 
-### LPC, LSP and PARCOR conversions ###
+# LPC, LSP and PARCOR conversions #
+
 
 @apply_along_last_axis
 @automatic_type_conversion
@@ -1015,8 +1069,16 @@ def lpc2c(lpc, order=None):
 
 @apply_along_last_axis
 @automatic_type_conversion
-def lpc2lsp(lpc, numsp=128, maxiter=4, eps=1.0e-6, has_gain=True,
-            loggain=False, otype=0, fs=None):
+def lpc2lsp(
+    lpc,
+    numsp=128,
+    maxiter=4,
+    eps=1.0e-6,
+    has_gain=True,
+    loggain=False,
+    otype=0,
+    fs=None,
+):
     """LPC to LSP
 
     Parameters
@@ -1218,7 +1280,8 @@ def lsp2sp(lsp, fftlen=256, has_gain=True, loggain=False, fs=None, itype=0):
     return _sptk.lsp2sp(lsp, fftlen)
 
 
-### Mel-generalized cepstrum conversions ###
+# Mel-generalized cepstrum conversions #
+
 
 @apply_along_last_axis
 @automatic_type_conversion
@@ -1600,8 +1663,9 @@ def frqtr(src_ceps, order=25, alpha=0.0):
 
 @apply_along_last_axis
 @automatic_type_conversion
-def mgc2mgc(src_ceps, src_alpha=0.0, src_gamma=0.0,
-            dst_order=None, dst_alpha=0.0, dst_gamma=0.0):
+def mgc2mgc(
+    src_ceps, src_alpha=0.0, src_gamma=0.0, dst_order=None, dst_alpha=0.0, dst_gamma=0.0
+):
     """Mel-generalized cepstrum transform
 
     Parameters
@@ -1647,8 +1711,9 @@ def mgc2mgc(src_ceps, src_alpha=0.0, src_gamma=0.0,
 
     """
 
-    return _sptk.mgc2mgc(src_ceps, src_alpha, src_gamma,
-                         dst_order, dst_alpha, dst_gamma)
+    return _sptk.mgc2mgc(
+        src_ceps, src_alpha, src_gamma, dst_order, dst_alpha, dst_gamma
+    )
 
 
 @apply_along_last_axis
@@ -1738,7 +1803,8 @@ def mgclsp2sp(lsp, alpha=0.0, gamma=0.0, fftlen=256, gain=True):
     return _sptk.mgclsp2sp(lsp, alpha, gamma, fftlen, gain)
 
 
-### F0 analysis ###
+# F0 analysis #
+
 
 @automatic_type_conversion
 def swipe(x, fs, hopsize, min=60.0, max=240.0, threshold=0.3, otype="f0"):
@@ -1880,7 +1946,7 @@ def rapt(x, fs, hopsize, min=60, max=240, voice_bias=0.0, otype="f0"):
     return _sptk.rapt(x, fs, hopsize, min, max, voice_bias, otype)
 
 
-### Window functions ###
+# Window functions #
 
 
 def blackman(n, normalize=1):
@@ -2039,7 +2105,8 @@ def rectangular(n, normalize=1):
     return _sptk.rectangular(n, normalize)
 
 
-### Waveform generation filters ###
+# Waveform generation filters #
+
 
 def zerodf_delay(order):
     """Delay for zerodf
@@ -2402,9 +2469,7 @@ def glsadf_delay(order, stage):
     return np.zeros(_sptk.glsadf_delay_length(order, stage))
 
 
-def glsadf(x, c,
-           stage,
-           delay):
+def glsadf(x, c, stage, delay):
     """GLSA digital filter
 
     Parameters
@@ -2445,9 +2510,7 @@ def glsadf(x, c,
     return _sptk.glsadf(x, c, stage, delay)
 
 
-def glsadft(x, c,
-            stage,
-            delay):
+def glsadft(x, c, stage, delay):
     """Transpose GLSA digital filter
 
     Parameters
@@ -2696,7 +2759,8 @@ def mglsadft(x, b, alpha, stage, delay):
 
     return _sptk.mglsadft(x, b, alpha, stage, delay)
 
-### Excitation ###
+
+# Excitation #
 
 
 def excite(pitch, hopsize=100, interp_period=1, gaussian=False, seed=1):
@@ -2743,7 +2807,8 @@ def excite(pitch, hopsize=100, interp_period=1, gaussian=False, seed=1):
     return _sptk.excite(pitch, hopsize, interp_period, gaussian, seed)
 
 
-### Utils ###
+# Utils #
+
 
 def phidf(x, order, alpha, delay):
     _sptk.phidf(x, order, alpha, delay)
@@ -2786,6 +2851,7 @@ def levdur(r, eps=0.0, use_scipy=True):
     """
     if use_scipy:
         from scipy.linalg import solve_toeplitz
+
         a = np.empty_like(r)
         # Rx = r where R is a toeplitz matrix
         a[1:] = -solve_toeplitz(r[:-1], r[1:])

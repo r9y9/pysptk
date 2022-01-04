@@ -1,9 +1,9 @@
 # coding: utf-8
 
+from os.path import dirname, join
+
 import numpy as np
 import pysptk
-from os.path import join, dirname
-
 from nose.tools import raises
 
 DATA_DIR = join(dirname(__file__), "..", "data")
@@ -25,9 +25,13 @@ def test_cdist():
     order = 24
     # frame -l 512 -p 80 < test16k.float | window -l 512 \
     # | mcep -q 0 -l 512 -a 0.41 -m 24 | freqt -a 0.41 -m 24 -A 0 -M 24 > test16k.mcep.cep
-    c1 = np.fromfile(join(DATA_DIR, "test16k.mcep.cep"), dtype=np.float32).reshape(-1, order + 1)
+    c1 = np.fromfile(join(DATA_DIR, "test16k.mcep.cep"), dtype=np.float32).reshape(
+        -1, order + 1
+    )
     # frame -l 512 -p 80 < test16k.float | window -l 512 | fftcep -m 24 -l 512 > test16k.cep
-    c2 = np.fromfile(join(DATA_DIR, "test16k.cep"), dtype=np.float32).reshape(-1, order + 1)
+    c2 = np.fromfile(join(DATA_DIR, "test16k.cep"), dtype=np.float32).reshape(
+        -1, order + 1
+    )
 
     assert c1.shape == c2.shape
     # cdist test16k.cep -m 24 -o 0 < test16k.mcep.cep | dmp +f

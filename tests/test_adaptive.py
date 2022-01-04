@@ -1,8 +1,8 @@
 # coding: utf-8
 
 import numpy as np
-import six
 import pysptk
+import six
 from nose.tools import raises
 
 

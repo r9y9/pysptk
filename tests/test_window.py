@@ -2,9 +2,7 @@
 
 import numpy as np
 from nose.tools import raises
-
-from pysptk import blackman, hanning, hamming
-from pysptk import bartlett, trapezoid, rectangular
+from pysptk import bartlett, blackman, hamming, hanning, rectangular, trapezoid
 
 
 def test_windows():
