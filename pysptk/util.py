@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
 Utilities
 =========
@@ -22,28 +20,21 @@ Mel-cepstrum analysis
     mcepalpha
 """
 
-from __future__ import division, print_function, absolute_import
-
-import pkg_resources
-import numpy as np
-
-
-# 16kHz, 16bit example audio from cmu_us_awb_arctic
-# see COPYING for the license of the audio file.
-EXAMPLE_AUDIO = 'example_audio_data/arctic_a0007.wav'
-
 # I originally tried with functools.wraps to create decoraters, but it didn't
 # work to me if I use multiple decoratores to decorate a function.
 # Specifically, I cannot inspect argspec with a decorated function, so cannot
 # get a argment name simply from it. As suggested in the following
 # stackoverflow thread, using decorator package.
 # https://stackoverflow.com/questions/12558505/preserve-argspec-when-decorating
-try:
-    from inspect import getfullargspec
-except ImportError:
-    # python 2.7
-    from inspect import getargspec as getfullargspec
+from inspect import getfullargspec
+
+import numpy as np
+import pkg_resources
 from decorator import decorator
+
+# 16kHz, 16bit example audio from cmu_us_awb_arctic
+# see COPYING for the license of the audio file.
+EXAMPLE_AUDIO = "example_audio_data/arctic_a0007.wav"
 
 
 @decorator
@@ -87,8 +78,12 @@ def automatic_type_conversion(func, *args, **kwargs):
     # Since C functions can only accept double
     if dtypein != np.float64:
         if has_positional_arg:
-            args = tuple(map(lambda v: input_arg.astype(
-                np.float64) if v[0] == 0 else v[1], enumerate(args)))
+            args = tuple(
+                map(
+                    lambda v: input_arg.astype(np.float64) if v[0] == 0 else v[1],
+                    enumerate(args),
+                )
+            )
         else:
             kwargs[first_arg_name] = input_arg.astype(np.float64)
     return func(*args, **kwargs).astype(dtypein)
@@ -103,8 +98,12 @@ def automatic_type_conversion_float32(func, *args, **kwargs):
 
     if dtypein != np.float32:
         if has_positional_arg:
-            args = tuple(map(lambda v: input_arg.astype(
-                np.float32) if v[0] == 0 else v[1], enumerate(args)))
+            args = tuple(
+                map(
+                    lambda v: input_arg.astype(np.float32) if v[0] == 0 else v[1],
+                    enumerate(args),
+                )
+            )
         else:
             kwargs[first_arg_name] = input_arg.astype(np.float32)
     return func(*args, **kwargs).astype(dtypein)
@@ -191,15 +190,16 @@ def mcepalpha(fs, start=0.0, stop=1.0, step=0.001, num_points=1000):
     """
     alpha_candidates = np.arange(start, stop, step)
     mel = _melscale_vector(fs, num_points)
-    distances = [rms_distance(mel, _warping_vector(alpha, num_points)) for
-                 alpha in alpha_candidates]
+    distances = [
+        rms_distance(mel, _warping_vector(alpha, num_points))
+        for alpha in alpha_candidates
+    ]
     return alpha_candidates[np.argmin(distances)]
 
 
 def _melscale_vector(fs, length):
     step = (fs / 2.0) / length
-    melscalev = 1000.0 / np.log(2) * np.log(1 +
-                                            step * np.arange(0, length) / 1000.0)
+    melscalev = 1000.0 / np.log(2) * np.log(1 + step * np.arange(0, length) / 1000.0)
     return melscalev / melscalev[-1]
 
 

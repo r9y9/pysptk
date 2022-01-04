@@ -34,12 +34,7 @@ Speech%20analysis%20and%20re-synthesis.ipynb
 
 """
 
-from __future__ import division, print_function, absolute_import
-
-from .version import __version__
-
-from .sptk import *  # pylint: disable=wildcard-import
-
-from . import synthesis
-from .conversion import mgc2b, sp2mc, mc2sp, mc2e
-from . import util
+from . import synthesis, util  # noqa
+from .conversion import mc2e, mc2sp, mgc2b, sp2mc  # noqa
+from .sptk import *  # noqa
+from .version import __version__  # noqa

@@ -1,8 +1,7 @@
-# coding: utf-8
+from warnings import warn
 
 import numpy as np
 import pysptk
-from warnings import warn
 from nose.tools import raises
 
 
@@ -209,8 +208,7 @@ def test_mgc2mgc():
     def __test(src_order, src_alpha, src_gamma, dst_order, dst_alpha, dst_gamma):
         np.random.seed(98765)
         src = np.random.rand(src_order + 1)
-        dst = pysptk.mgc2mgc(src, src_alpha, src_gamma,
-                             dst_order, dst_alpha, dst_gamma)
+        dst = pysptk.mgc2mgc(src, src_alpha, src_gamma, dst_order, dst_alpha, dst_gamma)
         assert np.all(np.isfinite(dst))
 
     for src_order in [15, 20, 25, 30]:
@@ -219,7 +217,7 @@ def test_mgc2mgc():
                 for dst_order in [15, 20, 25, 30]:
                     for dst_alpha in [0.35, 0.41, 0.5]:
                         for dst_gamma in [-1.0, -0.5, 0.0]:
-                            yield __test, src_order, src_alpha, src_gamma, dst_order, dst_alpha, dst_gamma
+                            yield __test, src_order, src_alpha, src_gamma, dst_order, dst_alpha, dst_gamma  # noqa
 
     # invalid gamma
     yield raises(ValueError)(__test), 20, 0.0, 0.1, 20, 0.0, 0.0
@@ -287,7 +285,7 @@ def test_sp2mc():
                 yield __test, order, alpha, fftlen
 
 
-def test_mc2b():
+def test_mc2e():
     x = windowed_dummy_data(1024)
     mc = pysptk.mcep(x)
     assert pysptk.mc2e(mc) > 0

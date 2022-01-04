@@ -1,16 +1,15 @@
 # coding: utf-8
 
+from os.path import dirname, join
+from warnings import warn
+
 import numpy as np
 import pysptk
 from nose.tools import raises
-from warnings import warn
-
 from scipy.io import wavfile
-from os.path import join, dirname
 
 
 def test_swipe():
-
     def __test(x, fs, hopsize, otype):
         f0 = pysptk.swipe(x, fs, hopsize, otype=otype)
         assert np.all(np.isfinite(f0))
@@ -25,8 +24,8 @@ def test_swipe():
         for otype in [0, 1, 2]:
             yield __test, x, fs, hopsize, otype
 
-    for otype in ["pitch", "f0", "logf0"]:
-        yield __test, x, fs, 80, otype
+    for otype_str in ["pitch", "f0", "logf0"]:
+        yield __test, x, fs, 80, otype_str
 
     # unsupported otype
     yield raises(ValueError)(__test), x, fs, 80, -1
@@ -35,7 +34,6 @@ def test_swipe():
 
 
 def test_rapt():
-
     def __test(x, fs, hopsize, min, max, otype):
         f0 = pysptk.rapt(x, fs, hopsize, min=min, max=max, otype=otype)
         assert np.all(np.isfinite(f0))
@@ -50,8 +48,8 @@ def test_rapt():
         for hopsize in [40, 80, 160, 320]:
             yield __test, x, fs, hopsize, 60, 240, otype
 
-    for otype in ["pitch", "f0", "logf0"]:
-        yield __test, x, fs, 80, 60, 240, otype
+    for otype_str in ["pitch", "f0", "logf0"]:
+        yield __test, x, fs, 80, 60, 240, otype_str
 
     # unsupported otype
     yield raises(ValueError)(__test), x, fs, 80, 60, 240, -1
@@ -69,7 +67,7 @@ def test_rapt():
     # invalid min/max freq
     yield raises(ValueError)(__test), x, fs, 80, 60, 60, 0
     yield raises(ValueError)(__test), x, fs, 80, 60, fs // 2, 0
-    yield raises(ValueError)(__test), x, fs, 80, fs / 10000., 240, 0
+    yield raises(ValueError)(__test), x, fs, 80, fs / 10000.0, 240, 0
 
     # valid frame_period (corner case)
     yield __test, x, fs, 1600, 60, 240, 0
@@ -106,11 +104,11 @@ def test_rapt_regression():
     #  SPTK: version 3.8
     #  CVS Info: $Id: pitch.c,v 1.46 2014/12/11 08:30:43 uratec Exp $
 
-    ground_truth_path = join(dirname(__file__), "data",
-                             "arctic_a007_p16_L60_H240_o0_rapt.txt")
+    ground_truth_path = join(
+        dirname(__file__), "data", "arctic_a007_p16_L60_H240_o0_rapt.txt"
+    )
     with open(ground_truth_path) as f:
-        ground_truth = np.asarray([float(s)
-                                   for s in [l for l in f.readlines()]])
+        ground_truth = np.asarray([float(s) for s in [line for line in f.readlines()]])
     ground_truth = ground_truth.astype(np.float32)
 
     fs, x = wavfile.read(pysptk.util.example_audio_file())
@@ -119,8 +117,15 @@ def test_rapt_regression():
     # Since SPTK might have memory corruption bug and the result might be
     # non-deterministic, test it with multiple time...
     for _ in range(5):
-        f0 = pysptk.rapt(x.astype(np.float32), fs=fs, hopsize=80,
-                         min=60, max=240, voice_bias=0.0, otype=0)
+        f0 = pysptk.rapt(
+            x.astype(np.float32),
+            fs=fs,
+            hopsize=80,
+            min=60,
+            max=240,
+            voice_bias=0.0,
+            otype=0,
+        )
         assert np.allclose(ground_truth, f0)
 
 
@@ -142,11 +147,11 @@ def test_swipe_regression():
     # SPTK: version 3.10
     # CVS Info: $Id: pitch.c,v 1.53 2016/12/25 05:00:19 uratec Exp $
 
-    ground_truth_path = join(dirname(__file__), "data",
-                             "arctic_a007_p16_L60_H240_o0_swipe.txt")
+    ground_truth_path = join(
+        dirname(__file__), "data", "arctic_a007_p16_L60_H240_o0_swipe.txt"
+    )
     with open(ground_truth_path) as f:
-        ground_truth = np.asarray([float(s)
-                                   for s in [l for l in f.readlines()]])
+        ground_truth = np.asarray([float(s) for s in [line for line in f.readlines()]])
     ground_truth = ground_truth.astype(np.float32)
 
     fs, x = wavfile.read(pysptk.util.example_audio_file())
@@ -155,6 +160,7 @@ def test_swipe_regression():
     # Since SPTK might have memory corruption bug and the result might be
     # non-deterministic, test it with multiple time...
     for _ in range(5):
-        f0 = pysptk.swipe(x.astype(np.float64),
-                          fs=fs, hopsize=80, min=60, max=240, otype=0)
+        f0 = pysptk.swipe(
+            x.astype(np.float64), fs=fs, hopsize=80, min=60, max=240, otype=0
+        )
         assert np.allclose(ground_truth, f0)

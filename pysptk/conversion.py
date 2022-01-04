@@ -16,11 +16,10 @@ Functions in the ``pysptk.conversion`` module can also be directly accesible by 
     mc2e
 """
 
-from __future__ import division, print_function, absolute_import
+from __future__ import absolute_import, division, print_function
 
 import numpy as np
-
-from pysptk.sptk import mc2b, gnorm, freqt, c2ir
+from pysptk.sptk import c2ir, freqt, gnorm, mc2b
 from pysptk.util import apply_along_last_axis, automatic_type_conversion
 
 

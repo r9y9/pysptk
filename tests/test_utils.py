@@ -3,8 +3,7 @@
 import numpy as np
 import pysptk
 from nose.tools import raises
-from pysptk.util import mcepalpha
-from pysptk.util import apply_along_last_axis, automatic_type_conversion
+from pysptk.util import apply_along_last_axis, automatic_type_conversion, mcepalpha
 
 
 def test_assert_gamma():
@@ -58,6 +57,7 @@ def test_lspcheck():
 
 def test_example_audio_file():
     from os.path import exists
+
     path = pysptk.util.example_audio_file()
     assert exists(path)
 
@@ -88,7 +88,7 @@ def test_apply_along_last_axis():
     @apply_along_last_axis
     def f(x):
         assert x.ndim == 1
-        return x[:len(x) // 2] + np.arange(len(x) // 2)
+        return x[: len(x) // 2] + np.arange(len(x) // 2)
 
     for shape in [(10,), (2, 10), (2, 2, 10)]:
         x = np.ones(shape)
@@ -125,7 +125,7 @@ def test_multiple_decorators():
     @automatic_type_conversion
     def half_vec(x):
         assert x.ndim == 1
-        return x[:len(x) // 2]
+        return x[: len(x) // 2]
 
     for shape in [(10,), (2, 10), (2, 2, 10)]:
         for dtype in [np.float32, np.float16, np.float64]:

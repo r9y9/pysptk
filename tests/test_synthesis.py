@@ -1,18 +1,16 @@
 # coding: utf-8
 
-from __future__ import print_function, absolute_import
+from __future__ import absolute_import, print_function
 
 import numpy as np
 import pysptk
-from pysptk.synthesis import Synthesizer
-
 from nose.tools import raises
-from warnings import warn
+from pysptk.synthesis import Synthesizer
 
 
 def __dummy_source():
     np.random.seed(98765)
-    return np.random.randn(2**14)
+    return np.random.randn(2 ** 14)
 
 
 def __dummy_windowed_frames(source, frame_len=512, hopsize=80):
@@ -32,8 +30,7 @@ def test_LMADF():
         hopsize = 80
 
         # dummy filter coef.
-        windowed = __dummy_windowed_frames(
-            source, frame_len=512, hopsize=hopsize)
+        windowed = __dummy_windowed_frames(source, frame_len=512, hopsize=hopsize)
         b = pysptk.mcep(windowed, filt.order, 0.0)
 
         # synthesis
@@ -63,8 +60,7 @@ def test_MLSADF():
         hopsize = 80
 
         # dummy filter coef.
-        windowed = __dummy_windowed_frames(
-            source, frame_len=512, hopsize=hopsize)
+        windowed = __dummy_windowed_frames(source, frame_len=512, hopsize=hopsize)
         mc = pysptk.mcep(windowed, filt.order, filt.alpha)
         b = pysptk.mc2b(mc, filt.alpha)
 
@@ -105,8 +101,7 @@ def test_GLSADF():
         hopsize = 80
 
         # dummy filter coef.
-        windowed = __dummy_windowed_frames(
-            source, frame_len=512, hopsize=hopsize)
+        windowed = __dummy_windowed_frames(source, frame_len=512, hopsize=hopsize)
         gamma = -1.0 / filt.stage
         mgc = pysptk.mgcep(windowed, filt.order, 0.0, gamma)
         b = pysptk.mgc2b(mgc, 0.0, gamma)
@@ -145,8 +140,7 @@ def test_MGLSADF():
         hopsize = 80
 
         # dummy filter coef.
-        windowed = __dummy_windowed_frames(
-            source, frame_len=512, hopsize=hopsize)
+        windowed = __dummy_windowed_frames(source, frame_len=512, hopsize=hopsize)
         gamma = -1.0 / filt.stage
         mgc = pysptk.mgcep(windowed, filt.order, filt.alpha, gamma)
         b = pysptk.mgc2b(mgc, filt.alpha, gamma)
@@ -177,7 +171,7 @@ def test_MGLSADF():
 
 
 def test_AllZeroDF():
-    from pysptk.synthesis import AllZeroDF
+    pass
 
     def __test_synthesis(filt):
         # dummy source excitation
@@ -186,8 +180,7 @@ def test_AllZeroDF():
         hopsize = 80
 
         # dummy filter coef.
-        windowed = __dummy_windowed_frames(
-            source, frame_len=512, hopsize=hopsize)
+        windowed = __dummy_windowed_frames(source, frame_len=512, hopsize=hopsize)
         lpc = pysptk.lpc(windowed, filt.order)
         lpc[:, 0] = 0
         b = -lpc
@@ -213,8 +206,7 @@ def test_AllPoleDF():
         hopsize = 80
 
         # dummy filter coef.
-        windowed = __dummy_windowed_frames(
-            source, frame_len=512, hopsize=hopsize)
+        windowed = __dummy_windowed_frames(source, frame_len=512, hopsize=hopsize)
         lpc = pysptk.lpc(windowed, filt.order)
 
         # make sure lpc has loggain
@@ -237,8 +229,7 @@ def test_AllPoleDF():
         hopsize = 80
 
         # dummy filter coef.
-        windowed = __dummy_windowed_frames(
-            source, frame_len=512, hopsize=hopsize)
+        windowed = __dummy_windowed_frames(source, frame_len=512, hopsize=hopsize)
         c = pysptk.mcep(windowed, filt.order)
         a = pysptk.c2acr(c)
         lpc = pysptk.levdur(a)
@@ -271,8 +262,7 @@ def test_AllPoleLatticeDF():
         hopsize = 80
 
         # dummy filter coef.
-        windowed = __dummy_windowed_frames(
-            source, frame_len=512, hopsize=hopsize)
+        windowed = __dummy_windowed_frames(source, frame_len=512, hopsize=hopsize)
         lpc = pysptk.lpc(windowed, filt.order)
         par = pysptk.lpc2par(lpc)
 
@@ -301,8 +291,7 @@ def test_LSPDF():
         hopsize = 80
 
         # dummy filter coef.
-        windowed = __dummy_windowed_frames(
-            source, frame_len=512, hopsize=hopsize)
+        windowed = __dummy_windowed_frames(source, frame_len=512, hopsize=hopsize)
         lpc = pysptk.lpc(windowed, filt.order)
         lsp = pysptk.lpc2lsp(lpc)
         # make sure lsp has loggain

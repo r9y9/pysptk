@@ -59,9 +59,8 @@ AllPoleLatticeDF
 from abc import abstractmethod
 
 import numpy as np
-import six
-
 import pysptk
+import six
 from pysptk.util import assert_pade, assert_stage
 
 
@@ -89,7 +88,6 @@ class SynthesisFilter(object):
             A filtered sample
 
         """
-        pass
 
     def filtt(self, x, coef):
         """Transpose filter
@@ -517,8 +515,7 @@ class AllZeroDF(SynthesisFilter):
     """
 
     def __init__(self, order=25):
-        """Initialization
-        """
+        """Initialization"""
 
         self.order = order
         self.delay = pysptk.zerodf_delay(order)
@@ -526,22 +523,22 @@ class AllZeroDF(SynthesisFilter):
     def filt(self, x, coef):
         """Filter one sample using using ``zerodf``
 
-        Parameters
-        ----------
-        x : float
-            A input sample
+                Parameters
+                ----------
+                x : float
+                    A input sample
 
-        coef: array
-            FIR parameters
-_
-        Returns
-        -------
-        y : float
-            A filtered sample
+                coef: array
+                    FIR parameters
+        _
+                Returns
+                -------
+                y : float
+                    A filtered sample
 
-        See Also
-        --------
-        pysptk.sptk.zerodf
+                See Also
+                --------
+                pysptk.sptk.zerodf
         """
         return pysptk.zerodf(x, coef, self.delay)
 
@@ -579,8 +576,7 @@ class AllPoleDF(SynthesisFilter):
     """
 
     def __init__(self, order=25):
-        """Initialization
-        """
+        """Initialization"""
 
         self.order = order
         self.delay = pysptk.poledf_delay(order)
@@ -641,8 +637,7 @@ class AllPoleLatticeDF(SynthesisFilter):
     """
 
     def __init__(self, order=25):
-        """Initialization
-        """
+        """Initialization"""
 
         self.order = order
         self.delay = pysptk.ltcdf_delay(order)
@@ -683,8 +678,7 @@ class LSPDF(SynthesisFilter):
     """
 
     def __init__(self, order=25):
-        """Initialization
-        """
+        """Initialization"""
 
         self.order = order
         self.delay = pysptk.lspdf_delay(order)
