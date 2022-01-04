@@ -1,6 +1,11 @@
 Change log
 ==========
 
+v0.1.20 <2022-01-04>
+--------------------
+
+Fixes for ValueError: numpy.ndarray size changed, may indicate binary incompatibility. Expected 96 from C header, got 88 from PyObject
+
 v0.1.19 <2022-01-04>
 --------------------
 
