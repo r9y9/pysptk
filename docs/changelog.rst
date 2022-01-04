@@ -1,7 +1,7 @@
 Change log
 ==========
 
-v0.1.19 <2022-xx-xx>
+v0.1.19 <2022-01-04>
 --------------------
 
 - `#87`_: Add pysen and format all the codes. Appveyor is now disabled. Windows CI is done by Github Actions.
