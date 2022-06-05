@@ -1,6 +1,12 @@
 Change log
 ==========
 
+v0.1.21 <2022-06-05>
+--------------------
+
+Fixes windows build issues caused by intrinsic conflicts
+
+
 v0.1.20 <2022-01-04>
 --------------------
 
