@@ -163,6 +163,7 @@ setup(
             "types-setuptools",
             "mypy<=0.910",
             "black>=19.19b0,<=20.8",
+            "click<8.1.0",
             "flake8>=3.7,<4",
             "flake8-bugbear",
             "isort>=4.3,<5.2.0",
