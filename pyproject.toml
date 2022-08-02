@@ -9,7 +9,7 @@ requires = [
 
 
 [tool.pysen]
-version = "0.9"
+version = "0.10.2"
 
 [tool.pysen.lint]
 enable_black = true

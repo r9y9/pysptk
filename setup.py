@@ -117,7 +117,7 @@ ignore_bin_list = [
     join(src_bin_top, "vc"),
 ]
 for ignore in ignore_bin_list:
-    sptk_all_src = list(filter(lambda s: not s.startswith(ignore), sptk_all_src))
+    sptk_all_src = list(filter(lambda s, ig=ignore: not s.startswith(ig), sptk_all_src))
 
 # define core cython module
 ext_modules = [
