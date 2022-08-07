@@ -150,7 +150,6 @@ setup(
     setup_requires=["numpy >= v1.20.0"],
     install_requires=[
         "scipy",
-        "six",
         "decorator",
         "cython >= " + min_cython_ver,
     ],
@@ -168,7 +167,6 @@ setup(
             "flake8-bugbear",
             "isort>=4.3,<5.2.0",
             "types-decorator",
-            "types-six",
         ],
     },
     classifiers=[
