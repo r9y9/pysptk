@@ -4,7 +4,7 @@ Change log
 v0.1.22 <2022-xx-xx>
 --------------------
 
-TBD
+- `#92`_: Support for Python 3.10, rewrite tests with pytest
 
 v0.1.21 <2022-06-05>
 --------------------
@@ -173,3 +173,4 @@ v0.1.0 <2015-09-05>
 .. _#75: https://github.com/r9y9/pysptk/pull/75
 .. _#83: https://github.com/r9y9/pysptk/pull/83
 .. _#87: https://github.com/r9y9/pysptk/pull/87
+.. _#92: https://github.com/r9y9/pysptk/pull/92
