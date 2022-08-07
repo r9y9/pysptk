@@ -17,7 +17,7 @@ def test_windows(f, n):
 
 def test_windows_corner_case():
     def __test(f, N, normalize):
-        w = f(N, normalize)
+        f(N, normalize)
 
     # unsupported normalize flags
     for f in [blackman, hanning, hamming, bartlett, trapezoid, rectangular]:

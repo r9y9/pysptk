@@ -293,7 +293,7 @@ def test_mgclsp2sp_corner_case():
     def __test(order, alpha, gamma, fftlen):
         np.random.seed(98765)
         src = np.random.rand(order + 1)
-        dst = pysptk.mgclsp2sp(src, alpha, gamma, fftlen)
+        pysptk.mgclsp2sp(src, alpha, gamma, fftlen)
 
     # invalid gamma
     with pytest.raises(ValueError):
