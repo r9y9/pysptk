@@ -57,4 +57,4 @@ jobs:
         pysen run lint
     - name: Test
       run: |
-        nosetests --with-coverage --cover-package=pysptk -v -w tests/
+        pytest --cov=pysptk --cov-report xml -v tests/

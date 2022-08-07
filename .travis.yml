@@ -22,14 +22,14 @@ before_install:
   # Useful for debugging any issues with conda
   - conda config --add channels pypi
   - conda info -a
-  - conda create -q -n test-environment "python=$TRAVIS_PYTHON_VERSION" pip cython nose coverage coveralls
+  - conda create -q -n test-environment "python=$TRAVIS_PYTHON_VERSION" pip cython coverage coveralls
   - source activate test-environment
 
 install:
   - pip install -e ".[test]"
 
 script:
-  - nosetests --with-coverage --cover-package=pysptk -v -w tests/
+  - pytest --cov=pysptk --cov-report xml -v tests/
 
 after_success:
   - coveralls
