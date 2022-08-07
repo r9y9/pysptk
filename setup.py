@@ -147,7 +147,7 @@ setup(
     package_data={"": ["example_audio_data/*"]},
     ext_modules=ext_modules,
     cmdclass=cmdclass,
-    setup_requires=["numpy >= v1.20.0"],
+    setup_requires=["numpy >= 1.20.0"],
     install_requires=[
         "scipy",
         "decorator",
