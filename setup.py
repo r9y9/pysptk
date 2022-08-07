@@ -153,10 +153,10 @@ setup(
         "decorator",
         "cython >= " + min_cython_ver,
     ],
-    tests_require=["nose", "coverage"],
+    tests_require=["pytest", "pytest-cov", "coverage"],
     extras_require={
         "docs": ["numpydoc", "sphinx_rtd_theme", "seaborn"],
-        "test": ["nose", "coverage", "flake8"],
+        "test": ["pytest", "pytest-cov", "coverage", "flake8"],
         "lint": [
             "pysen",
             "types-setuptools",

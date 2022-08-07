@@ -1,10 +1,6 @@
-# coding: utf-8
-
-from __future__ import absolute_import, print_function
-
 import numpy as np
 import pysptk
-from nose.tools import raises
+import pytest
 from pysptk.synthesis import Synthesizer
 
 
@@ -20,7 +16,9 @@ def __dummy_windowed_frames(source, frame_len=512, hopsize=80):
     return 0.5 * 32768.0 * windowed
 
 
-def test_LMADF():
+@pytest.mark.parametrize("order", [20, 25])
+@pytest.mark.parametrize("pd", [4, 5, 6, 7])
+def test_LMADF(order, pd):
     from pysptk.synthesis import LMADF
 
     def __test_synthesis(filt):
@@ -41,18 +39,25 @@ def test_LMADF():
     def __test(order, pd):
         __test_synthesis(LMADF(order, pd=pd))
 
-    for pd in [4, 5, 6, 7]:
-        for order in [20, 25]:
-            yield __test, order, pd
+    __test(order, pd)
+
+
+def test_LMADF_corner_case():
+    from pysptk.synthesis import LMADF
 
     def __test_invalid_pade(pd):
         LMADF(20, pd=pd)
 
-    yield raises(ValueError)(__test_invalid_pade), 3
-    yield raises(ValueError)(__test_invalid_pade), 8
+    with pytest.raises(ValueError):
+        __test_invalid_pade(3)
+    with pytest.raises(ValueError):
+        __test_invalid_pade(8)
 
 
-def test_MLSADF():
+@pytest.mark.parametrize("order", [20, 25])
+@pytest.mark.parametrize("pd", [4, 5, 6, 7])
+@pytest.mark.parametrize("alpha", [0.0, 0.41])
+def test_MLSADF(order, pd, alpha):
     def __test_synthesis(filt):
         # dummy source excitation
         source = __dummy_source()
@@ -79,19 +84,24 @@ def test_MLSADF():
     def __test(order, alpha, pd):
         __test_synthesis(MLSADF(order, alpha, pd=pd))
 
-    for pd in [4, 5, 6, 7]:
-        for order in [20, 25]:
-            for alpha in [0.0, 0.41]:
-                yield __test, order, alpha, pd
+    __test(order, alpha, pd)
+
+
+def test_MLSADF_corner_case():
+    from pysptk.synthesis import MLSADF
 
     def __test_invalid_pade(pd):
         MLSADF(20, pd=pd)
 
-    yield raises(ValueError)(__test_invalid_pade), 3
-    yield raises(ValueError)(__test_invalid_pade), 8
+    with pytest.raises(ValueError):
+        __test_invalid_pade(3)
+    with pytest.raises(ValueError):
+        __test_invalid_pade(8)
 
 
-def test_GLSADF():
+@pytest.mark.parametrize("order", [20, 25])
+@pytest.mark.parametrize("stage", [2, 5, 10])
+def test_GLSADF(order, stage):
     from pysptk.synthesis import GLSADF
 
     def __test_synthesis(filt):
@@ -119,18 +129,28 @@ def test_GLSADF():
     def __test(order, stage):
         __test_synthesis(GLSADF(order, stage))
 
-    for order in [20, 25]:
-        for stage in [2, 5, 10]:
-            yield __test, order, stage
+    __test(order, stage)
 
     def __test_invalid_stage(stage):
         GLSADF(20, stage=stage)
 
-    yield raises(ValueError)(__test_invalid_stage), -1
-    yield raises(ValueError)(__test_invalid_stage), 0
+
+def test_GLSADF_corner_case():
+    from pysptk.synthesis import GLSADF
+
+    def __test_invalid_stage(stage):
+        GLSADF(20, stage=stage)
+
+    with pytest.raises(ValueError):
+        __test_invalid_stage(-1)
+    with pytest.raises(ValueError):
+        __test_invalid_stage(0)
 
 
-def test_MGLSADF():
+@pytest.mark.parametrize("order", [20, 25])
+@pytest.mark.parametrize("alpha", [0.0, 0.41])
+@pytest.mark.parametrize("stage", [2, 5, 10])
+def test_MGLSADF(order, alpha, stage):
     from pysptk.synthesis import MGLSADF
 
     def __test_synthesis(filt):
@@ -158,16 +178,19 @@ def test_MGLSADF():
     def __test(order, alpha, stage):
         __test_synthesis(MGLSADF(order, alpha, stage))
 
-    for order in [20, 25]:
-        for alpha in [0.0, 0.41]:
-            for stage in [2, 5, 10]:
-                yield __test, order, alpha, stage
+    __test(order, alpha, stage)
+
+
+def test_MGLSADF_corner_case():
+    from pysptk.synthesis import MGLSADF
 
     def __test_invalid_stage(stage):
         MGLSADF(20, stage=stage)
 
-    yield raises(ValueError)(__test_invalid_stage), -1
-    yield raises(ValueError)(__test_invalid_stage), 0
+    with pytest.raises(ValueError):
+        __test_invalid_stage(-1)
+    with pytest.raises(ValueError):
+        __test_invalid_stage(0)
 
 
 def test_AllZeroDF():
@@ -196,7 +219,8 @@ def test_AllZeroDF():
         assert np.all(np.isfinite(y))
 
 
-def test_AllPoleDF():
+@pytest.mark.parametrize("order", [20, 25])
+def test_AllPoleDF(order):
     from pysptk.synthesis import AllPoleDF
 
     def __test_synthesis(filt):
@@ -248,11 +272,11 @@ def test_AllPoleDF():
         __test_synthesis(AllPoleDF(order))
         __test_synthesis_levdur(AllPoleDF(order))
 
-    for order in [20, 25]:
-        yield __test, order
+    __test(order)
 
 
-def test_AllPoleLatticeDF():
+@pytest.mark.parametrize("order", [20, 25])
+def test_AllPoleLatticeDF(order):
     from pysptk.synthesis import AllPoleLatticeDF
 
     def __test_synthesis(filt):
@@ -274,14 +298,11 @@ def test_AllPoleLatticeDF():
         y = synthesizer.synthesis(source, par)
         assert np.all(np.isfinite(y))
 
-    def __test(order):
-        __test_synthesis(AllPoleLatticeDF(order))
-
-    for order in [20, 25]:
-        yield __test, order
+    __test_synthesis(AllPoleLatticeDF(order))
 
 
-def test_LSPDF():
+@pytest.mark.parametrize("order", [20, 25])
+def test_LSPDF(order):
     from pysptk.synthesis import LSPDF
 
     def __test_synthesis(filt):
@@ -302,8 +323,4 @@ def test_LSPDF():
         y = synthesizer.synthesis(source, lsp)
         assert np.all(np.isfinite(y))
 
-    def __test(order):
-        __test_synthesis(LSPDF(order))
-
-    for order in [20, 25]:
-        yield __test, order
+    __test_synthesis(LSPDF(order))

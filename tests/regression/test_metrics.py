@@ -1,10 +1,8 @@
-# coding: utf-8
-
 from os.path import dirname, join
 
 import numpy as np
 import pysptk
-from nose.tools import raises
+import pytest
 
 DATA_DIR = join(dirname(__file__), "..", "data")
 
@@ -13,12 +11,13 @@ def test_cdist_invalid():
     c1 = np.random.rand(10, 26)
     c2 = np.random.rand(10, 26)
 
-    @raises(ValueError)
     def __test_invalid(otype):
         pysptk.cdist(c1, c2, otype=otype)
 
-    yield __test_invalid, -1
-    yield __test_invalid, 3
+    with pytest.raises(ValueError):
+        __test_invalid(-1)
+    with pytest.raises(ValueError):
+        __test_invalid(3)
 
 
 def test_cdist():

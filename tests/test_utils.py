@@ -1,8 +1,6 @@
-# coding: utf-8
-
 import numpy as np
 import pysptk
-from nose.tools import raises
+import pytest
 from pysptk.util import apply_along_last_axis, automatic_type_conversion, mcepalpha
 
 
@@ -11,7 +9,8 @@ def test_assert_gamma():
         pysptk.util.assert_gamma(gamma)
 
     for gamma in [-2.0, 0.1]:
-        yield raises(ValueError)(__test), gamma
+        with pytest.raises(ValueError):
+            __test(gamma)
 
 
 def test_assert_pade():
@@ -19,7 +18,8 @@ def test_assert_pade():
         pysptk.util.assert_pade(pade)
 
     for pade in [3, 8]:
-        yield raises(ValueError)(__test), pade
+        with pytest.raises(ValueError):
+            __test(pade)
 
 
 def test_assert_fftlen():
@@ -27,32 +27,27 @@ def test_assert_fftlen():
         pysptk.util.assert_fftlen(fftlen)
 
     for fftlen in [255, 257]:
-        yield raises(ValueError)(__test), fftlen
+        with pytest.raises(ValueError):
+            __test(fftlen)
 
 
-def test_phidf():
-    def __test(order, alpha):
-        np.random.seed(98765)
-        dummy_input = np.random.rand(64)
-        delay = np.zeros(order + 1)
-        for x in dummy_input:
-            pysptk.phidf(x, order, alpha, delay)
-            assert np.all(np.isfinite(delay))
-
-    for order in [15, 20, 25, 30]:
-        for alpha in [0.35, 0.41, 0.5]:
-            yield __test, order, alpha
+@pytest.mark.parametrize("order", [15, 20, 25, 30])
+@pytest.mark.parametrize("alpha", [0.35, 0.41, 0.5])
+def test_phidf(order, alpha):
+    np.random.seed(98765)
+    dummy_input = np.random.rand(64)
+    delay = np.zeros(order + 1)
+    for x in dummy_input:
+        pysptk.phidf(x, order, alpha, delay)
+        assert np.all(np.isfinite(delay))
 
 
-def test_lspcheck():
-    def __test(order):
-        np.random.seed(98765)
-        lsp = np.random.rand(order + 1)
-        pysptk.lspcheck(lsp)
-        # TODO: valid check
-
-    for order in [15, 20, 25, 30]:
-        yield __test, order
+@pytest.mark.parametrize("order", [15, 20, 25, 30])
+def test_lspcheck(order):
+    np.random.seed(98765)
+    lsp = np.random.rand(order + 1)
+    pysptk.lspcheck(lsp)
+    # TODO: valid check
 
 
 def test_example_audio_file():

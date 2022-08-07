@@ -1,5 +1,3 @@
-# coding: utf-8
-
 from os.path import dirname, join
 
 import numpy as np
