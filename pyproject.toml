@@ -3,13 +3,13 @@ requires = [
     "wheel",
     "setuptools",
     "cython>=0.28.0",
-    "numpy<v1.20.0",
+    "numpy>=v1.20.0",
     "scipy",
 ]
 
 
 [tool.pysen]
-version = "0.9"
+version = "0.10.2"
 
 [tool.pysen.lint]
 enable_black = true

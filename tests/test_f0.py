@@ -1,15 +1,16 @@
-# coding: utf-8
-
 from os.path import dirname, join
 from warnings import warn
 
 import numpy as np
 import pysptk
-from nose.tools import raises
+import pytest
 from scipy.io import wavfile
 
 
-def test_swipe():
+@pytest.mark.parametrize("hopsize", [40, 80, 160, 320])
+@pytest.mark.parametrize("otype", [0, 1, 2])
+@pytest.mark.parametrize("otype_str", ["pitch", "f0", "logf0"])
+def test_swipe(hopsize, otype, otype_str):
     def __test(x, fs, hopsize, otype):
         f0 = pysptk.swipe(x, fs, hopsize, otype=otype)
         assert np.all(np.isfinite(f0))
@@ -20,20 +21,31 @@ def test_swipe():
     fs = 16000
     x = np.random.rand(16000)
 
-    for hopsize in [40, 80, 160, 320]:
-        for otype in [0, 1, 2]:
-            yield __test, x, fs, hopsize, otype
+    __test(x, fs, hopsize, otype)
+    __test(x, fs, 80, otype_str)
 
-    for otype_str in ["pitch", "f0", "logf0"]:
-        yield __test, x, fs, 80, otype_str
+
+def test_swipe_corner_case():
+    def __test(x, fs, hopsize, otype):
+        pysptk.swipe(x, fs, hopsize, otype=otype)
+
+    np.random.seed(98765)
+    fs = 16000
+    x = np.random.rand(16000)
 
     # unsupported otype
-    yield raises(ValueError)(__test), x, fs, 80, -1
-    yield raises(ValueError)(__test), x, fs, 80, 3
-    yield raises(ValueError)(__test), x, fs, 80, "ff0"
+    with pytest.raises(ValueError):
+        __test(x, fs, 80, -1)
+    with pytest.raises(ValueError):
+        __test(x, fs, 80, 3)
+    with pytest.raises(ValueError):
+        __test(x, fs, 80, "ff0")
 
 
-def test_rapt():
+@pytest.mark.parametrize("hopsize", [40, 80, 160, 320])
+@pytest.mark.parametrize("otype", [0, 1, 2])
+@pytest.mark.parametrize("otype_str", ["pitch", "f0", "logf0"])
+def test_rapt(hopsize, otype, otype_str):
     def __test(x, fs, hopsize, min, max, otype):
         f0 = pysptk.rapt(x, fs, hopsize, min=min, max=max, otype=otype)
         assert np.all(np.isfinite(f0))
@@ -44,46 +56,62 @@ def test_rapt():
     fs = 16000
     x = np.random.rand(16000).astype(np.float32)
 
-    for otype in [0, 1, 2]:
-        for hopsize in [40, 80, 160, 320]:
-            yield __test, x, fs, hopsize, 60, 240, otype
+    __test(x, fs, hopsize, 60, 240, otype)
+    __test(x, fs, 80, 60, 240, otype_str)
 
-    for otype_str in ["pitch", "f0", "logf0"]:
-        yield __test, x, fs, 80, 60, 240, otype_str
+
+def test_rapt_corner_case():
+    def __test(x, fs, hopsize, min, max, otype):
+        f0 = pysptk.rapt(x, fs, hopsize, min=min, max=max, otype=otype)
+        assert np.all(np.isfinite(f0))
+        if otype == 1:
+            assert np.all(f0 >= 0)
+
+    np.random.seed(98765)
+    fs = 16000
+    x = np.random.rand(16000).astype(np.float32)
 
     # unsupported otype
-    yield raises(ValueError)(__test), x, fs, 80, 60, 240, -1
-    yield raises(ValueError)(__test), x, fs, 80, 60, 240, 3
-    yield raises(ValueError)(__test), x, fs, 80, 60, 240, "f00"
+    with pytest.raises(ValueError):
+        __test(x, fs, 80, 60, 240, -1)
+    with pytest.raises(ValueError):
+        __test(x, fs, 80, 60, 240, 3)
+    with pytest.raises(ValueError):
+        __test(x, fs, 80, 60, 240, "f00")
 
     # valid min freq
-    yield __test, x, fs, 80, 10, 240, 0
+    __test(x, fs, 80, 10, 240, 0)
     warn("TODO: fix RAPT bug to pass this minfreq lower bound test")
-    # yield __test, x, fs, 80, fs / 10000. + 1, 240, 0
+    # __test(x, fs, 80, fs / 10000. + 1, 240, 0)
 
     # valid max freq
-    yield __test, x, fs, 80, 60, fs // 2 - 1, 0
+    __test(x, fs, 80, 60, fs // 2 - 1, 0)
 
     # invalid min/max freq
-    yield raises(ValueError)(__test), x, fs, 80, 60, 60, 0
-    yield raises(ValueError)(__test), x, fs, 80, 60, fs // 2, 0
-    yield raises(ValueError)(__test), x, fs, 80, fs / 10000.0, 240, 0
+    with pytest.raises(ValueError):
+        __test(x, fs, 80, 60, 60, 0)
+    with pytest.raises(ValueError):
+        __test(x, fs, 80, 60, fs // 2, 0)
+    with pytest.raises(ValueError):
+        __test(x, fs, 80, fs / 10000.0, 240, 0)
 
     # valid frame_period (corner case)
-    yield __test, x, fs, 1600, 60, 240, 0
-    yield __test, x, fs, 2, 60, 240, 0
+    __test(x, fs, 1600, 60, 240, 0)
+    __test(x, fs, 2, 60, 240, 0)
 
     warn("TODO: pass this corner case test")
-    # yield __test, x, fs, 1, 60, 240, 0
+    # __test(x, fs, 1, 60, 240, 0)
 
     # invalid frame_period
-    yield raises(ValueError)(__test), x, fs, 1601, 60, 240, 0
+    with pytest.raises(ValueError):
+        __test(x, fs, 1601, 60, 240, 0)
 
     # valid input length
-    yield __test, x[:1000], fs, 80, 60, 240, 0
+    __test(x[:1000], fs, 80, 60, 240, 0)
 
     # invalid input length (too small)
-    yield raises(ValueError)(__test), x[:100], fs, 80, 60, 240, 0
+    with pytest.raises(ValueError):
+        __test(x[:100], fs, 80, 60, 240, 0)
 
 
 def test_rapt_regression():

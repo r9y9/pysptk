@@ -117,7 +117,7 @@ ignore_bin_list = [
     join(src_bin_top, "vc"),
 ]
 for ignore in ignore_bin_list:
-    sptk_all_src = list(filter(lambda s: not s.startswith(ignore), sptk_all_src))
+    sptk_all_src = list(filter(lambda s, ig=ignore: not s.startswith(ig), sptk_all_src))
 
 # define core cython module
 ext_modules = [
@@ -147,17 +147,16 @@ setup(
     package_data={"": ["example_audio_data/*"]},
     ext_modules=ext_modules,
     cmdclass=cmdclass,
-    setup_requires=["numpy >= 1.8.0"],
+    setup_requires=["numpy >= v1.20.0"],
     install_requires=[
         "scipy",
-        "six",
         "decorator",
         "cython >= " + min_cython_ver,
     ],
-    tests_require=["nose", "coverage"],
+    tests_require=["pytest", "pytest-cov", "coverage"],
     extras_require={
         "docs": ["numpydoc", "sphinx_rtd_theme", "seaborn"],
-        "test": ["nose", "coverage", "flake8"],
+        "test": ["pytest", "pytest-cov", "coverage", "flake8"],
         "lint": [
             "pysen",
             "types-setuptools",
@@ -168,7 +167,6 @@ setup(
             "flake8-bugbear",
             "isort>=4.3,<5.2.0",
             "types-decorator",
-            "types-six",
         ],
     },
     classifiers=[
@@ -182,6 +180,7 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "License :: OSI Approved :: MIT License",
         "Topic :: Scientific/Engineering",
         "Topic :: Software Development",

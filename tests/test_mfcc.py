@@ -1,8 +1,6 @@
-# coding: utf-8
-
 import numpy as np
 import pysptk
-from nose.tools import raises
+import pytest
 
 
 def test_mfcc_options():
@@ -22,27 +20,35 @@ def test_mfcc_options():
     assert len(cc) == 13
 
 
-def test_mfcc_num_filterbanks():
+@pytest.mark.parametrize("n", [21, 23, 25])
+def test_mfcc_num_filterbanks(n):
     def __test(n):
         np.random.seed(98765)
         dummy_input = np.random.rand(512)
         cc = pysptk.mfcc(dummy_input, 20, num_filterbanks=n)
         assert np.all(np.isfinite(cc))
 
-    for n in [21, 23, 25]:
-        yield __test, n
+    __test(n)
+
+
+def test_mgcc_num_filterbanks_corner_case():
+    def __test(n):
+        np.random.seed(98765)
+        dummy_input = np.random.rand(512)
+        pysptk.mfcc(dummy_input, 20, num_filterbanks=n)
 
     for n in [19, 20]:
-        yield raises(ValueError)(__test), n
+        with pytest.raises(ValueError):
+            __test(n)
 
 
-def test_mfcc():
+@pytest.mark.parametrize("order", [12, 14, 16, 18])
+@pytest.mark.parametrize("length", [256, 512, 1024, 2048, 4096])
+def test_mfcc(order, length):
     def __test(length, order):
         np.random.seed(98765)
         dummy_input = np.random.rand(length)
         cc = pysptk.mfcc(dummy_input, order, czero=True, power=True)
         assert np.all(np.isfinite(cc))
 
-    for length in [256, 512, 1024, 2048, 4096]:
-        for order in [12, 14, 16, 18]:
-            yield __test, length, order
+    __test(length, order)

@@ -60,7 +60,6 @@ from abc import abstractmethod
 
 import numpy as np
 import pysptk
-import six
 from pysptk.util import assert_pade, assert_stage
 
 
@@ -173,7 +172,7 @@ class Synthesizer(object):
         # filter function
         filt = self.filt.filtt if self.transpose else self.filt.filt
 
-        for i in six.moves.range(len(source)):
+        for i in range(len(source)):
             scaled_source = source[i] * np.exp(interpolated_coef[0])
             y[i] = filt(scaled_source, interpolated_coef)
             interpolated_coef += slope
@@ -203,7 +202,7 @@ class Synthesizer(object):
 
         b_prev = b[0, :]
         b_curr = b_prev
-        for i in six.moves.range(b.shape[0]):
+        for i in range(b.shape[0]):
             if i > 0:
                 b_prev = b[i - 1, :]
             b_curr = b[i, :]
