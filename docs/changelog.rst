@@ -4,7 +4,7 @@ Change log
 v0.2.0 <2022-xx-xx>
 --------------------
 
-Newer numpy  (>v1.20.0) is required to avoid ABI compatibility issues.
+Newer numpy  (>v1.20.0) is required to avoid ABI compatibility issues. Please check the updated installation guide.
 
 - `#92`_: Support for Python 3.10, rewrite tests with pytest
 
