@@ -1,7 +1,7 @@
 Change log
 ==========
 
-v0.2.0 <2022-xx-xx>
+v0.2.0 <2022-11-06>
 --------------------
 
 Newer numpy  (>v1.20.0) is required to avoid ABI compatibility issues. Please check the updated installation guide.
