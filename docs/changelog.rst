@@ -1,6 +1,11 @@
 Change log
 ==========
 
+v0.2.1 <2023-07-20>
+--------------------
+
+- `#96`_: Restrict Cython version to <3.0.0
+
 v0.2.0 <2022-11-06>
 --------------------
 
@@ -176,3 +181,4 @@ v0.1.0 <2015-09-05>
 .. _#83: https://github.com/r9y9/pysptk/pull/83
 .. _#87: https://github.com/r9y9/pysptk/pull/87
 .. _#92: https://github.com/r9y9/pysptk/pull/92
+.. _#96: https://github.com/r9y9/pysptk/pull/96
