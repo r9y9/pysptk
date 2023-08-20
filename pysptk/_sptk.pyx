@@ -5,7 +5,7 @@ import numpy as np
 cimport numpy as np
 
 cimport cython
-cimport _sptk
+from . cimport _sptk
 
 from warnings import warn
 from pysptk.util import assert_gamma, assert_fftlen, assert_pade, assert_stage
