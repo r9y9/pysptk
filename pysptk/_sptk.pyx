@@ -1,4 +1,3 @@
-# coding: utf-8
 # cython: boundscheck=True, wraparound=True
 
 import numpy as np

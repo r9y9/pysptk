@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
 A python wrapper for `Speech Signal Processing Toolkit (SPTK)
 <http://sp-tk.sourceforge.net>`_.
