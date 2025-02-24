@@ -1193,8 +1193,8 @@ def lsp2lpc(lsp, has_gain=True, loggain=False, fs=None, itype=0):
 
     Parameters
     ----------
-    lpc : array
-        LPC
+    lsp : array
+        LSP
 
     has_gain : bool, optional
         Whether input LPC has gain at the index 0 or not. Default is True.
@@ -1217,7 +1217,7 @@ def lsp2lpc(lsp, has_gain=True, loggain=False, fs=None, itype=0):
 
     Returns
     -------
-    lsp : array, shape (``order + 1``) if has_gain else (``order``)
+    lpc : array, shape (``order + 1``) if has_gain else (``order``)
         LPC
 
     raises
@@ -1228,7 +1228,7 @@ def lsp2lpc(lsp, has_gain=True, loggain=False, fs=None, itype=0):
 
     See Also
     --------
-    pysptk.sptk.lpc2lsp
+    pysptk.sptk.lsp2lpc
     """
 
     return _sptk.lsp2lpc(lsp, has_gain, loggain, fs, itype)
