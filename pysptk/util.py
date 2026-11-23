@@ -27,9 +27,9 @@ Mel-cepstrum analysis
 # stackoverflow thread, using decorator package.
 # https://stackoverflow.com/questions/12558505/preserve-argspec-when-decorating
 from inspect import getfullargspec
+from pathlib import Path
 
 import numpy as np
-import pkg_resources
 from decorator import decorator
 
 # 16kHz, 16bit example audio from cmu_us_awb_arctic
@@ -149,7 +149,7 @@ def example_audio_file():
 
     """
 
-    return pkg_resources.resource_filename(__name__, EXAMPLE_AUDIO)
+    return str(Path(__file__).resolve().parent / EXAMPLE_AUDIO)
 
 
 def mcepalpha(fs, start=0.0, stop=1.0, step=0.001, num_points=1000):
