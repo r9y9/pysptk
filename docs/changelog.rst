@@ -1,6 +1,14 @@
 Change log
 ==========
 
+Unreleased
+----------
+
+- Remove the runtime dependency on setuptools and its deprecated ``pkg_resources`` module.
+- Use Cython 3 for isolated source builds. Builds on Python 3.9 and later use
+  NumPy 2 headers and support both NumPy 1.x and 2.x at runtime.
+- Extend GitHub Actions coverage through Python 3.15 and update the Read the Docs build.
+
 v0.2.1 <2023-07-20>
 --------------------
 

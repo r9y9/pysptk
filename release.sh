@@ -1,22 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Script for Pypi release
-# 0. Make sure you are on git tag
-# 1. Run the script
-# 2. Upload sdist
+set -eu
+cd "$(dirname "$0")"
 
-set -e
+tag=$(git describe --exact-match --tags HEAD)
+version=${tag#v}
 
-script_dir=$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)
-cd $script_dir
-
-TAG=$(git describe --exact-match --tags HEAD)
-
-VERSION=${TAG/v/}
-
-PYSPTK_BUILD_VERSION=$VERSION python setup.py develop sdist
-echo "*** Ready to release! pysptk $TAG ***"
-echo "Please make sure that release verion is correct."
-cat pysptk/version.py
-echo "Please run the following command manually:"
-echo twine upload dist/pysptk-${VERSION}.tar.gz --repository-url https://upload.pypi.org/legacy/
+PYSPTK_BUILD_VERSION="$version" python -m build --sdist
+echo "Source distribution is ready at dist/pysptk-$version.tar.gz"
+echo "Upload with: python -m twine upload dist/pysptk-$version.tar.gz"

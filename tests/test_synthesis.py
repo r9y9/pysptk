@@ -6,7 +6,7 @@ from pysptk.synthesis import Synthesizer
 
 def __dummy_source():
     np.random.seed(98765)
-    return np.random.randn(2 ** 14)
+    return np.random.randn(2**14)
 
 
 def __dummy_windowed_frames(source, frame_len=512, hopsize=80):

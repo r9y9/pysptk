@@ -1,9 +1,7 @@
 # pysptk
 
-[![PyPI](https://img.shields.io/pypi/v/pysptk.svg)](https://pypi.python.org/pypi/pysptk)
+[![PyPI](https://img.shields.io/pypi/v/pysptk.svg)](https://pypi.org/project/pysptk/)
 [![Python package](https://github.com/r9y9/pysptk/actions/workflows/ci.yaml/badge.svg)](https://github.com/r9y9/pysptk/actions/workflows/ci.yaml)
-[![Build Status](https://app.travis-ci.com/r9y9/pysptk.svg?branch=master)](https://app.travis-ci.com/r9y9/pysptk)
-[![Coverage Status](https://coveralls.io/repos/r9y9/pysptk/badge.svg?branch=master&service=github)](https://coveralls.io/github/r9y9/pysptk?branch=master)
 [![Documentation Status](https://readthedocs.org/projects/pysptk/badge/?version=latest)](https://readthedocs.org/projects/pysptk/?badge=latest)
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE.md)
 [![][docs-stable-img]][docs-stable-url]
@@ -26,19 +24,21 @@ A python wrapper for [Speech Signal Processing Toolkit (SPTK)](http://sp-tk.sour
 
 ## Installation
 
-The latest release is availabe on pypi and you can install it by:
+Install the latest release from PyPI.
 
 ```bash
 pip install pysptk
 ```
 
-If yout want the latest master, run
+Install the current development version directly from GitHub.
 
 ```bash
 pip install git+https://github.com/r9y9/pysptk
 ```
 
-or clone the repository and then build it yourself.
+Source builds require a C compiler. For a local checkout, clone the repository
+with `git clone --recurse-submodules https://github.com/r9y9/pysptk.git` and
+run `python -m pip install .` from the checkout.
 
 [docs-latest-img]: https://img.shields.io/badge/docs-latest-blue.svg
 [docs-latest-url]: https://pysptk.readthedocs.io/en/latest/

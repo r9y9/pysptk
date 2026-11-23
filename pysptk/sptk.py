@@ -1831,11 +1831,8 @@ def swipe(x, fs, hopsize, min=60.0, max=240.0, threshold=0.3, otype="f0"):
         Voice/unvoiced threshold. Default is 0.3.
 
     otype : str or int, optional
-        Output format
-            (0) pitch
-            (1) f0
-            (2) log(f0)
-        Default is f0.
+        Output format. Use ``"pitch"`` or 0, ``"f0"`` or 1, or ``"logf0"`` or 2.
+        Default is ``"f0"``.
 
     Returns
     -------
@@ -1895,11 +1892,8 @@ def rapt(x, fs, hopsize, min=60, max=240, voice_bias=0.0, otype="f0"):
         Voice/unvoiced threshold. Default is 0.0.
 
     otype : str or int, optional
-        Output format
-            (0) pitch
-            (1) f0
-            (2) log(f0)
-        Default is f0.
+        Output format. Use ``"pitch"`` or 0, ``"f0"`` or 1, or ``"logf0"`` or 2.
+        Default is ``"f0"``.
 
     Notes
     -----
