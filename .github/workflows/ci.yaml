@@ -17,8 +17,8 @@ jobs:
         with:
           python-version: "3.14"
       - run: python -m pip install ruff
-      - run: ruff check setup.py pysptk tests
-      - run: ruff format --check setup.py pysptk tests
+      - run: ruff check setup.py pysptk tests .github/scripts/check_packaging.py
+      - run: ruff format --check setup.py pysptk tests .github/scripts/check_packaging.py
 
   test:
     runs-on: ${{ matrix.os }}
@@ -54,3 +54,27 @@ jobs:
       - name: Test the installed package
         working-directory: ${{ runner.temp }}
         run: python -m pytest --cov=pysptk --cov-report=term -q "${{ github.workspace }}/tests"
+
+  packaging:
+    name: packaging (${{ matrix.os }}, ${{ matrix.architecture }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            architecture: x64
+          - os: macos-15
+            architecture: arm64
+          - os: windows-2025
+            architecture: x64
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          architecture: ${{ matrix.architecture }}
+      - run: python -m pip install build twine
+      - run: python .github/scripts/check_packaging.py
