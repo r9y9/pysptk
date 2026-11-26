@@ -529,7 +529,6 @@ class AllZeroDF(SynthesisFilter):
 
                 coef: array
                     FIR parameters
-        _
                 Returns
                 -------
                 y : float
