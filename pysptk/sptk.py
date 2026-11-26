@@ -1595,7 +1595,7 @@ def ignorm(ceps, gamma=0.0):
 
     Parameters
     ----------
-    c : array
+    ceps : array
         Normalized generalized cepstrum
 
     gamma : float, optional
@@ -2307,7 +2307,7 @@ def lmadf(x, b, pd, delay):
     x : float
         A input sample
 
-    c : array
+    b : array
         Cepstrum
 
     pd : int
