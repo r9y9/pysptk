@@ -522,21 +522,21 @@ class AllZeroDF(SynthesisFilter):
     def filt(self, x, coef):
         """Filter one sample using using ``zerodf``
 
-                Parameters
-                ----------
-                x : float
-                    A input sample
+        Parameters
+        ----------
+        x : float
+            A input sample
 
-                coef: array
-                    FIR parameters
-                Returns
-                -------
-                y : float
-                    A filtered sample
+        coef: array
+            FIR parameters
+        Returns
+        -------
+        y : float
+            A filtered sample
 
-                See Also
-                --------
-                pysptk.sptk.zerodf
+        See Also
+        --------
+        pysptk.sptk.zerodf
         """
         return pysptk.zerodf(x, coef, self.delay)
 
