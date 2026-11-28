@@ -1193,21 +1193,21 @@ def lsp2lpc(lsp, has_gain=True, loggain=False, fs=None, itype=0):
 
     Parameters
     ----------
-    lpc : array
-        LPC
+    lsp : array
+        LSP
 
     has_gain : bool, optional
-        Whether input LPC has gain at the index 0 or not. Default is True.
+        Whether input LSP has gain at the index 0 or not. Default is True.
 
     loggain : bool, optional
-        If True, it's assumed that input LPC has loggain and convert it to linear
+        If True, it's assumed that input LSP has loggain and convert it to linear
         gain. Default is False.
 
     fs : int, optional
         Sampling frequency. Default is None and unused.
 
     itype : int, optional
-        Input LPC format
+        Input LSP format
             (0)  normalized frequency (0 ~ pi)
             (1)  normalized frequency (0 ~ 0.5)
             (2)  frequency (kHz)
