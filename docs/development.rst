@@ -31,34 +31,29 @@ To wrap C interface, Cython is totally used.
 How to build pysptk
 -------------------
 
-You have to install ``numpy`` and ``cython`` first, and then:
+Install a C compiler and create an editable install with pip.
 
 ::
 
-    git clone https://github.com/r9y9/pysptk
+    git clone --recurse-submodules https://github.com/r9y9/pysptk.git
     cd pysptk
-    git submodule update --init
-    python setup.py develop
+    python -m pip install -e '.[test,lint]'
+    python -m pytest tests
+    ruff check setup.py pysptk tests
+    ruff format --check setup.py pysptk tests
 
-should work.
-
-.. note::
-
-    Dependency to the SPTK is added as a submodule. You have to checkout the
-    supported SPTK as ``git sudmobule update --init`` before running setup.py.
+Pip installs the build dependencies in an isolated environment. If you already
+have a checkout, run ``git submodule update --init`` to fetch the SPTK sources.
 
 
 How to build docs
 -----------------
 
-pysptk docs are managed by the python sphinx. Docs-related dependencies can be
-resolved by:
+Install the Sphinx dependencies from the repository root.
 
 .. code::
 
-    pip install .[docs]
-
-at the top of pysptk directory.
+    python -m pip install '.[docs]'
 
 To build docs, go to the `docs` directory and then:
 

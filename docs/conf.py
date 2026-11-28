@@ -12,18 +12,14 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import os
+from importlib.metadata import version as package_version
 
-import pkg_resources
-
-__version__ = pkg_resources.get_distribution("pysptk").version
+__version__ = package_version("pysptk")
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 # sys.path.insert(0, os.path.abspath('.'))
-
-ON_RTD = os.environ.get("READTHEDOCS", None) == "True"
 
 # -- General configuration ------------------------------------------------
 
@@ -43,34 +39,8 @@ extensions = [
     "matplotlib.sphinxext.plot_directive",
 ]
 
-if ON_RTD:
-    # Remove extensions not currently supported on RTD
-    extensions.remove("matplotlib.sphinxext.plot_directive")
-
 autosummary_generate = True
 numpydoc_show_class_members = False
-
-# Most of plotting settings are copy and pasted from librosa
-# https://github.com/bmcfee/librosa
-
-if not ON_RTD:
-    # Determine if the matplotlib has a recent enough version of the
-    # plot_directive.
-    try:
-        from matplotlib.sphinxext import plot_directive
-    except ImportError:
-        use_matplotlib_plot_directive = False
-    else:
-        try:
-            print("plot_directive.__version__:", plot_directive.__version__)
-            use_matplotlib_plot_directive = plot_directive.__version__ >= 2
-        except AttributeError:
-            use_matplotlib_plot_directive = False
-
-    if use_matplotlib_plot_directive:
-        extensions.append("matplotlib.sphinxext.plot_directive")
-    else:
-        raise RuntimeError("You need a recent enough version of matplotlib")
 
 # ------------------------------------------------------------------------------
 # Plot
@@ -103,12 +73,6 @@ plot_rcparams = {
     "figure.subplot.wspace": 0.4,
     "text.usetex": False,
 }
-
-if not ON_RTD:
-    import matplotlib
-
-    matplotlib.rcParams.update(plot_rcparams)
-
 
 # Generate plots for example sections
 numpydoc_use_plots = True
@@ -146,7 +110,7 @@ release = __version__
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = "en"
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
@@ -197,7 +161,6 @@ html_theme = "sphinx_rtd_theme"
 # documentation.
 html_theme_options = {
     "collapse_navigation": False,
-    "display_version": True,
     "logo_only": True,
 }
 
@@ -223,7 +186,7 @@ html_theme_options = {
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ["_static"]
+html_static_path = []
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied

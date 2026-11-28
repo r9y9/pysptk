@@ -1,24 +1,19 @@
 [build-system]
 requires = [
-    "wheel",
-    "setuptools",
-    "cython>=0.28.0",
-    "numpy>=v1.20.0",
-    "scipy",
+    "setuptools>=64",
+    "Cython>=3",
+    "numpy>=2; python_version >= '3.9'",
+    # NumPy 2 requires Python 3.9. NumPy 1.22 changed the ufunc struct size.
+    "numpy>=1.20,<1.22; python_version < '3.9'",
 ]
+build-backend = "setuptools.build_meta"
 
+[tool.ruff]
+target-version = "py38"
 
-[tool.pysen]
-version = "0.10.2"
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
 
-[tool.pysen.lint]
-enable_black = true
-enable_flake8 = true
-enable_isort = true
-enable_mypy = false
-mypy_preset = "entry"
-line_length = 88
-py_version = "py38"
-
-[[tool.pysen.lint.mypy_targets]]
-paths = ["pysptk", "tests"]
+[tool.ruff.lint.isort]
+# Preserve the import grouping used by the existing source and tests.
+known-third-party = ["pysptk"]

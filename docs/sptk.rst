@@ -21,6 +21,4 @@ is equivalent to:
 
 .. note:: Almost all of pysptk functions assume that the input array is **C-contiguous** and has ``float64`` element type. For vector-to-vector functions, the input array is automatically converted to ``float64``-typed one, the function is executed on it, and then the output array is converted to have the same type with the input you provided.
 
-.. note::
-
 .. automodule:: pysptk.sptk

@@ -1,5 +1,4 @@
 pysptk/_sptk.c
-pysptk/version.py
 docs/generated
 docs/.doctrees
 docs/plot_directive

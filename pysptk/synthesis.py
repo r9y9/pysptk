@@ -520,24 +520,24 @@ class AllZeroDF(SynthesisFilter):
         self.delay = pysptk.zerodf_delay(order)
 
     def filt(self, x, coef):
-        """Filter one sample using using ``zerodf``
+        """Filter one sample using ``zerodf``.
 
-                Parameters
-                ----------
-                x : float
-                    A input sample
+        Parameters
+        ----------
+        x : float
+            Input sample.
 
-                coef: array
-                    FIR parameters
-        _
-                Returns
-                -------
-                y : float
-                    A filtered sample
+        coef : array
+            FIR parameters.
 
-                See Also
-                --------
-                pysptk.sptk.zerodf
+        Returns
+        -------
+        y : float
+            Filtered sample.
+
+        See Also
+        --------
+        pysptk.sptk.zerodf
         """
         return pysptk.zerodf(x, coef, self.delay)
 
