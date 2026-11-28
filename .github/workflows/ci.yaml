@@ -17,8 +17,8 @@ jobs:
         with:
           python-version: "3.14"
       - run: python -m pip install ruff
-      - run: ruff check setup.py pysptk tests .github/scripts/check_packaging.py
-      - run: ruff format --check setup.py pysptk tests .github/scripts/check_packaging.py
+      - run: ruff check setup.py pysptk tests .github/scripts
+      - run: ruff format --check setup.py pysptk tests .github/scripts
 
   test:
     runs-on: ${{ matrix.os }}

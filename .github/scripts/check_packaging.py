@@ -15,65 +15,11 @@ from pathlib import Path
 
 from build import ProjectBuilder, env
 
-ROOT = Path(__file__).resolve().parents[2]
+SCRIPTS = Path(__file__).resolve().parent
+ROOT = SCRIPTS.parents[1]
 BUILD_VERSION = "0.dev0+packaging.1"
 VERSION_ENV = "PYSPTK_BUILD_VERSION"
 NUMPY_REQUIREMENTS = ("numpy==1.26.4", "numpy>=2,<3")
-
-BUILD_VERSIONS = """
-from importlib.metadata import version
-from platform import machine, python_version
-
-versions = {name: version(name) for name in ("numpy", "Cython", "setuptools")}
-print("Build environment:", python_version(), machine(), versions, flush=True)
-assert versions["numpy"].split(".")[0] == "2", versions
-assert versions["Cython"].split(".")[0] == "3", versions
-"""
-
-TEST_WHEEL = r"""
-import sys
-import sysconfig
-import warnings
-from importlib.metadata import version
-from importlib.util import find_spec
-from pathlib import Path
-
-abi_warning = (
-    r".*(binary incompatibility|size changed|(C-API|ABI) version|"
-    r"compiled (against|using) NumPy|_ARRAY_API).*"
-)
-warnings.filterwarnings("error", message=abi_warning)
-
-import pysptk
-import pytest
-from pysptk import _sptk
-from pysptk.version import __version__
-from scipy.io import wavfile
-
-site_packages = Path(sysconfig.get_path("platlib")).resolve()
-package = site_packages / "pysptk"
-assert Path(pysptk.__file__).resolve() == package / "__init__.py", pysptk.__file__
-extension = Path(_sptk.__file__).resolve()
-assert extension.parent == package and extension.suffix in {".so", ".pyd"}, extension
-assert pysptk.__version__ == __version__ == version("pysptk") == sys.argv[1]
-assert find_spec("Cython") is None
-assert find_spec("setuptools") is None
-assert find_spec("pkg_resources") is None
-assert wavfile.read(pysptk.util.example_audio_file())[0] == 16000
-
-versions = {name: version(name) for name in ("pysptk", "numpy", "scipy", "decorator", "pytest", "pip")}
-expected_numpy = sys.argv[2]
-if expected_numpy == "numpy==1.26.4":
-    assert versions["numpy"] == "1.26.4", versions
-else:
-    assert versions["numpy"].split(".")[0] == "2", versions
-print("Runtime environment:", versions, flush=True)
-print("Installed extension:", extension, flush=True)
-raise SystemExit(pytest.main([
-    "-q", "-p", "no:cacheprovider", "--import-mode=importlib",
-    "-o", f"filterwarnings=error:{abi_warning}", sys.argv[3],
-]))
-"""
 
 
 def copy_checkout(source):
@@ -155,7 +101,7 @@ def build_distributions(source, scratch):
         )
         isolated.install(builder.get_requires_for_build("wheel"))
         subprocess.run(
-            [isolated.python_executable, "-I", "-c", BUILD_VERSIONS],
+            [isolated.python_executable, "-I", SCRIPTS / "verify_build_env.py"],
             cwd=scratch,
             check=True,
         )
@@ -188,8 +134,7 @@ def test_wheel(wheel, tests, scratch):
                 python,
                 "-I",
                 "-B",
-                "-c",
-                TEST_WHEEL,
+                SCRIPTS / "verify_wheel.py",
                 BUILD_VERSION,
                 numpy_requirement,
                 tests,
